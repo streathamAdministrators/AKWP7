@@ -29,10 +29,10 @@
 		            Grid.Row="0"
 		            Margin="24,24,0,12">
 			<TextBlock x:Name="ApplicationTitle"
-			           Text="{Binding ApplicationTitle}"
+			           Text="Bonjour"
 			           Style="{StaticResource PhoneTextNormalStyle}" />
 			<TextBlock x:Name="PageTitle"
-			           Text="{Binding PageName}"
+			           Text="Bonjour"
 			           Margin="-3,-8,0,0"
 			           Style="{StaticResource PhoneTextTitle1Style}" />
 		</StackPanel>

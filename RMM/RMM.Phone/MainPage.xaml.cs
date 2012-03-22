@@ -8,6 +8,7 @@ namespace RMM.Phone
         public MainPage()
         {
             InitializeComponent();
+            //AHAHAHAHAHAHAHAHAHAHAH
         }
     }
 }
