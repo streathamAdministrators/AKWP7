@@ -9,6 +9,7 @@ namespace RMM.Phone
         {
             InitializeComponent();
             //ahahahahahahah
+            //AHAHAHAHAHAHAHAHAHAHAH
         }
     }
 }
