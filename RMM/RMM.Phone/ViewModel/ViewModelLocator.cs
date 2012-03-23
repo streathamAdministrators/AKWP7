@@ -12,7 +12,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using RMM.Phone.Model;
 
 namespace RMM.Phone.ViewModel
 {
@@ -32,15 +31,6 @@ namespace RMM.Phone.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            if (ViewModelBase.IsInDesignModeStatic)
-            {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IDataService, DataService>();
-            }
 
             SimpleIoc.Default.Register<MainViewModel>();
         }
@@ -64,6 +54,7 @@ namespace RMM.Phone.ViewModel
         /// </summary>
         public static void Cleanup()
         {
+            //que c'est pas tres beau
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using RMM.Phone.ViewModel;
+using RMM.Phone.BusinessModel;
 
 namespace RMM.Phone
 {
@@ -86,6 +87,8 @@ namespace RMM.Phone
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
             ViewModelLocator.Cleanup();
+            BusinessBootStrapper.Cleanup();
+            
         }
 
         // Code to execute if a navigation fails
