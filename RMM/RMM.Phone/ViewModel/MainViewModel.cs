@@ -50,6 +50,7 @@ namespace RMM.Phone.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            RMM.Data.RmmConfiguration.Initialize();
         }
 
         ////public override void Cleanup()

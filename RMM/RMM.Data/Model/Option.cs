@@ -10,7 +10,7 @@ namespace RMM.Data.Model
     public class Option
     {
         [Column(IsPrimaryKey=true)]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Column]
         public bool IsPassword { get; set; }

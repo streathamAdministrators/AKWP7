@@ -12,7 +12,7 @@ namespace RMM.Data.Model
     public class Transaction
     {
         [Column(IsPrimaryKey=true)]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         [Column]
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace RMM.Data.Model
         public double Balance { get; set; }
 
         private EntityRef<AccountEntity> account = new EntityRef<AccountEntity>();
-        [Association(Name="FK_Account_Transaction", Storage="account", ThisKey="AccountId",OtherKey="Id")]
+        [Association(Name="FK_Account_Transaction", Storage="account", ThisKey="ID",OtherKey="ID")]
         public AccountEntity Account 
         {
             get { return this.account.Entity; }
@@ -42,18 +42,18 @@ namespace RMM.Data.Model
                      if (value != null)
                      {
                          value.TransactionList.Add(this);
-                         this.Id = value.Id;
+                         this.ID = value.ID;
                      } 
                      else
                      {
-                         this.Id = default(int);
+                         this.ID = default(int);
                      }
                  }
             }
         }
 
         private EntityRef<CategoryEntity> category = new EntityRef<CategoryEntity>();
-        [Association(Name = "FK_Category_Transaction", Storage = "category", ThisKey = "CategoryId", OtherKey = "Id")]
+        [Association(Name = "FK_Category_Transaction", Storage = "category", ThisKey = "ID", OtherKey = "ID")]
         public CategoryEntity Category 
         {
             get { return this.category.Entity; }
@@ -74,11 +74,11 @@ namespace RMM.Data.Model
                     if (value != null)
                     {
                         value.TransactionList.Add(this);
-                        this.Id = value.Id;
+                        this.ID = value.ID;
                     }
                     else
                     {
-                        this.Id = default(int);
+                        this.ID = default(int);
                     }
                 }
             }

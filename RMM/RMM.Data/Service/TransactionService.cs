@@ -14,7 +14,7 @@ namespace RMM.Data.Service
              using (RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
              {
                  var transaction = (from t in datacontext.Transaction
-                                    where t.Id == transactionId
+                                    where t.ID == transactionId
                                     select t).FirstOrDefault();
 
                  if (transaction != null)
@@ -31,7 +31,7 @@ namespace RMM.Data.Service
             using (RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
             {
                 var transaction = (from t in datacontext.Transaction
-                                       where t.Account.Id == transactionId
+                                       where t.Account.ID == transactionId
                                        select t).FirstOrDefault();
 
                 if (transaction != null)
@@ -48,7 +48,7 @@ namespace RMM.Data.Service
             using (RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
             {
                 var transactionList = (from t in datacontext.Transaction
-                                       where t.Category.Id == categoryId
+                                       where t.Category.ID == categoryId
                                        select t).ToList();
 
                 if (transactionList != null)
@@ -65,7 +65,7 @@ namespace RMM.Data.Service
             using (RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
             {
                 var transactionList = (from t in datacontext.Transaction
-                                   where t.Account.Id == accountId
+                                   where t.Account.ID == accountId
                                    select t).ToList();
 
                 if (transactionList != null)
@@ -94,7 +94,7 @@ namespace RMM.Data.Service
             {
                 //Convertion du DTO en entity, puis :
                 var transaction = (from t in datacontext.Transaction
-                                   where t.Id == transactionToUpdate.Id
+                                   where t.ID == transactionToUpdate.ID
                                    select t).FirstOrDefault();
 
                 if (transaction != null)

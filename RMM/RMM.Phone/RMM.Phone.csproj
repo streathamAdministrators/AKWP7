@@ -123,6 +123,10 @@
       <Project>{E0A530E4-B344-4093-BAA2-80B7971E44FA}</Project>
       <Name>RMM.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RMM.Data\RMM.Data.csproj">
+      <Project>{36C0EAB3-441F-44A6-A660-DDE6FD54B9CD}</Project>
+      <Name>RMM.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

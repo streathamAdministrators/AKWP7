@@ -12,12 +12,12 @@ namespace RMM.Data.Model
     public abstract class EntityBase
     {
         [Column(IsPrimaryKey = true, IsDiscriminator=true)]
-        public int Id { get; set; }
+        public int ID { get; set; }
 
-        [Column(IsDiscriminator=true)]
+        [Column]
         public string Name { get; set; }
 
-        [Column(IsDiscriminator=true)]
+        [Column]
         public double Balance { get; set; }
     }
 }

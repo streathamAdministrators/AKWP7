@@ -14,7 +14,7 @@ namespace RMM.Data.Model
         public string Color { get; set; }
 
         private EntitySet<Transaction> transactionList = new EntitySet<Transaction>();
-        [Association(Name = "FK_Category_Transaction", Storage = "transactionList", ThisKey = "Id", OtherKey = "CategoryId")]
+        [Association(Name = "FK_Category_Transaction", Storage = "transactionList", ThisKey = "ID", OtherKey = "ID")]
         public EntitySet<Transaction> TransactionList
         {
             get { return this.transactionList; }
