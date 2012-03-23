@@ -1,3 +1,10 @@
+# git ignore file
+RMM/RMM.Phone/Bin/*
+RMM/RMM.Phone/obj*
+.gitignore
+
+
+
 
 #ignore thumbnails created by windows
 Thumbs.db
@@ -27,3 +34,7 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+RMM/RMM.suo
+RMM/RMM.suo
+RMM/RMM.Phone/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+RMM/RMM.Phone/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
