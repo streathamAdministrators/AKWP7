@@ -85,10 +85,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="automapper\ObjectsExtensionsToDo.cs" />
-    <Compile Include="automapper\Profiler\AccountViewDataProfile.cs" />
-    <Compile Include="automapper\Profiler\CategoryViewDataProfile.cs" />
-    <Compile Include="automapper\Profiler\ObtionViewDataProfile.cs" />
-    <Compile Include="automapper\Profiler\TransactionViewDataProfile.cs" />
+    <Compile Include="automapper\ObjectsExtensionsToViewData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

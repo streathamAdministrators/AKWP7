@@ -26,6 +26,7 @@ namespace RMM.Business.ExtensionMethods
 
                 newTransaction.transactionid = Objectsource.Id;
                 newTransaction.Name = Objectsource.Name;
+                newTransaction.Description = Objectsource.Description;
                 newTransaction.Balance = Objectsource.Balance;
                 newTransaction.CreatedDate = DateTime.Now;
 

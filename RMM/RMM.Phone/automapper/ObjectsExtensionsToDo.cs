@@ -23,8 +23,9 @@ namespace RMM.Phone.automapper
         {
             var newtransactionDto = new TransactionDto();
 
-            newtransactionDto.Id = Objectsource.ID;
+            newtransactionDto.Id = Objectsource.Id;
             newtransactionDto.Name = Objectsource.Name;
+            newtransactionDto.Description = Objectsource.Description;
             newtransactionDto.Balance = Objectsource.Balance;
 
             if (Objectsource.Category != null)
@@ -49,7 +50,7 @@ namespace RMM.Phone.automapper
             return newAccountDto;
         }
 
-        public static OptionDto ToOptionDto(this ObtionViewData Objectsource)
+        public static OptionDto ToOptionDto(this OptionViewData Objectsource)
         {
             var newOptionDto = new OptionDto();
 

@@ -17,6 +17,8 @@ namespace RMM.Phone.ViewData.Account
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public double Balance { get; set; }
 
         public string CreatedDate { get; set; }

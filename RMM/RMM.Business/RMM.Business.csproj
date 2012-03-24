@@ -60,6 +60,7 @@
     <Compile Include="CategoryService\ICategoryService.cs" />
     <Compile Include="DatabaseService\DatabaseService.cs" />
     <Compile Include="DatabaseService\IDatabaseService.cs" />
+    <Compile Include="DumpMyDBSQLCE.cs" />
     <Compile Include="Erreur.cs" />
     <Compile Include="OptionService\IOptionService.cs" />
     <Compile Include="OptionService\OptionDto.cs" />

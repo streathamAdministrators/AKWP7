@@ -18,6 +18,9 @@ namespace RMM.Data.Model
         public string Name { get; set; }
 
         [Column]
+        public string Description { get; set; }
+
+        [Column]
         public double Balance { get; set; }
 
         private EntityRef<AccountEntity> account = new EntityRef<AccountEntity>();

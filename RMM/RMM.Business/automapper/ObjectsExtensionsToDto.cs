@@ -25,6 +25,7 @@ namespace RMM.Business.ExtensionMethods
 
                     newtransactionDto.Id = Objectsource.transactionid;
                     newtransactionDto.Name = Objectsource.Name;
+                    newtransactionDto.Description = Objectsource.Description;
                     newtransactionDto.Balance = Objectsource.Balance;
 
                     if (Objectsource.Category != null)
