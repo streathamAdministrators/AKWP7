@@ -142,8 +142,16 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
+        #region COMMAND
+
         public RelayCommand<SelectionChangedEventArgs> AccountSelectedCommand { get; set; }
         public RelayCommand<SelectionChangedEventArgs> CategorySelectedCommand { get; set; }
+
+        public RelayCommand EditAccountCommand { get; set; }
+
+        #endregion
+
+        
 
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
         public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
@@ -159,8 +167,15 @@ namespace RMM.Phone.ViewModel
             AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
             CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
 
+            EditAccountCommand = new RelayCommand(() => HandleEditAccountTaskSelected() );
+
             LoadSampleData();
             IsSynchro = true;
+        }
+
+        private void HandleEditAccountTaskSelected()
+        {
+ 
         }
 
         private void HandleAccountTaskSelected(SelectionChangedEventArgs args)
@@ -198,11 +213,11 @@ namespace RMM.Phone.ViewModel
             this.ListeCategory.Add(sampleCategory2);
             this.ListeCategory.Add(new CategoryViewData() { Id = 3, Name = "Home", Balance = 352 });
 
-            this.ListeFavorite.Add(new TransactionViewData() { ID = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
-            this.ListeFavorite.Add(new TransactionViewData() { ID = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
-            this.ListeFavorite.Add(new TransactionViewData() { ID = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
-            this.ListeFavorite.Add(new TransactionViewData() { ID = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
-            this.ListeFavorite.Add(new TransactionViewData() { ID = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
+            this.ListeFavorite.Add(new TransactionViewData() { Id = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
+            this.ListeFavorite.Add(new TransactionViewData() { Id = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
+            this.ListeFavorite.Add(new TransactionViewData() { Id = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
+            this.ListeFavorite.Add(new TransactionViewData() { Id = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
+            this.ListeFavorite.Add(new TransactionViewData() { Id = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
 
             FavoriteAccount = sampleAccount;
         }

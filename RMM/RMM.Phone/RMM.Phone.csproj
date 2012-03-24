@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="ViewData\AccountViewData.cs" />
     <Compile Include="ViewData\CategoryViewData.cs" />
-    <Compile Include="ViewData\ObtionViewData.cs" />
+    <Compile Include="ViewData\OptionViewData.cs" />
     <Compile Include="ViewData\TransactionViewData.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />

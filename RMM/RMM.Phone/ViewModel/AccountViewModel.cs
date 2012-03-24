@@ -43,11 +43,11 @@ namespace RMM.Phone.ViewModel
             var sampleCategory2 = new CategoryViewData() { Id = 2, Name = "Food", Balance = 29 };
             var sampleAccount = new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200, Name = "Courant1" };
 
-            this.ListeTransaction.Add(new TransactionViewData() { ID = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
-            this.ListeTransaction.Add(new TransactionViewData() { ID = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
-            this.ListeTransaction.Add(new TransactionViewData() { ID = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
-            this.ListeTransaction.Add(new TransactionViewData() { ID = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
-            this.ListeTransaction.Add(new TransactionViewData() { ID = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
+            this.ListeTransaction.Add(new TransactionViewData() { Id = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
+            this.ListeTransaction.Add(new TransactionViewData() { Id = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
+            this.ListeTransaction.Add(new TransactionViewData() { Id = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
+            this.ListeTransaction.Add(new TransactionViewData() { Id = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
+            this.ListeTransaction.Add(new TransactionViewData() { Id = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
 
             this.ListeAccount.Add(new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200.95, Name = "Courant1", ListTransaction=this.ListeTransaction });
             this.ListeAccount.Add(new AccountViewData() { Id = 2, BankName = "CA", Balance = 300, Name = "Courant2", ListTransaction = this.ListeTransaction });
