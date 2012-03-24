@@ -100,6 +100,7 @@
     <Compile Include="ViewData\TransactionViewData.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\EditAccountViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AccountPivot.xaml.cs">
@@ -107,6 +108,9 @@
     </Compile>
     <Compile Include="View\CategoryPivot.xaml.cs">
       <DependentUpon>CategoryPivot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditAccount.xaml.cs">
+      <DependentUpon>EditAccount.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +131,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CategoryPivot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
