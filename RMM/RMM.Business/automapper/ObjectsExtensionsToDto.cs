@@ -56,7 +56,6 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newOptionDto = new OptionDto();
 
-                newOptionDto.Id = Objectsource.id;
                 newOptionDto.IsComparator = Objectsource.IsComparator;
                 newOptionDto.IsPassword = Objectsource.IsPassword;
                 newOptionDto.IsPrimaryTile = Objectsource.IsPrimaryTile;

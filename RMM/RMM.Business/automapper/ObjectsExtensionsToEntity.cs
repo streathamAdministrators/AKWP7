@@ -50,8 +50,7 @@ namespace RMM.Business.ExtensionMethods
         public static Option ToOptionEntity(this OptionDto Objectsource)
         {
                 var newOption = new Option();
-
-                newOption.id = Objectsource.Id;
+                newOption.id = 1;
                 newOption.IsComparator = Objectsource.IsComparator;
                 newOption.IsPassword = Objectsource.IsPassword;
                 newOption.IsPrimaryTile = Objectsource.IsPrimaryTile;
