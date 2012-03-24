@@ -50,13 +50,25 @@
                                         <toolkit:MenuItem Header="edit this account" Tag="{Binding}">
                                             <Interactivity:Interaction.Triggers>
                                                 <Interactivity:EventTrigger EventName="Click">
-                                                    <Command:EventToCommand Command="{Binding EditAccountCommand, Mode=OneWay}" CommandParameter="{Binding Tag, RelativeSource={RelativeSource Self}}" />
+                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.EditAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
                                                 </Interactivity:EventTrigger>
                                             </Interactivity:Interaction.Triggers>
                                         </toolkit:MenuItem>
-                                            <toolkit:MenuItem Header="add to favorite" Command="{Binding EditAccountCommand}" />
-                                        <toolkit:MenuItem Header="delete this account" Command="{Binding EditAccountCommand}" />
-									</toolkit:ContextMenu>
+                                        <toolkit:MenuItem Header="add to favorite" >
+                                            <Interactivity:Interaction.Triggers>
+                                                <Interactivity:EventTrigger EventName="Click">
+                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.FavoriteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+                                                </Interactivity:EventTrigger>
+                                            </Interactivity:Interaction.Triggers>
+                                        </toolkit:MenuItem> 
+                                        <toolkit:MenuItem Header="delete this account" >
+                                            <Interactivity:Interaction.Triggers>
+                                                <Interactivity:EventTrigger EventName="Click">
+                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.DeleteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+                                                </Interactivity:EventTrigger>
+                                            </Interactivity:Interaction.Triggers>
+                                        </toolkit:MenuItem>
+                                    </toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
 								<TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
 								<TextBlock Text="{Binding BankName}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>

@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows.Controls;
 using System;
 using System.Windows.Navigation;
+using System.Windows;
 
 
 namespace RMM.Phone.ViewModel
@@ -147,7 +148,9 @@ namespace RMM.Phone.ViewModel
         public RelayCommand<SelectionChangedEventArgs> AccountSelectedCommand { get; set; }
         public RelayCommand<SelectionChangedEventArgs> CategorySelectedCommand { get; set; }
 
-        public RelayCommand EditAccountCommand { get; set; }
+        public RelayCommand<AccountViewData> EditAccountCommand { get; set; }
+        public RelayCommand<AccountViewData> DeleteAccountCommand { get; set; }
+        public RelayCommand<AccountViewData> FavoriteAccountCommand { get; set; }
 
         #endregion
 
@@ -167,15 +170,39 @@ namespace RMM.Phone.ViewModel
             AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
             CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
 
-            EditAccountCommand = new RelayCommand(() => HandleEditAccountTaskSelected() );
+            EditAccountCommand = new RelayCommand<AccountViewData>((args) => HandleEditAccountTaskSelected(args));
+            DeleteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleDeleteAccountTaskSelected(args));
+            FavoriteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleFavoriteAccountTaskSelected(args));
 
             LoadSampleData();
             IsSynchro = true;
         }
 
-        private void HandleEditAccountTaskSelected()
+        private void HandleEditAccountTaskSelected(AccountViewData args)
         {
- 
+            if (args != null)
+            {
+                var rootFrame = (App.Current as App).RootFrame;
+                rootFrame.Navigate(new System.Uri("/View/EditAccount.xaml?accountId=" + args.Id.ToString(), System.UriKind.Relative));
+            }
+            
+        }
+
+        private void HandleDeleteAccountTaskSelected(AccountViewData args)
+        {
+            if(args != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?"  , "Delete an account", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    //LANCER LA COMMANDE DELETEACCOUNTBYID
+                }
+            }
+        }
+
+        private void HandleFavoriteAccountTaskSelected(AccountViewData args)
+        {
+            //AJOUTER L'ACCOUNT AUX FAVORIS
         }
 
         private void HandleAccountTaskSelected(SelectionChangedEventArgs args)

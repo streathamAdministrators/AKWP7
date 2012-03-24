@@ -34,6 +34,7 @@ namespace RMM.Phone.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AccountViewModel>();
             SimpleIoc.Default.Register<CategoryViewModel>();
+            SimpleIoc.Default.Register<EditAccountViewModel>();
         }
 
         /// <summary>
@@ -64,6 +65,15 @@ namespace RMM.Phone.ViewModel
             {
                 return ServiceLocator.Current.GetInstance<CategoryViewModel>();
             }
+        }
+
+        public EditAccountViewModel EditAccount
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<EditAccountViewModel>();
+            }
+
         }
 
         /// <summary>
