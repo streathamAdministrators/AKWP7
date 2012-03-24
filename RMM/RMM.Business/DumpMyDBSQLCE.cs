@@ -99,32 +99,32 @@ namespace RMM.Business
 
             #region Ajout 20 transactions
 
-            var t1 = new TransactionDto() { Name = "redevance tv", AccountId = na1.Id, Balance = -100 };
-            var t2 = new TransactionDto() { Name = "les courses", AccountId = na1.Id, Balance = -80 };
-            var t3 = new TransactionDto() { Name = "restau", AccountId = na2.Id, CategoryId = c2.Id, Balance = -40 };
-            var t4 = new TransactionDto() { Name = "piscine", AccountId = na1.Id, Balance = -10 };
-            var t5 = new TransactionDto() { Name = "ciné", AccountId = na1.Id, Balance = -5 };
-            var t6 = new TransactionDto() { Name = "bar", AccountId = na1.Id, CategoryId = c1.Id, Balance = -10.5 };
-            var t7 = new TransactionDto() { Name = "club", AccountId = na1.Id, CategoryId = c1.Id, Balance = -15.5 };
-            var t8 = new TransactionDto() { Name = "lotto", AccountId = na1.Id, Balance = 7 };
-            var t9 = new TransactionDto() { Name = "la biere", AccountId = na1.Id, Balance = -10 };
-            var t10 = new TransactionDto() { Name = "bouquet de fleur", AccountId = na1.Id, Balance = -20 };
-            var t11 = new TransactionDto() { Name = "medicaments", AccountId = na1.Id, Balance = -5 };
-            var t12 = new TransactionDto() { Name = "pizza tv", AccountId = na1.Id, Balance = -10 };
-            var t13 = new TransactionDto() { Name = "moulin de la forge tv", AccountId = na1.Id, CategoryId = c1.Id, Balance = -150 };
-            var t14 = new TransactionDto() { Name = "licence MS", AccountId = na2.Id, CategoryId = c2.Id, Balance = -35 };
-            var t15 = new TransactionDto() { Name = "James", AccountId = na2.Id, CategoryId = c2.Id, Balance = 500 };
-            var t16 = new TransactionDto() { Name = "Ian", AccountId = na2.Id, CategoryId = c2.Id, Balance = 1000 };
-            var t17 = new TransactionDto() { Name = "Villa", AccountId = na2.Id, CategoryId = c1.Id, Balance = -200 };
-            var t18 = new TransactionDto() { Name = "Telephone", AccountId = na2.Id, CategoryId = c2.Id, Balance = -30 };
-            var t19 = new TransactionDto() { Name = "park d'actraction", AccountId = na2.Id, Balance = -20 };
-            var t20 = new TransactionDto() { Name = "enfants", AccountId = na2.Id, Balance = 46.7 };
-            var t21 = new TransactionDto() { Name = "nouvelle maison", AccountId = na3.Id, Balance = -33.6 };
-            var t22 = new TransactionDto() { Name = "epargne taux fixe", AccountId = na3.Id,  Balance = 10 };
-            var t23 = new TransactionDto() { Name = "epargne sur montpellier", AccountId = na3.Id,  Balance = 60 };
-            var t24 = new TransactionDto() { Name = "epargne de Paris", AccountId = na3.Id, Balance = -20 };
-            var t25 = new TransactionDto() { Name = "investissement", AccountId = na3.Id, Balance = 250 };
-            var t26 = new TransactionDto() { Name = "import maman", AccountId = na1.Id, Balance = 700 };
+            var t1 = new TransactionDto() { Name = "redevance tv", AccountId = na1.Id, Balance = -100, Description="test de la description" };
+            var t2 = new TransactionDto() { Name = "les courses", AccountId = na1.Id, Balance = -80, Description = "test de la description" };
+            var t3 = new TransactionDto() { Name = "restau", AccountId = na2.Id, CategoryId = c2.Id, Balance = -40, Description = "test de la description" };
+            var t4 = new TransactionDto() { Name = "piscine", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
+            var t5 = new TransactionDto() { Name = "ciné", AccountId = na1.Id, Balance = -5, Description = "test de la description" };
+            var t6 = new TransactionDto() { Name = "bar", AccountId = na1.Id, CategoryId = c1.Id, Balance = -10.5, Description = "test de la description" };
+            var t7 = new TransactionDto() { Name = "club", AccountId = na1.Id, CategoryId = c1.Id, Balance = -15.5, Description = "test de la description" };
+            var t8 = new TransactionDto() { Name = "lotto", AccountId = na1.Id, Balance = 7, Description = "test de la description" };
+            var t9 = new TransactionDto() { Name = "la biere", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
+            var t10 = new TransactionDto() { Name = "bouquet de fleur", AccountId = na1.Id, Balance = -20, Description = "test de la description" };
+            var t11 = new TransactionDto() { Name = "medicaments", AccountId = na1.Id, Balance = -5, Description = "test de la description" };
+            var t12 = new TransactionDto() { Name = "pizza tv", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
+            var t13 = new TransactionDto() { Name = "moulin de la forge tv", AccountId = na1.Id, CategoryId = c1.Id, Balance = -150, Description = "test de la description" };
+            var t14 = new TransactionDto() { Name = "licence MS", AccountId = na2.Id, CategoryId = c2.Id, Balance = -35, Description = "test de la description" };
+            var t15 = new TransactionDto() { Name = "James", AccountId = na2.Id, CategoryId = c2.Id, Balance = 500, Description = "test de la description" };
+            var t16 = new TransactionDto() { Name = "Ian", AccountId = na2.Id, CategoryId = c2.Id, Balance = 1000, Description = "test de la description" };
+            var t17 = new TransactionDto() { Name = "Villa", AccountId = na2.Id, CategoryId = c1.Id, Balance = -200, Description = "test de la description" };
+            var t18 = new TransactionDto() { Name = "Telephone", AccountId = na2.Id, CategoryId = c2.Id, Balance = -30, Description = "test de la description" };
+            var t19 = new TransactionDto() { Name = "park d'actraction", AccountId = na2.Id, Balance = -20, Description = "test de la description" };
+            var t20 = new TransactionDto() { Name = "enfants", AccountId = na2.Id, Balance = 46.7, Description = "test de la description" };
+            var t21 = new TransactionDto() { Name = "nouvelle maison", AccountId = na3.Id, Balance = -33.6, Description = "test de la description" };
+            var t22 = new TransactionDto() { Name = "epargne taux fixe", AccountId = na3.Id, Balance = 10, Description = "test de la description" };
+            var t23 = new TransactionDto() { Name = "epargne sur montpellier", AccountId = na3.Id, Balance = 60, Description = "test de la description" };
+            var t24 = new TransactionDto() { Name = "epargne de Paris", AccountId = na3.Id, Balance = -20, Description = "test de la description" };
+            var t25 = new TransactionDto() { Name = "investissement", AccountId = na3.Id, Balance = 250, Description = "test de la description" };
+            var t26 = new TransactionDto() { Name = "import maman", AccountId = na1.Id, Balance = 700, Description = "test de la description" };
 
             var listDeTransaction = new List<TransactionDto>();
             listDeTransaction.Add(t1);
