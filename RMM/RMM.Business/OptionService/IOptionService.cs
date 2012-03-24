@@ -12,5 +12,7 @@ namespace RMM.Business.OptionService
 
         //Passage d'un dto en param apres
         Result<OptionDto> UpdateOption(OptionDto optionToUpdate);
+
+        Result<OptionDto> SetFirstTimeOption();
     }
 }

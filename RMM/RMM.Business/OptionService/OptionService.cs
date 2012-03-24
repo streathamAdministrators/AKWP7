@@ -19,7 +19,7 @@ namespace RMM.Business.OptionService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var option = (from t in datacontext.Option
-                                       select t).FirstOrDefault();
+                                       select t).First();
 
 
 
@@ -53,6 +53,35 @@ namespace RMM.Business.OptionService
                 datacontext.SubmitChanges();
 
                 result.Value = optionToUpdate;
+
+            }, () => "erreur");
+
+            
+        }
+
+
+        public Result<OptionDto> SetFirstTimeOption()
+        {
+            return Result<OptionDto>.SafeExecute<IOptionService>(result =>
+            {
+                var newFirstTimeOptionDto = new OptionDto()
+                {
+                    IsComparator = false,
+                    IsPrimaryTile = false,
+                    IsPassword = false,
+                    Isreport = false,
+                    IsSynchro = false
+                };
+
+                var newFirstEntity = newFirstTimeOptionDto.ToOptionEntity();
+
+                datacontext.Option.InsertOnSubmit(newFirstEntity);
+
+                datacontext.SubmitChanges();
+
+                var AddedOption = datacontext.Option.First();
+
+                result.Value = AddedOption.ToOptionDto();
 
             }, () => "erreur");
 

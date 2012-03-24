@@ -11,6 +11,7 @@ namespace RMM.Data
         {
             using(RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
             {
+                
                 if (datacontext.DatabaseExists() == false)
                 {
                     datacontext.CreateDatabase();

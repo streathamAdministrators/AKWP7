@@ -9,8 +9,8 @@ namespace RMM.Data.Model
     [Table(Name="Option")]
     public class Option
     {
-        [Column(IsPrimaryKey=true)]
-        public int ID { get; set; }
+        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        public int id { get; set; }
 
         [Column]
         public bool IsPassword { get; set; }
@@ -26,5 +26,8 @@ namespace RMM.Data.Model
 
         [Column]
         public bool IsComparator { get; set; }
+
+        [Column]
+        public DateTime ModifiedDate { get; set; }
     }
 }

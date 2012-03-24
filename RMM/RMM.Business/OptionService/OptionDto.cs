@@ -14,5 +14,7 @@ namespace RMM.Business.OptionService
         public bool Isreport { get; set; }
         public bool IsComparator { get; set; }
 
+        public DateTime ModifiedDate { get; set; }
+
     }
 }
