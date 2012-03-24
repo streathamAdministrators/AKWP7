@@ -7,7 +7,7 @@ using RMM.Data.Model;
 
 namespace RMM.Data.Service
 {
-    class TransactionService
+    public class TransactionService
     {
         public void DeleteTransactionById(int transactionId)
         {

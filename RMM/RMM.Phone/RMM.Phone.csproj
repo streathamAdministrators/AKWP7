@@ -56,6 +56,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WP71\GalaSoft.MvvmLight.Extras.WP71.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WP71\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -86,12 +88,19 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessModel\BusinessLocator.cs" />
-    <Compile Include="ViewData\Account\AccountViewData.cs" />
-    <Compile Include="ViewData\Account\CategoryViewData.cs" />
-    <Compile Include="ViewData\Account\ObtionViewData.cs" />
-    <Compile Include="ViewData\Account\TransactionViewData.cs" />
+    <Compile Include="UControl\ListUC.xaml.cs">
+      <DependentUpon>ListUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewData\AccountViewData.cs" />
+    <Compile Include="ViewData\CategoryViewData.cs" />
+    <Compile Include="ViewData\ObtionViewData.cs" />
+    <Compile Include="ViewData\TransactionViewData.cs" />
+    <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\AccountPivot.xaml.cs">
+      <DependentUpon>AccountPivot.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -101,6 +110,14 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UControl\ListUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AccountPivot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -123,10 +140,9 @@
       <Project>{E0A530E4-B344-4093-BAA2-80B7971E44FA}</Project>
       <Name>RMM.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RMM.Data\RMM.Data.csproj">
-      <Project>{36C0EAB3-441F-44A6-A660-DDE6FD54B9CD}</Project>
-      <Name>RMM.Data</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
