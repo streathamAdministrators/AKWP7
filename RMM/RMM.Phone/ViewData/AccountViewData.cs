@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace RMM.Phone.ViewData.Account
 {
@@ -22,6 +23,8 @@ namespace RMM.Phone.ViewData.Account
         public double Balance { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        public List<TransactionViewData> ListTransaction { get; set; }
 
     }
 }
