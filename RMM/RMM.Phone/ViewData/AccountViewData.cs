@@ -13,6 +13,15 @@ namespace RMM.Phone.ViewData.Account
 {
     public class AccountViewData
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string BankName { get; set; }
+
+        public double Balance { get; set; }
+
+        public string PhotoUrl { get; set; }
 
     }
 }
