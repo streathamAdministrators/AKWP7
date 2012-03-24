@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace RMM.Phone.ViewData.Account
 {
-    public class ObtionViewData
+    public class OptionViewData
     {
         public bool IsPassword { get; set; }
 
