@@ -15,5 +15,8 @@ namespace RMM.Business.CategoryService
         public double Balance { get; set; }
 
         public string Color { get; set; }
+
+        
+        public DateTime CreatedDate { get; set; }
     }
 }

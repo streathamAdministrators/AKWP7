@@ -8,8 +8,16 @@ using System.Data.Linq;
 namespace RMM.Data.Model
 {
     [Table(Name="Account")]
-    public class AccountEntity : EntityBase
+    public class AccountEntity
     {
+        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+        public int id { get; set; }
+
+        [Column]
+        public string Name { get; set; }
+
+        [Column]
+        public double Balance { get; set; }
        
         [Column]
         public string BankName { get; set; }
@@ -18,12 +26,15 @@ namespace RMM.Data.Model
         public string PhotoUrl { get; set; }
 
         private EntitySet<Transaction> transactionList = new EntitySet<Transaction>();
-        [Association(Name="FK_Account_Transaction", Storage="transactionList", ThisKey="ID", OtherKey="ID")]
+        [Association(Name = "FK_Account_Transaction", Storage = "transactionList", ThisKey = "id", OtherKey = "transactionid")]
         public EntitySet<Transaction> TransactionList 
         {
             get { return this.transactionList; }
             set { transactionList = value; }
         }
+
+        [Column]
+        public DateTime CreatedDate { get; set; }
 
     }
 }

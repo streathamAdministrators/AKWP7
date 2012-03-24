@@ -22,8 +22,8 @@ namespace RMM.Business.TransactionService
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
                         var transaction = (from t in datacontext.Transaction
-                                           where t.ID == transactionDtoId
-                                           select t).FirstOrDefault();
+                                           where t.transactionid == transactionDtoId
+                                           select t).First();
                        
                         if (transaction != null)
                         {
@@ -49,8 +49,8 @@ namespace RMM.Business.TransactionService
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
                         var transaction = (from t in datacontext.Transaction
-                                           where t.Account.ID == transactionId
-                                           select t).FirstOrDefault();
+                                           where t.transactionid == transactionId
+                                           select t).First();
 
                         var dto = transaction.ToTransactionDto();
                             result.Value = dto;
@@ -64,8 +64,13 @@ namespace RMM.Business.TransactionService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
+                    DataLoadOptions options = new DataLoadOptions();
+                    options.LoadWith<Transaction>(c => c.Category);
+
+                    datacontext.LoadOptions = options;
+
                     var transactions = (from t in datacontext.Transaction
-                                       where t.Category.ID == categoryId
+                                       where t.Category.id == categoryId
                                        select t).ToList();
 
                     
@@ -89,8 +94,13 @@ namespace RMM.Business.TransactionService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
+                    DataLoadOptions options = new DataLoadOptions();
+                    options.LoadWith<Transaction>(c => c.Account);
+
+                    datacontext.LoadOptions = options;
+
                     var transactions = (from t in datacontext.Transaction
-                                       where t.Account.ID == accountId
+                                       where t.Account.id == accountId
                                        select t).ToList();
 
                     
@@ -115,17 +125,34 @@ namespace RMM.Business.TransactionService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-
+                    CategoryEntity attachedCategoryEntity;
+                    AccountEntity attachedAccountEntity;
+                    
                     //MAPPING
-
-
                     var entity = transaction.ToTransactionEntity();
+
+                    if (transaction.CategoryId != 0)
+                    {
+                        attachedCategoryEntity = datacontext.Category.Where(c => c.id == transaction.CategoryId).First();
+                        entity.Category = attachedCategoryEntity;
+                    }
+
+                    if (transaction.CategoryId != 0)
+                    {
+                        attachedAccountEntity = datacontext.Account.Where(c => c.id == transaction.AccountId).First();
+                        entity.Account = attachedAccountEntity;
+                    }
+
+                
+
 
                 //Convertion du DTO en entity, puis :
                 datacontext.Transaction.InsertOnSubmit(entity);
                 datacontext.SubmitChanges();
 
-                result.Value = datacontext.Transaction.Where(t => t.ID == transaction.Id).First().ToTransactionDto();
+                var AddedTransac = datacontext.Transaction.Where(a => a.CreatedDate == entity.CreatedDate).First();
+
+                result.Value = AddedTransac.ToTransactionDto();
             
                 }
             }, () => "erreur");
@@ -147,30 +174,36 @@ namespace RMM.Business.TransactionService
                     datacontext.LoadOptions = options;
 
 
+                    var entityToUpdate = datacontext.Transaction.Where(t => t.transactionid == transactionToUpdate.Id).First();
 
-                    //MAPPING
-                    var UpdatedEntity = transactionToUpdate.ToTransactionEntity();
+                  
+                    entityToUpdate.Name = transactionToUpdate.Name;
 
-                    
+                    if (entityToUpdate.Category != null && transactionToUpdate.CategoryId != 0)
+                    {
+                        if (entityToUpdate.Category.id != transactionToUpdate.CategoryId)
+                        {
+                            var categoryAttachedByUpdate = datacontext.Category.Where(c => c.id == transactionToUpdate.CategoryId).First();
+                            entityToUpdate.Category = categoryAttachedByUpdate;
+                        }
+                    }
 
-                    var entityToUpdate = datacontext.Transaction.Where(t => t.ID == UpdatedEntity.ID).FirstOrDefault();
+                    if (entityToUpdate.Account != null && transactionToUpdate.AccountId != 0)
+                    {
+                        if (entityToUpdate.Account.id != transactionToUpdate.AccountId)
+                        {
+                            var accountAttachedByUpdate = datacontext.Account.Where(c => c.id == transactionToUpdate.AccountId).First();
+                            entityToUpdate.Account = accountAttachedByUpdate;
+                        }
+                    }
 
+                    entityToUpdate.Balance = transactionToUpdate.Balance;
 
-                    var categoryAttachedByUpdate = datacontext.Category.Where(c => c.ID == transactionToUpdate.CategoryId).FirstOrDefault();
-
-                    var accountAttachedByUpdate = datacontext.Account.Where(a => a.ID == transactionToUpdate.AccountId).FirstOrDefault();
-
-                    entityToUpdate.Name = UpdatedEntity.Name;
-
-                    if (categoryAttachedByUpdate.ID != entityToUpdate.Category.ID)
-                        entityToUpdate.Category = categoryAttachedByUpdate;
-
-                    if (accountAttachedByUpdate.ID != entityToUpdate.Account.ID)
-                        entityToUpdate.Account = accountAttachedByUpdate;
-
-                    entityToUpdate.Balance = UpdatedEntity.Balance;
+                    entityToUpdate.CreatedDate = DateTime.Now;
 
                     datacontext.SubmitChanges();
+
+                    result.Value = entityToUpdate.ToTransactionDto();
 
                 }
             }, () => "erreur");

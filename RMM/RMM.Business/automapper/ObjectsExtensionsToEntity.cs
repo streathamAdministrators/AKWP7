@@ -24,8 +24,10 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newTransaction = new Transaction();
 
-                newTransaction.ID = Objectsource.Id;
+                newTransaction.transactionid = Objectsource.Id;
                 newTransaction.Name = Objectsource.Name;
+                newTransaction.Balance = Objectsource.Balance;
+                newTransaction.CreatedDate = DateTime.Now;
 
                return newTransaction;
 
@@ -35,11 +37,12 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newAccount = new AccountEntity();
 
-                newAccount.ID = Objectsource.Id;
+                newAccount.id = Objectsource.Id;
                 newAccount.Name = Objectsource.Name;
                 newAccount.BankName = Objectsource.BankName;
                 newAccount.Balance = Objectsource.Balance;
                 newAccount.PhotoUrl = Objectsource.PhotoUrl;
+                newAccount.CreatedDate = DateTime.Now;
 
                 return newAccount;
         }
@@ -48,12 +51,13 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newOption = new Option();
 
-                newOption.ID = Objectsource.Id;
+                newOption.id = Objectsource.Id;
                 newOption.IsComparator = Objectsource.IsComparator;
                 newOption.IsPassword = Objectsource.IsPassword;
                 newOption.IsPrimaryTile = Objectsource.IsPrimaryTile;
                 newOption.IsReport = Objectsource.Isreport;
                 newOption.IsSynchro = Objectsource.IsSynchro;
+                newOption.ModifiedDate = DateTime.Now;
 
                 return newOption;
         }
@@ -62,10 +66,11 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newCategory = new CategoryEntity();
 
-                newCategory.ID = Objectsource.Id;
+                newCategory.id = Objectsource.Id;
                 newCategory.Name = Objectsource.Name;
                 newCategory.Balance = Objectsource.Balance;
                 newCategory.Color = Objectsource.Color;
+                newCategory.CreatedDate = DateTime.Now;
 
                 return newCategory;
         }

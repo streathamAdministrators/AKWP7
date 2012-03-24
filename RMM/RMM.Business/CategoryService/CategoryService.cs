@@ -16,18 +16,20 @@ namespace RMM.Business.CategoryService
         {
             return Result<CategoryDto>.SafeExecute<CategoryService>(result =>
                 {
-                    using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
-                    {
-                        var category = (from t in datacontext.Category
-                                        where t.ID == categoryId
-                                      select t).FirstOrDefault();
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var category = (from t in datacontext.Category
+                                    where t.id == categoryId
+                                    select t).First();
 
-                        if (category != null)
-                            datacontext.Category.DeleteOnSubmit(category);
+                    if (category != null)
+                    {
+                        datacontext.Category.DeleteOnSubmit(category);
 
                         datacontext.SubmitChanges();
+                    }
 
-                        result.Value = category.ToCategoryDto();
+                    result.Value = category.ToCategoryDto();
                     }
 
                 },() => "error");
@@ -39,9 +41,7 @@ namespace RMM.Business.CategoryService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var category = (from t in datacontext.Category
-                                    where t.ID == categoryId
-                                    select t).FirstOrDefault();
+                    var category = datacontext.Category.Where(a => a.id == categoryId).First();
 
 
                     result.Value = category.ToCategoryDto();
@@ -56,14 +56,16 @@ namespace RMM.Business.CategoryService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-
                     var newEntity = category.ToCategoryEntity();
 
                     datacontext.Category.InsertOnSubmit(newEntity);
 
                     datacontext.SubmitChanges();
 
-                    result.Value = category;
+                    var AddedCategory = datacontext.Category.Where(a => a.CreatedDate == newEntity.CreatedDate).First();
+
+                    result.Value = AddedCategory.ToCategoryDto();
+
                 }
 
             }, () => "error");
@@ -82,15 +84,18 @@ namespace RMM.Business.CategoryService
 
 
 
-                    var entityToUpdate = datacontext.Category.Where(t => t.ID == UpdatedEntity.ID).FirstOrDefault();
+                    var entityToUpdate = datacontext.Category.Where(t => t.id == UpdatedEntity.id).First();
 
-                    entityToUpdate.ID = UpdatedEntity.ID;
+                    entityToUpdate.id = UpdatedEntity.id;
                     entityToUpdate.Name = UpdatedEntity.Name;
                     entityToUpdate.Color = UpdatedEntity.Color;
                     entityToUpdate.Balance = UpdatedEntity.Balance;
+                    entityToUpdate.CreatedDate = DateTime.Now;
 
 
                     datacontext.SubmitChanges();
+
+                    result.Value = entityToUpdate.ToCategoryDto();
                 }
 
             }, () => "error");
@@ -101,7 +106,17 @@ namespace RMM.Business.CategoryService
         {
             return Result<List<CategoryDto>>.SafeExecute<CategoryService>(result =>
             {
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var categories = (from t in datacontext.Category
+                                    select t).ToList();
 
+                    var listeDto = new List<CategoryDto>();
+
+                    categories.ForEach(category => listeDto.Add(category.ToCategoryDto()));
+
+                    result.Value = listeDto;
+                }
             }, () => "error");
         }
     }

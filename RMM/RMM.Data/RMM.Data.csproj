@@ -52,7 +52,6 @@
   <ItemGroup>
     <Compile Include="Model\AccountEntity.cs" />
     <Compile Include="Model\CategoryEntity.cs" />
-    <Compile Include="Model\EntityBase.cs" />
     <Compile Include="Model\Option.cs" />
     <Compile Include="Model\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

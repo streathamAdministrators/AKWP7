@@ -18,13 +18,14 @@ namespace RMM.Business.AccountService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var account = (from t in datacontext.Account
-                                    where t.ID == accountId
-                                    select t).FirstOrDefault();
+                                    where t.id == accountId
+                                    select t).First();
 
                     if (account != null)
+                    {
                         datacontext.Account.DeleteOnSubmit(account);
-
-                    datacontext.SubmitChanges();
+                        datacontext.SubmitChanges();
+                    }
 
                     result.Value = account.ToAccountDto();
                 }
@@ -38,9 +39,7 @@ namespace RMM.Business.AccountService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var account = (from t in datacontext.Account
-                                    where t.ID == accountId
-                                    select t).FirstOrDefault();
+                    var account = datacontext.Account.Where(a => a.id == accountId).First();
 
 
                     result.Value = account.ToAccountDto();
@@ -55,14 +54,16 @@ namespace RMM.Business.AccountService
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-
                     var newEntity = account.ToAccountEntity();
 
                     datacontext.Account.InsertOnSubmit(newEntity);
 
                     datacontext.SubmitChanges();
 
-                    result.Value = account;
+                    var AddedAccount = datacontext.Account.Where(a => a.CreatedDate == newEntity.CreatedDate).First();
+
+                    result.Value = AddedAccount.ToAccountDto();
+
                 }
 
             }, () => "error");
@@ -81,15 +82,18 @@ namespace RMM.Business.AccountService
 
 
 
-                    var entityToUpdate = datacontext.Category.Where(t => t.ID == UpdatedEntity.ID).FirstOrDefault();
+                    var entityToUpdate = datacontext.Account.Where(t => t.id == UpdatedEntity.id).First();
 
-                    entityToUpdate.ID = UpdatedEntity.ID;
+                    entityToUpdate.id = UpdatedEntity.id;
                     entityToUpdate.Name = UpdatedEntity.Name;
-                    entityToUpdate.Color = UpdatedEntity.BankName;
+                    entityToUpdate.BankName = UpdatedEntity.BankName;
                     entityToUpdate.Balance = UpdatedEntity.Balance;
+                    entityToUpdate.CreatedDate = DateTime.Now;
 
 
                     datacontext.SubmitChanges();
+
+                    result.Value = entityToUpdate.ToAccountDto();
                 }
 
             }, () => "error");

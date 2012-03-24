@@ -17,5 +17,7 @@ namespace RMM.Business.AccountService
         public double Balance { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }

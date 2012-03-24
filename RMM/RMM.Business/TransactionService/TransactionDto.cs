@@ -14,5 +14,7 @@ namespace RMM.Business.TransactionService
         public double Balance { get; set; }
         public int AccountId { get; set; }
         public int CategoryId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
     }
 }
