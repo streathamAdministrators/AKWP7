@@ -40,12 +40,12 @@
 							<TextBlock Text="Bank name :" Style="{StaticResource PhoneTextAccentStyle}" Height="37" Width="137" />
 							<TextBox Text="{Binding Path=BankName, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
 						</StackPanel>
-						<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Horizontal" Height="90">
 							<TextBlock Text="Transaction :" Style="{StaticResource PhoneTextAccentStyle}" Height="37" Width="137" />
-							<Button Content="delete all" Width="292" >
+							<Button Content="delete all" Width="292" Height="70">
 							    <Interactivity:Interaction.Triggers>
 							    	<Interactivity:EventTrigger EventName="Click">
-                                        <Command:EventToCommand Command="{Binding ElementName=ContentPanel, Path=DataContext.DeleteAllTransactionCommand, Mode=OneWay}"/> <!--PassEventArgsToCommand="True" CommandParameter="{Binding}"--> 
+                                    <Command:EventToCommand Command="{Binding Source={StaticResource Locator}, Path=EditAccount.DeleteAllTransactionCommand, Mode=OneWay}"/> <!--PassEventArgsToCommand="True" CommandParameter="{Binding}"--> 
 							    	</Interactivity:EventTrigger>
 							    </Interactivity:Interaction.Triggers>
 						</Button>
