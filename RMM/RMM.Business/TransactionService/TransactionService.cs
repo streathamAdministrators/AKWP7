@@ -197,6 +197,8 @@ namespace RMM.Business.TransactionService
                         }
                     }
 
+                    entityToUpdate.Description = transactionToUpdate.Description;
+
                     entityToUpdate.Balance = transactionToUpdate.Balance;
 
                     entityToUpdate.CreatedDate = DateTime.Now;

@@ -26,5 +26,7 @@ namespace RMM.Phone.ViewData.Account
 
         public List<TransactionViewData> ListTransaction { get; set; }
 
+
+
     }
 }

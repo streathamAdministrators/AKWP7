@@ -25,6 +25,7 @@ namespace RMM.Business.ExtensionMethods
 
                     newtransactionDto.Id = Objectsource.transactionid;
                     newtransactionDto.Name = Objectsource.Name;
+                    newtransactionDto.Description = Objectsource.Description;
                     newtransactionDto.Balance = Objectsource.Balance;
 
                     if (Objectsource.Category != null)
@@ -56,7 +57,6 @@ namespace RMM.Business.ExtensionMethods
         {
                 var newOptionDto = new OptionDto();
 
-                newOptionDto.Id = Objectsource.id;
                 newOptionDto.IsComparator = Objectsource.IsComparator;
                 newOptionDto.IsPassword = Objectsource.IsPassword;
                 newOptionDto.IsPrimaryTile = Objectsource.IsPrimaryTile;

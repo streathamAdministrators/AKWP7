@@ -7,7 +7,6 @@ namespace RMM.Business.OptionService
 {
     public class OptionDto
     {
-        public int Id { get; set; }
         public bool IsPassword { get; set; }
         public bool IsSynchro { get; set; }
         public bool IsPrimaryTile { get; set; }
