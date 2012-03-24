@@ -33,6 +33,7 @@ namespace RMM.Phone.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<AccountViewModel>();
+            SimpleIoc.Default.Register<CategoryViewModel>();
         }
 
         /// <summary>
@@ -54,6 +55,14 @@ namespace RMM.Phone.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<AccountViewModel>();
+            }
+        }
+
+        public CategoryViewModel Category
+        {
+            get 
+            {
+                return ServiceLocator.Current.GetInstance<CategoryViewModel>();
             }
         }
 

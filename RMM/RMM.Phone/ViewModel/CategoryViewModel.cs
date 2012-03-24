@@ -1,31 +1,31 @@
 ﻿using GalaSoft.MvvmLight;
-using RMM.Phone.ViewData.Account;
 using System.Collections.ObjectModel;
+using RMM.Phone.ViewData.Account;
 using System.Collections.Generic;
 
 namespace RMM.Phone.ViewModel
 {
-
-    public class AccountViewModel : ViewModelBase
+    public class CategoryViewModel : ViewModelBase
     {
-        public ObservableCollection<AccountViewData> ListeAccount { get; set; }
+        public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
         public List<TransactionViewData> ListeTransaction { get; set; }
 
+
         private string selectedIndex;
-        public string SelectedIndex 
+        public string SelectedIndex
         {
             get { return selectedIndex; }
-            set 
-            { 
+            set
+            {
                 selectedIndex = value;
                 RaisePropertyChanged("SelectedIndex");
             }
         }
 
-        public AccountViewModel()
+        public CategoryViewModel()
         {
-            ListeAccount = new ObservableCollection<AccountViewData>();
-            ListeTransaction = new List<TransactionViewData>(); 
+            ListeCategory = new ObservableCollection<CategoryViewData>();
+            ListeTransaction = new List<TransactionViewData>();
             LoadSampleData();
         }
 
@@ -34,7 +34,7 @@ namespace RMM.Phone.ViewModel
             //Account account = accountService.getAccountbyId(accountid);
             //selectedIndex = ListeAccount.IndexOf(account).ToString();
             SelectedIndex = "2";
-            
+
         }
 
         void LoadSampleData()
@@ -49,13 +49,9 @@ namespace RMM.Phone.ViewModel
             this.ListeTransaction.Add(new TransactionViewData() { ID = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
             this.ListeTransaction.Add(new TransactionViewData() { ID = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
 
-            this.ListeAccount.Add(new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200.95, Name = "Courant1", ListTransaction=this.ListeTransaction });
-            this.ListeAccount.Add(new AccountViewData() { Id = 2, BankName = "CA", Balance = 300, Name = "Courant2", ListTransaction = this.ListeTransaction });
-            this.ListeAccount.Add(new AccountViewData() { Id = 3, BankName = "CA", Balance = 400, Name = "Livret A", ListTransaction = this.ListeTransaction });
-
+            this.ListeCategory.Add(new CategoryViewData() { Id = 1, Name = "Holiday", Balance = 856, ListTransaction = this.ListeTransaction });
+            this.ListeCategory.Add(new CategoryViewData() { Id = 2, Name = "Food", Balance = 29, ListTransaction = this.ListeTransaction });
+            this.ListeCategory.Add(new CategoryViewData() { Id = 3, Name = "Home", Balance = 352, ListTransaction = this.ListeTransaction });
         }
-
-
-        
     }
 }

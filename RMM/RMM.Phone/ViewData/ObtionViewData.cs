@@ -13,5 +13,14 @@ namespace RMM.Phone.ViewData.Account
 {
     public class ObtionViewData
     {
+        public bool IsPassword { get; set; }
+
+        public bool IsSynchro { get; set; }
+
+        public bool IsPrimaryTile { get; set; }
+
+        public bool IsReport { get; set; }
+
+        public bool IsComparator { get; set; }
     }
 }
