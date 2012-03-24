@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RMM.Business.ObtionService
+namespace RMM.Business.OptionService
 {
-    public class ObtionDto
+    public class OptionDto
     {
         public int Id { get; set; }
         public bool IsPassword { get; set; }

@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using RMM.Business.ObtionService;
 using RMM.Phone.ViewData.Account;
 
 namespace RMM.Phone.automapper.Profiler

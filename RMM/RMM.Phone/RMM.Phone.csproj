@@ -120,7 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RMM.Business\RMM.Business.csproj">
-      <Project>{E0A530E4-B344-4093-BAA2-80B7971E44FA}</Project>
+      <Project>{F40BDCCD-D7E3-41DE-B394-B75077EA1130}</Project>
       <Name>RMM.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\RMM.Data\RMM.Data.csproj">

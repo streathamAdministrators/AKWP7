@@ -15,13 +15,5 @@ namespace RMM.Business.CategoryService
         public double Balance { get; set; }
 
         public string Color { get; set; }
-
-        public List<TransactionDto> TransactionList { get; set; }
-
-        public CategoryDto()
-        {
-            TransactionList = new List<TransactionDto>();
-        }
-
     }
 }

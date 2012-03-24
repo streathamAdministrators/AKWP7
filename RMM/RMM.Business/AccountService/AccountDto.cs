@@ -17,12 +17,5 @@ namespace RMM.Business.AccountService
         public double Balance { get; set; }
 
         public string PhotoUrl { get; set; }
-
-        public List<TransactionDto> TransactionList { get; set; }
-
-        public AccountDto()
-        {
-            TransactionList = new List<TransactionDto>();
-        }
     }
 }

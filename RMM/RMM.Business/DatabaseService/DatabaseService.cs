@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RMM.Data;
 
 namespace RMM.Business.DatabaseService
 {
@@ -9,7 +10,7 @@ namespace RMM.Business.DatabaseService
     {
         public void Initialize()
         {
-           
+            RmmConfiguration.Initialize();
         }
     }
 }

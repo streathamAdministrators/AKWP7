@@ -14,10 +14,9 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using RMM.Business.AccountService;
 using RMM.Business.CategoryService;
-using RMM.Business.ObtionService;
 using RMM.Business.TransactionService;
 using RMM.Phone.automapper;
-using RMM.Business.automapper;
+using RMM.Business.OptionService;
 
 namespace RMM.Phone.BusinessModel
 {
@@ -32,7 +31,7 @@ namespace RMM.Phone.BusinessModel
             #region Register Services
             SimpleIoc.Default.Register<IAccountService, AccountService>();
             SimpleIoc.Default.Register<ICategoryService, CategoryService>();
-            SimpleIoc.Default.Register<IObtionService, ObtionService>();
+            SimpleIoc.Default.Register<IOptionService, OptionService>();
             SimpleIoc.Default.Register<ITransactionService, TransactionService>();
             #endregion
 
