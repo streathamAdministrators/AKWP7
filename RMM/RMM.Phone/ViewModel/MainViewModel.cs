@@ -92,65 +92,6 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
-        //#region BOOLOPTION
-
-        //private bool isPassword = false;
-        //public bool IsPassword
-        //{
-        //    get { return isPassword; }
-        //    set
-        //    {
-        //        isPassword = value;
-        //        RaisePropertyChanged("IsPassword");
-        //    }
-        //}
-
-        //private bool isSynchro = false;
-        //public bool IsSynchro
-        //{
-        //    get { return isSynchro; }
-        //    set
-        //    {
-        //        isSynchro = value;
-        //        RaisePropertyChanged("IsSynchro");
-        //    }
-        //}
-
-        //private bool isTile = false;
-        //public bool IsTile
-        //{
-        //    get { return isTile; }
-        //    set
-        //    {
-        //        isTile = value;
-        //        RaisePropertyChanged("IsTile");
-        //    }
-        //}
-
-        //private bool isReport = false;
-        //public bool IsReport
-        //{
-        //    get { return isReport; }
-        //    set
-        //    {
-        //        isReport = value;
-        //        RaisePropertyChanged("IsReport");
-        //    }
-        //}
-
-        //private bool isComparator = false;
-        //public bool IsComparator 
-        //{
-        //    get { return isComparator; }
-        //    set 
-        //    { 
-        //        isComparator = value;
-        //        RaisePropertyChanged("IsComparator");
-        //    }
-        //}
-
-        //#endregion
-
         #region COMMAND
 
         public RelayCommand<SelectionChangedEventArgs> AccountSelectedCommand { get; set; }
@@ -159,6 +100,10 @@ namespace RMM.Phone.ViewModel
         public RelayCommand<AccountViewData> EditAccountCommand { get; set; }
         public RelayCommand<AccountViewData> DeleteAccountCommand { get; set; }
         public RelayCommand<AccountViewData> FavoriteAccountCommand { get; set; }
+
+        public RelayCommand<CategoryViewData> EditCategoryCommand { get; set; }
+        public RelayCommand<CategoryViewData> DeleteCategoryCommand { get; set; }
+        public RelayCommand<CategoryViewData> FavoriteCategoryCommand { get; set; }
 
         #endregion
 
@@ -188,6 +133,10 @@ namespace RMM.Phone.ViewModel
             DeleteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleDeleteAccountTaskSelected(args));
             FavoriteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleFavoriteAccountTaskSelected(args));
 
+            EditCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleEditCategoryTaskSelected(args));
+            DeleteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleDeleteCategoryTaskSelected(args));
+            FavoriteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleFavoriteCategoryTaskSelected(args));
+
 
             DatabaseService = databaseService;
             AccountService = accountService;
@@ -196,7 +145,7 @@ namespace RMM.Phone.ViewModel
             OptionService = optionService;
 
             //A VIRER
-           var isAlreadyCreated = DatabaseService.Initialize();
+            var isAlreadyCreated = DatabaseService.Initialize();
 
            if (isAlreadyCreated)
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
@@ -293,6 +242,34 @@ namespace RMM.Phone.ViewModel
             //AJOUTER L'ACCOUNT AUX FAVORIS
         }
 
+
+        private void HandleEditCategoryTaskSelected(CategoryViewData args)
+        {
+            if (args != null)
+            {
+                var rootFrame = (App.Current as App).RootFrame;
+                rootFrame.Navigate(new System.Uri("/View/EditCategory.xaml?categoryId=" + args.Id.ToString(), System.UriKind.Relative));
+            }
+        }
+
+        private void HandleDeleteCategoryTaskSelected(CategoryViewData args)
+        {
+            if (args != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?", "Delete a category", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    //LANCER LA COMMANDE DELETEACCOUNTBYID
+                }
+            }
+        }
+
+        private void HandleFavoriteCategoryTaskSelected(CategoryViewData args)
+        {
+            //AJOUTER L'ACCOUNT AUX FAVORIS
+        }
+
+
         private void HandleAccountTaskSelected(SelectionChangedEventArgs args)
         {
             if (args == null) { return; }
@@ -300,7 +277,6 @@ namespace RMM.Phone.ViewModel
 
             var rootFrame = (App.Current as App).RootFrame;
             rootFrame.Navigate(new System.Uri("/View/AccountPivot.xaml?accountId=" + account.Id.ToString(), System.UriKind.Relative));
-
         }
 
         private void HandleCategoryTaskSelected(SelectionChangedEventArgs args)
