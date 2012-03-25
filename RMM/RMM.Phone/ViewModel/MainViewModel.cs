@@ -113,6 +113,8 @@ namespace RMM.Phone.ViewModel
         public AccountViewData FavoriteAccount { get; set; }
         public OptionViewData OptionViewDataObj { get; set; }
 
+        //public int SelectIndex { get; set; }
+
         #region Services
 
         public IDatabaseService DatabaseService { get; set; }
@@ -159,6 +161,21 @@ namespace RMM.Phone.ViewModel
             SetOption();
             SetFavori();
 
+        }
+
+        public void RefreshAccountAfterUpdate()
+        {
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            SetListAccount();
+            RaisePropertyChanged("ListeAccount");
+        }
+
+        public void RefreshCategoryAfterUpdate()
+        {
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            SetListCategory();
+            RaisePropertyChanged("ListeCategory");
+            //SelectIndex = 2;
         }
 
         private void SetFavori()
@@ -232,7 +249,8 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?"  , "Delete an account", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    AccountService.DeleteAccountById(args.Id);
+                    var resultat = AccountService.DeleteAccountById(args.Id);
+                    RaisePropertyChanged("ListeAccount");
                 }
             }
         }

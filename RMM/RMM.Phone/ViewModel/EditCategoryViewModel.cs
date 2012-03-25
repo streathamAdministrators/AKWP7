@@ -52,7 +52,12 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            CategoryService.UpdateCategory(Category.ToCategoryDto());
+            var result = CategoryService.UpdateCategory(Category.ToCategoryDto());
+            if (result.IsValid)
+            {
+                var rootFrame = (App.Current as App).RootFrame;
+                rootFrame.Navigate(new System.Uri("/MainPage.xaml?update=category", System.UriKind.Relative));
+            }
         }
 
         void HandleCancelTaskSelected()

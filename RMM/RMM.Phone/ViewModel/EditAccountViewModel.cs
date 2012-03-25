@@ -51,7 +51,12 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            Accountservice.UpdateAccount(Account.ToAccountDto());
+            var result =  Accountservice.UpdateAccount(Account.ToAccountDto());
+            if (result.IsValid)
+            {
+                var rootFrame = (App.Current as App).RootFrame;
+                rootFrame.Navigate(new System.Uri("/MainPage.xaml?update=account", System.UriKind.Relative));
+            }
         }
 
         void HandleCancelTaskSelected()
