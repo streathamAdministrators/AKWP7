@@ -26,7 +26,7 @@ namespace RMM.Data.Model
         public string PhotoUrl { get; set; }
 
         private EntitySet<Transaction> transactionList = new EntitySet<Transaction>();
-        [Association(Name = "FK_Account_Transaction", Storage = "transactionList", ThisKey = "id", OtherKey = "transactionid")]
+        [Association(Storage = "transactionList", ThisKey = "id", OtherKey = "transactionid")]
         public EntitySet<Transaction> TransactionList 
         {
             get { return this.transactionList; }

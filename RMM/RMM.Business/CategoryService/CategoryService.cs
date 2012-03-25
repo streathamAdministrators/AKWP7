@@ -109,7 +109,7 @@ namespace RMM.Business.CategoryService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var categories = (from t in datacontext.Category
-                                    select t).ToList();
+                                      select t).ToList();
 
                     var listeDto = new List<CategoryDto>();
 

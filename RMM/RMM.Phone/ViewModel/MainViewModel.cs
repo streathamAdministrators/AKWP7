@@ -12,7 +12,9 @@ using RMM.Business.TransactionService;
 using RMM.Business.OptionService;
 using RMM.Business.DatabaseService;
 using RMM.Business;
+using System.Linq;
 using RMM.Phone.ExtensionMethods;
+using System.Collections.Generic;
 
 
 namespace RMM.Phone.ViewModel
@@ -164,7 +166,6 @@ namespace RMM.Phone.ViewModel
 
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
         public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
-        public ObservableCollection<TransactionViewData> ListeFavorite { get; set; }
 
         public AccountViewData FavoriteAccount { get; set; }
         public OptionViewData OptionViewDataObj { get; set; }
@@ -205,14 +206,41 @@ namespace RMM.Phone.ViewModel
 
             this.ListeAccount = new ObservableCollection<AccountViewData>();
             this.ListeCategory = new ObservableCollection<CategoryViewData>();
-            this.ListeFavorite = new ObservableCollection<TransactionViewData>();
 
             SetListAccount();
             SetListCategory();
             SetOption();
+            SetFavori();
+
+        }
+
+        private void SetFavori()
+        {
+
+            FavoriteAccount = this.ListeAccount.First();
+            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id);
+
+
+            var listFavorie = new List<TransactionViewData>();
+
+            if (resultatFavoriteTransaction.IsValid)
+                foreach (var dto in resultatFavoriteTransaction.Value)
+                {
+                    var viewData = dto.ToTransactionViewData();
+
+                    var category = CategoryService.GetCategoryById(dto.CategoryId);
+
+                    if (category.IsValid)
+                        viewData.Category = category.Value.ToCategoryViewData();
+
+                    listFavorie.Add(viewData);
+                }
+
+            
 
 
 
+            FavoriteAccount.ListTransaction = listFavorie;
         }
 
         private void SetListAccount()
@@ -241,10 +269,6 @@ namespace RMM.Phone.ViewModel
               OptionViewDataObj = resultOption.Value.ToOptionViewData();
 
         }
-
-
-
-
 
 
         #region Handle on Task Selected
@@ -297,30 +321,5 @@ namespace RMM.Phone.ViewModel
         }
 
         #endregion
-
-
-        void LoadSampleData() 
-        {
-            var sampleCategory = new CategoryViewData() { Id = 1 , Name = "Holiday" , Balance = 856 };
-            var sampleCategory2 = new CategoryViewData() { Id = 2 , Name = "Food" , Balance = 29 } ;
-            var sampleAccount = new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200, Name = "Courant1" };
-
-            this.ListeAccount.Add(sampleAccount);
-            this.ListeAccount.Add(new AccountViewData() { Id = 2, BankName = "CA", Balance = 300, Name = "Courant2" });
-            this.ListeAccount.Add(new AccountViewData() { Id = 3, BankName = "CA", Balance = 400, Name = "Livret A" });
-
-            this.ListeCategory.Add(sampleCategory);
-            this.ListeCategory.Add(sampleCategory2);
-            this.ListeCategory.Add(new CategoryViewData() { Id = 3, Name = "Home", Balance = 352 });
-
-            this.ListeFavorite.Add(new TransactionViewData() { Id = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
-            this.ListeFavorite.Add(new TransactionViewData() { Id = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
-            this.ListeFavorite.Add(new TransactionViewData() { Id = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
-            this.ListeFavorite.Add(new TransactionViewData() { Id = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
-            this.ListeFavorite.Add(new TransactionViewData() { Id = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
-
-            FavoriteAccount = sampleAccount;
-        }
-
     }
 }

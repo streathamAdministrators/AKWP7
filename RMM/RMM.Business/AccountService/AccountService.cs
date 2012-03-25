@@ -107,7 +107,7 @@ namespace RMM.Business.AccountService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var accounts = (from t in datacontext.Account
-                                   select t).ToList();
+                                    select t).ToList();
 
                     var listeDto = new List<AccountDto>();
 

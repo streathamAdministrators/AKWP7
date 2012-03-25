@@ -34,10 +34,6 @@ namespace RMM.Business
             c2.Color = "FFA640";
             c2.Name = "Profesionnel";
 
-            var listeCategory = new List<CategoryDto>();
-            listeCategory.Add(c1);
-            listeCategory.Add(c2);
-
             #endregion
 
             #region Accounts
@@ -57,10 +53,7 @@ namespace RMM.Business
             na3.BankName = "HSBC";
             na3.Name = "Mon compte epargne HSBC";
 
-            var listeAccount = new List<AccountDto>();
-            listeAccount.Add(na1);
-            listeAccount.Add(na2);
-            listeAccount.Add(na3);
+       
 
             #endregion
 
@@ -91,14 +84,18 @@ namespace RMM.Business
 
             #region Ajout Données
 
-            listeAccount.ForEach(accountDto => AccountService.CreateAccount(accountDto));
-            listeCategory.ForEach(categoryDto => CategoryService.CreateCategory(categoryDto));
+            na1 = AccountService.CreateAccount(na1).Value;
+            na2 = AccountService.CreateAccount(na2).Value;
+            na3 = AccountService.CreateAccount(na3).Value;
+
+            c1 = CategoryService.CreateCategory(c1).Value;
+            c2 = CategoryService.CreateCategory(c2).Value;
 
             #endregion
 
 
 
-            #region Ajout 20 transactions
+            #region Ajout 26 transactions
 
             var t1 = new TransactionDto() { Name = "redevance tv", AccountId = na1.Id, Balance = -100, Description="test de la description" };
             var t2 = new TransactionDto() { Name = "les courses", AccountId = na1.Id, Balance = -80, Description = "test de la description" };
@@ -158,7 +155,7 @@ namespace RMM.Business
 
             #endregion
 
-            listDeTransaction.ForEach(transac => TransactionService.CreateTransaction(transac));
+            listDeTransaction.ForEach(transacDto => TransactionService.CreateTransaction(transacDto));
 
             OptionService.SetFirstTimeOption();
         }
