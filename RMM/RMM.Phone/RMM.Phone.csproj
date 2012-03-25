@@ -91,16 +91,16 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessModel\BusinessLocator.cs" />
-    <Compile Include="UControl\ListUC.xaml.cs">
-      <DependentUpon>ListUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewData\AccountViewData.cs" />
     <Compile Include="ViewData\CategoryViewData.cs" />
     <Compile Include="ViewData\OptionViewData.cs" />
     <Compile Include="ViewData\TransactionViewData.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\CreateAccountViewModel.cs" />
+    <Compile Include="ViewModel\CreateCategoryViewModel.cs" />
     <Compile Include="ViewModel\EditAccountViewModel.cs" />
+    <Compile Include="ViewModel\EditCategoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AccountPivot.xaml.cs">
@@ -109,8 +109,17 @@
     <Compile Include="View\CategoryPivot.xaml.cs">
       <DependentUpon>CategoryPivot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CreateAccount.xaml.cs">
+      <DependentUpon>CreateAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CreateCategory.xaml.cs">
+      <DependentUpon>CreateCategory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditAccount.xaml.cs">
       <DependentUpon>EditAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditCategory.xaml.cs">
+      <DependentUpon>EditCategory.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +131,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UControl\ListUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\AccountPivot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,7 +139,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CreateAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditCategory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

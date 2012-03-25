@@ -1,13 +1,4 @@
-﻿/*
-  In App.xaml:
-  <Application.Resources>
-      <vm:ViewModelLocatorTemplate xmlns:vm="clr-namespace:RMM.Phone.ViewModel"
-                                   x:Key="Locator" />
-  </Application.Resources>
-  
-  In the View:
-  DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-*/
+﻿
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -15,17 +6,7 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace RMM.Phone.ViewModel
 {
-    /// <summary>
-    /// This class contains static references to all the view models in the
-    /// application and provides an entry point for the bindings.
-    /// <para>
-    /// Use the <strong>mvvmlocatorproperty</strong> snippet to add ViewModels
-    /// to this locator.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm/getstarted
-    /// </para>
-    /// </summary>
+
     public class ViewModelLocator
     {
         static ViewModelLocator()
@@ -35,11 +16,11 @@ namespace RMM.Phone.ViewModel
             SimpleIoc.Default.Register<AccountViewModel>();
             SimpleIoc.Default.Register<CategoryViewModel>();
             SimpleIoc.Default.Register<EditAccountViewModel>();
+            SimpleIoc.Default.Register<EditCategoryViewModel>();
+            SimpleIoc.Default.Register<CreateAccountViewModel>();
+            SimpleIoc.Default.Register<CreateCategoryViewModel>();
         }
 
-        /// <summary>
-        /// Gets the Main property.
-        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
@@ -74,6 +55,30 @@ namespace RMM.Phone.ViewModel
                 return ServiceLocator.Current.GetInstance<EditAccountViewModel>();
             }
 
+        }
+
+        public EditCategoryViewModel EditCategory
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<EditCategoryViewModel>();
+            }
+        }
+
+        public CreateAccountViewModel CreateAccount
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CreateAccountViewModel>();
+            }
+        }
+
+        public CreateCategoryViewModel CreateCategory
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CreateCategoryViewModel>();
+            }
         }
 
         /// <summary>
