@@ -107,6 +107,9 @@
     <Compile Include="ViewModel\EditCategoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AccountPivot.xaml.cs">
       <DependentUpon>AccountPivot.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AccountPivot.xaml">
       <SubType>Designer</SubType>
@@ -167,6 +174,9 @@
   <ItemGroup>
     <Resource Include="ApplicationIcon.png" />
     <Resource Include="Background.png" />
+    <Content Include="icons\appbar.share.rest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SplashScreenImage.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

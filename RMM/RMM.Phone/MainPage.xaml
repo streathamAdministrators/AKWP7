@@ -16,7 +16,7 @@
 							Orientation="Portrait"
 							mc:Ignorable="d"
 							d:DesignWidth="480"
-							d:DesignHeight="768"
+							d:DesignHeight="696"
 							shell:SystemTray.IsVisible="True"
 							DataContext="{Binding Main, Source={StaticResource Locator}}"
 							tilt:TiltEffect.IsTiltEnabled="True">
@@ -24,7 +24,7 @@
 		<ControlTemplate x:Key="PlusControlTemplate" TargetType="Button">
 			<Grid>
 				<Ellipse Fill="Transparent" Stroke="White" StrokeThickness="3"/>
-				<ContentPresenter HorizontalAlignment="Center" Margin="0,-4,0,3" d:LayoutOverrides="Height"/>
+				<ContentPresenter HorizontalAlignment="Center" Margin="0,-7,0,3" d:LayoutOverrides="Height"/>
 			</Grid>
 		</ControlTemplate>
 	</phone:PhoneApplicationPage.Resources>
@@ -71,8 +71,8 @@
 										</toolkit:MenuItem>
 									</toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
-								<TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-								<TextBlock Text="{Binding BankName}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+								<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+								<TextBlock Text="{Binding BankName}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
@@ -83,11 +83,11 @@
 			<!--Panorama item 2 FAVORITE-->
 			<controls:PanoramaItem Header="{Binding Path=FavTransactionHeader}">
 				<StackPanel>
-					<StackPanel Orientation="Horizontal" Height="47">
+                    <StackPanel Orientation="Horizontal" Height="61">
 						 <TextBlock Text="{Binding Path=FavoriteAccount.Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" Height="53" Width="320" />
-						 <Button Content="+" Template="{StaticResource PlusControlTemplate}" Width="90" Height="90" FontSize="64" Margin="-20,-100,0,0" d:LayoutOverrides="Height"/>          	
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Height="31">
+                         <Button Content="+" Template="{StaticResource PlusControlTemplate}" Width="60" Height="60" FontSize="48" Margin="0,0,0,0" d:LayoutOverrides="Height"/>
+                    </StackPanel>
+					<StackPanel Orientation="Horizontal" Height="31" Margin="0,15,0,0">
 						 <TextBlock Text="TOTAL" FontWeight="Bold"></TextBlock>
 						 <Rectangle Fill="White" Stroke="#FFFFF7F7" Width="64" HorizontalAlignment="Right"  RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="1" Margin="218,15,0,15">
 												<Rectangle.RenderTransform>
@@ -100,33 +100,33 @@
 					<ListBox x:Name="FavoriteListBox" SelectionMode="Single" ItemsSource="{Binding Path=FavoriteAccount.ListTransaction}" FontSize="20">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
-								<StackPanel>
-									<Rectangle Fill="White" Stroke="Black" Width="440" HorizontalAlignment="Right" Height="3" d:LayoutOverrides="VerticalAlignment"/>
-									<StackPanel Orientation="Horizontal">
-										<Grid Background="Black">
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="100"/>
-												<ColumnDefinition Width="194"/>
-												<ColumnDefinition Width="12"/>
-												<ColumnDefinition Width="140"/>
-											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" Text="{Binding Path=Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-											<TextBlock Grid.Column="1" Text="{Binding Path=Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-											<Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
-												<Rectangle.RenderTransform>
-													<CompositeTransform Rotation="-90"/>
-												</Rectangle.RenderTransform>
-											</Rectangle>
-											<TextBlock Grid.Column="3" Text="{Binding Path=Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
-										</Grid>
-									</StackPanel>
-								</StackPanel>
-							</DataTemplate>
+                                <StackPanel>
+                                    <Rectangle Fill="White" Stroke="Black" Width="440" HorizontalAlignment="Right" Height="3" d:LayoutOverrides="VerticalAlignment"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid Background="Black">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="194"/>
+                                                <ColumnDefinition Width="12"/>
+                                                <ColumnDefinition Width="140"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Path=Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                            <Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
+                                                <Rectangle.RenderTransform>
+                                                    <CompositeTransform Rotation="-90"/>
+                                                </Rectangle.RenderTransform>
+                                            </Rectangle>
+                                            <TextBlock Grid.Column="3" Text="{Binding Path=Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
 
 				</StackPanel>
-				
 			</controls:PanoramaItem>
 
 			<!--Panorama item CATEGORY-->
@@ -141,8 +141,33 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Margin="0,0,0,17" Width="432" Height="90">
-								<TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-								<TextBlock Text="{Binding Balance}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu x:Name="AccountContextMenu">
+                                        <toolkit:MenuItem Header="edit this category" Tag="{Binding}">
+                                            <Interactivity:Interaction.Triggers>
+                                                <Interactivity:EventTrigger EventName="Click">
+                                                    <Command:EventToCommand Command="{Binding ElementName=CategoryListBox, Path=DataContext.EditCategoryCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+                                                </Interactivity:EventTrigger>
+                                            </Interactivity:Interaction.Triggers>
+                                        </toolkit:MenuItem>
+                                        <toolkit:MenuItem Header="add to favorite" >
+                                            <Interactivity:Interaction.Triggers>
+                                                <Interactivity:EventTrigger EventName="Click">
+                                                    <Command:EventToCommand Command="{Binding ElementName=CategoryListBox, Path=DataContext.FavoriteCategoryCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+                                                </Interactivity:EventTrigger>
+                                            </Interactivity:Interaction.Triggers>
+                                        </toolkit:MenuItem>
+                                        <toolkit:MenuItem Header="delete this category" >
+                                            <Interactivity:Interaction.Triggers>
+                                                <Interactivity:EventTrigger EventName="Click">
+                                                    <Command:EventToCommand Command="{Binding ElementName=CategoryListBox, Path=DataContext.DeleteCategoryCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+                                                </Interactivity:EventTrigger>
+                                            </Interactivity:Interaction.Triggers>
+                                        </toolkit:MenuItem>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                <TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+								<TextBlock Text="{Binding Balance}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
@@ -179,18 +204,17 @@
 		</controls:Panorama>
 	</Grid>
 	
-	<!-- Sample code showing usage of ApplicationBar
+	 <!--Sample code showing usage of ApplicationBar-->
 	<phone:PhoneApplicationPage.ApplicationBar>
 		<shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-			<shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/Images/appbar_button1.png" Text="Button 1"></shell:ApplicationBarIconButton>
-			<shell:ApplicationBarIconButton x:Name="appbar_button2" IconUri="/Images/appbar_button2.png" Text="Button 2"></shell:ApplicationBarIconButton>
+			<shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/icons/appbar.share.rest.png" Text="About" Click="appbar_button1_Click" ></shell:ApplicationBarIconButton>
 			<shell:ApplicationBar.MenuItems>
-				<shell:ApplicationBarMenuItem x:Name="menuItem1" Text="MenuItem 1"></shell:ApplicationBarMenuItem>
-				<shell:ApplicationBarMenuItem x:Name="menuItem2" Text="MenuItem 2"></shell:ApplicationBarMenuItem>
+				<shell:ApplicationBarMenuItem x:Name="addAccountMenuItem" Text="add account" Click="addAccountMenuItem_Click"></shell:ApplicationBarMenuItem>
+				<shell:ApplicationBarMenuItem x:Name="addCategoryMenuItem" Text="add category" Click="addCategoryMenuItem_Click"/>
 			</shell:ApplicationBar.MenuItems>
 		</shell:ApplicationBar>
 	</phone:PhoneApplicationPage.ApplicationBar>
-	-->
+	
 
 
 </phone:PhoneApplicationPage>

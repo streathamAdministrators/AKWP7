@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using RMM.Phone.ViewData.Account;
 using GalaSoft.MvvmLight.Command;
+using System.Windows;
 
 namespace RMM.Phone.ViewModel
 {
@@ -30,7 +31,11 @@ namespace RMM.Phone.ViewModel
 
         void HandleDeleteAllTransactionTaskSelected()
         {
-            //LANCER LE DELETE ICI
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete this account ?", "delete " + Account.Name, MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                //LANCER LE DELETE ICI
+            }
         }
 
         void HandleUpdateTaskSelected()
