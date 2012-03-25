@@ -23,8 +23,12 @@ namespace RMM.Data.Model
         [Column]
         public double Balance { get; set; }
 
-        private EntityRef<AccountEntity> account = new EntityRef<AccountEntity>();
-        [Association(Name = "FK_Account_Transaction", Storage = "account", ThisKey = "transactionid", OtherKey = "id")]
+        [Column]
+        internal int? _accountId;
+
+        private EntityRef<AccountEntity> account;
+
+        [Association(Storage = "account", ThisKey = "_accountId", OtherKey = "id", IsForeignKey=true)]
         public AccountEntity Account 
         {
             get { return this.account.Entity; }

@@ -99,9 +99,7 @@ namespace RMM.Business.TransactionService
 
                     datacontext.LoadOptions = options;
 
-                    var transactions = (from t in datacontext.Transaction
-                                       where t.Account.id == accountId
-                                       select t).ToList();
+                    var transactions = datacontext.Transaction.Where(t => t.Account.id == accountId).ToList();
 
                     
                     var listeDeTransactionVerifiee = new List<TransactionDto>();
@@ -137,7 +135,7 @@ namespace RMM.Business.TransactionService
                         entity.Category = attachedCategoryEntity;
                     }
 
-                    if (transaction.CategoryId != 0)
+                    if (transaction.AccountId != 0)
                     {
                         attachedAccountEntity = datacontext.Account.Where(c => c.id == transaction.AccountId).First();
                         entity.Account = attachedAccountEntity;
@@ -211,6 +209,24 @@ namespace RMM.Business.TransactionService
             }, () => "erreur");
 
 
+        }
+
+
+        public Result<List<TransactionDto>> GetAllTransactions()
+        {
+            return Result<List<TransactionDto>>.SafeExecute<TransactionService>(result =>
+            {
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var query = datacontext.Transaction.ToList();
+
+                    var listedto = new List<TransactionDto>();
+
+                    query.ForEach(transac => listedto.Add(transac.ToTransactionDto()));
+
+                    result.Value = listedto;
+                }
+            }, () => "erreur");
         }
     }
 }

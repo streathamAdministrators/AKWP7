@@ -24,6 +24,8 @@ namespace RMM.Business.TransactionService
 
         //Passage d'un dto en param apres
         Result<TransactionDto> UpdateTransaction(TransactionDto transactionToUpdate);
+
+        Result<List<TransactionDto>> GetAllTransactions();
         
     }
 }

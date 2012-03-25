@@ -96,8 +96,8 @@
 											</Rectangle>
 						 <TextBlock Text="6525" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86"  />
 					</StackPanel>
-					
-					<ListBox x:Name="FavoriteListBox" SelectionMode="Single" ItemsSource="{Binding ListeFavorite}" FontSize="20">
+
+                    <ListBox x:Name="FavoriteListBox" SelectionMode="Single" ItemsSource="{Binding Path=FavoriteAccount.ListTransaction}" FontSize="20">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel>
@@ -110,14 +110,14 @@
 												<ColumnDefinition Width="12"/>
 												<ColumnDefinition Width="140"/>
 											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" Text="{Binding Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-											<TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="0" Text="{Binding Path=Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
 											<Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
 												<Rectangle.RenderTransform>
 													<CompositeTransform Rotation="-90"/>
 												</Rectangle.RenderTransform>
 											</Rectangle>
-											<TextBlock Grid.Column="3" Text="{Binding Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
+                                            <TextBlock Grid.Column="3" Text="{Binding Path=Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
 										</Grid>
 									</StackPanel>
 								</StackPanel>
