@@ -15,8 +15,8 @@ using Microsoft.Practices.ServiceLocation;
 using RMM.Business.AccountService;
 using RMM.Business.CategoryService;
 using RMM.Business.TransactionService;
-using RMM.Phone.automapper;
 using RMM.Business.OptionService;
+using RMM.Business.DatabaseService;
 
 namespace RMM.Phone.BusinessModel
 {
@@ -33,6 +33,7 @@ namespace RMM.Phone.BusinessModel
             SimpleIoc.Default.Register<ICategoryService, CategoryService>();
             SimpleIoc.Default.Register<IOptionService, OptionService>();
             SimpleIoc.Default.Register<ITransactionService, TransactionService>();
+            SimpleIoc.Default.Register<IDatabaseService, DatabaseService>();
             #endregion
 
             //Register mappings

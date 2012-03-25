@@ -7,6 +7,6 @@ namespace RMM.Business.DatabaseService
 {
    public interface IDatabaseService
     {
-       void Initialize();
+       bool Initialize();
     }
 }

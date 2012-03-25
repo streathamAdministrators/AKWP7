@@ -14,7 +14,7 @@ using RMM.Business.AccountService;
 using RMM.Business.OptionService;
 using RMM.Business.CategoryService;
 
-namespace RMM.Phone.automapper
+namespace RMM.Phone.ExtensionMethods
 {
     public static class ObjectsExtensionsToViewData
     {

@@ -13,13 +13,14 @@ using RMM.Business.CategoryService;
 using RMM.Business.AccountService;
 using RMM.Business.TransactionService;
 using System.Collections.Generic;
+using RMM.Business.OptionService;
 
 namespace RMM.Business
 {
     public class DumpMyDBSQLCE
     {
 
-        public static void ProcessDatasOnDB(IAccountService AccountService, ICategoryService CategoryService, ITransactionService TransactionService)
+        public static void ProcessDatasOnDB(IAccountService AccountService, ICategoryService CategoryService, ITransactionService TransactionService, IOptionService OptionService)
         {
             #region Categories
 
@@ -159,7 +160,7 @@ namespace RMM.Business
 
             listDeTransaction.ForEach(transac => TransactionService.CreateTransaction(transac));
 
-
+            OptionService.SetFirstTimeOption();
         }
 
     }

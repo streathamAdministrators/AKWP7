@@ -7,6 +7,12 @@ using System.Windows.Controls;
 using System;
 using System.Windows.Navigation;
 using System.Windows;
+using RMM.Business.AccountService;
+using RMM.Business.TransactionService;
+using RMM.Business.OptionService;
+using RMM.Business.DatabaseService;
+using RMM.Business;
+using RMM.Phone.ExtensionMethods;
 
 
 namespace RMM.Phone.ViewModel
@@ -84,64 +90,64 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
-        #region BOOLOPTION
+        //#region BOOLOPTION
 
-        private bool isPassword = false;
-        public bool IsPassword
-        {
-            get { return isPassword; }
-            set
-            {
-                isPassword = value;
-                RaisePropertyChanged("IsPassword");
-            }
-        }
+        //private bool isPassword = false;
+        //public bool IsPassword
+        //{
+        //    get { return isPassword; }
+        //    set
+        //    {
+        //        isPassword = value;
+        //        RaisePropertyChanged("IsPassword");
+        //    }
+        //}
 
-        private bool isSynchro = false;
-        public bool IsSynchro
-        {
-            get { return isSynchro; }
-            set
-            {
-                isSynchro = value;
-                RaisePropertyChanged("IsSynchro");
-            }
-        }
+        //private bool isSynchro = false;
+        //public bool IsSynchro
+        //{
+        //    get { return isSynchro; }
+        //    set
+        //    {
+        //        isSynchro = value;
+        //        RaisePropertyChanged("IsSynchro");
+        //    }
+        //}
 
-        private bool isTile = false;
-        public bool IsTile
-        {
-            get { return isTile; }
-            set
-            {
-                isTile = value;
-                RaisePropertyChanged("IsTile");
-            }
-        }
+        //private bool isTile = false;
+        //public bool IsTile
+        //{
+        //    get { return isTile; }
+        //    set
+        //    {
+        //        isTile = value;
+        //        RaisePropertyChanged("IsTile");
+        //    }
+        //}
 
-        private bool isReport = false;
-        public bool IsReport
-        {
-            get { return isReport; }
-            set
-            {
-                isReport = value;
-                RaisePropertyChanged("IsReport");
-            }
-        }
+        //private bool isReport = false;
+        //public bool IsReport
+        //{
+        //    get { return isReport; }
+        //    set
+        //    {
+        //        isReport = value;
+        //        RaisePropertyChanged("IsReport");
+        //    }
+        //}
 
-        private bool isComparator = false;
-        public bool IsComparator 
-        {
-            get { return isComparator; }
-            set 
-            { 
-                isComparator = value;
-                RaisePropertyChanged("IsComparator");
-            }
-        }
+        //private bool isComparator = false;
+        //public bool IsComparator 
+        //{
+        //    get { return isComparator; }
+        //    set 
+        //    { 
+        //        isComparator = value;
+        //        RaisePropertyChanged("IsComparator");
+        //    }
+        //}
 
-        #endregion
+        //#endregion
 
         #region COMMAND
 
@@ -157,13 +163,22 @@ namespace RMM.Phone.ViewModel
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
         public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
         public ObservableCollection<TransactionViewData> ListeFavorite { get; set; }
-        public AccountViewData FavoriteAccount { get; set; }
 
-        public MainViewModel()
+        public AccountViewData FavoriteAccount { get; set; }
+        public OptionViewData OptionViewDataObj { get; set; }
+
+        #region Services
+
+        public IDatabaseService DatabaseService { get; set; }
+        public IAccountService AccountService { get; set; }
+        public ICategoryService CategoryService { get; set; }
+        public IOptionService OptionService { get; set; }
+        public ITransactionService TransactionService { get; set; }
+
+        #endregion
+
+        public MainViewModel(IAccountService accountService, ICategoryService categoryService, ITransactionService transactionService, IOptionService optionService, IDatabaseService databaseService)
         {
-            this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>();
-            this.ListeFavorite = new ObservableCollection<TransactionViewData>();
 
             AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
             CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
@@ -172,9 +187,65 @@ namespace RMM.Phone.ViewModel
             DeleteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleDeleteAccountTaskSelected(args));
             FavoriteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleFavoriteAccountTaskSelected(args));
 
-            LoadSampleData();
-            IsSynchro = true;
+
+            DatabaseService = databaseService;
+            AccountService = accountService;
+            TransactionService = transactionService;
+            CategoryService = categoryService;
+            OptionService = optionService;
+
+            //A VIRER
+           var isAlreadyCreated = DatabaseService.Initialize();
+
+           if (isAlreadyCreated)
+            DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
+
+
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            this.ListeFavorite = new ObservableCollection<TransactionViewData>();
+
+            SetListAccount();
+            SetListCategory();
+            SetOption();
+
+
+
         }
+
+        private void SetListAccount()
+        {
+            var resultatAccountService = AccountService.GetAllAccounts();
+            if (resultatAccountService.IsValid)
+            {
+                resultatAccountService.Value.ForEach(dto => this.ListeAccount.Add(dto.ToAccountViewData()));
+            }
+        }
+
+        private void SetListCategory()
+        {
+            var resultatCategoryService = CategoryService.GetAllCategories();
+            if (resultatCategoryService.IsValid)
+            {
+                resultatCategoryService.Value.ForEach(dto => this.ListeCategory.Add(dto.ToCategoryViewData()));
+            }
+        }
+
+        private void SetOption()
+        {
+          var resultOption =  OptionService.GetOption();
+
+          if (resultOption.IsValid)
+              OptionViewDataObj = resultOption.Value.ToOptionViewData();
+
+        }
+
+
+
+
+
+
+        #region Handle on Task Selected
 
         private void HandleEditAccountTaskSelected(AccountViewData args)
         {
@@ -221,7 +292,9 @@ namespace RMM.Phone.ViewModel
             var rootFrame = (App.Current as App).RootFrame;
             rootFrame.Navigate(new System.Uri("/View/CategoryPivot.xaml?categoryId=" + category.Id.ToString(), System.UriKind.Relative));
 
-        } 
+        }
+
+        #endregion
 
 
         void LoadSampleData() 
