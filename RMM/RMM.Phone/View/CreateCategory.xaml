@@ -6,13 +6,15 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tilt="clr-namespace:ControlTiltEffect"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding CreateCategory, Source={StaticResource Locator}}">
+    DataContext="{Binding CreateCategory, Source={StaticResource Locator}}"
+    tilt:TiltEffect.IsTiltEnabled="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -27,8 +29,21 @@
             <TextBlock x:Name="PageTitle" Text="new category" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"></Grid>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,101" DataContext="{Binding Path=Account}">
+            <ScrollViewer>
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="90">
+                        <TextBlock Text="Category name :" Style="{StaticResource PhoneTextAccentStyle}" Height="37" />
+                        <TextBox Text="{Binding Path=Name, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Margin="10,512,14,12" Grid.Row="1">
+            <Button Content="Save" Width="200" Command="{Binding Path=SaveCommand}"></Button>
+            <Button Content="Cancel" Width="200" Margin="55,0,0,0" Command="{Binding Path=CancelCommand}"></Button>
+        </StackPanel>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->

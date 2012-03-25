@@ -7,13 +7,17 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:MetroInMotion"
+    xmlns:tilt="clr-namespace:ControlTiltEffect"
+    xmlns:list="clr-namespace:ListAnimations"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding Account, Source={StaticResource Locator}}">
+    DataContext="{Binding Account, Source={StaticResource Locator}}"
+    tilt:TiltEffect.IsTiltEnabled="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -25,6 +29,7 @@
                 </DataTemplate>
             </controls:Pivot.HeaderTemplate>
             <controls:Pivot.ItemTemplate>
+                
                 <DataTemplate>
                     <StackPanel Margin="0,20,0,0">
                         <StackPanel Orientation="Horizontal" Height="31">
@@ -36,7 +41,7 @@
                             </Rectangle>
                             <TextBlock  Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86" Text="{Binding Path=Balance}" FontSize="20" />
                         </StackPanel>
-                        <ListBox ItemsSource="{Binding ListTransaction}">
+                        <ListBox ItemsSource="{Binding ListTransaction}" local:MetroInMotion.IsPivotAnimated="True" list:ListAnimation.IsPivotAnimated="True" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
@@ -49,14 +54,14 @@
                                                 <ColumnDefinition Width="12"/>
                                                 <ColumnDefinition Width="140"/>
                                             </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                                <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                            <Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
+                                                <TextBlock Grid.Column="0" Text="{Binding Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="1" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="2" />
+                                                <Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2" local:MetroInMotion.AnimationLevel="3">
                                                 <Rectangle.RenderTransform>
                                                     <CompositeTransform Rotation="-90"/>
                                                 </Rectangle.RenderTransform>
                                             </Rectangle>
-                                                <TextBlock Grid.Column="3" Text="{Binding Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="{Binding Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="1" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>

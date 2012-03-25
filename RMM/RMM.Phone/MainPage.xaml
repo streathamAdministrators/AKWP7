@@ -1,5 +1,4 @@
 ﻿<phone:PhoneApplicationPage xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"  x:Class="RMM.Phone.MainPage"
-							xmlns:uc="clr-namespace:RMM.Phone.UControl"
 							xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 							xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 							xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -9,6 +8,7 @@
 							xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 							xmlns:Interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 							xmlns:Command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71"
+							xmlns:tilt="clr-namespace:ControlTiltEffect"
 							FontFamily="{StaticResource PhoneFontFamilyNormal}"
 							FontSize="{StaticResource PhoneFontSizeNormal}"
 							Foreground="{StaticResource PhoneForegroundBrush}"
@@ -18,7 +18,8 @@
 							d:DesignWidth="480"
 							d:DesignHeight="768"
 							shell:SystemTray.IsVisible="True"
-							DataContext="{Binding Main, Source={StaticResource Locator}}">
+							DataContext="{Binding Main, Source={StaticResource Locator}}"
+							tilt:TiltEffect.IsTiltEnabled="True">
 	<phone:PhoneApplicationPage.Resources>
 		<ControlTemplate x:Key="PlusControlTemplate" TargetType="Button">
 			<Grid>
@@ -47,28 +48,28 @@
 							<StackPanel Margin="0,0,0,17" Width="432" Height="90">
 								<toolkit:ContextMenuService.ContextMenu>
 									<toolkit:ContextMenu x:Name="AccountContextMenu">
-                                        <toolkit:MenuItem Header="edit this account" Tag="{Binding}">
-                                            <Interactivity:Interaction.Triggers>
-                                                <Interactivity:EventTrigger EventName="Click">
-                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.EditAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
-                                                </Interactivity:EventTrigger>
-                                            </Interactivity:Interaction.Triggers>
-                                        </toolkit:MenuItem>
-                                        <toolkit:MenuItem Header="add to favorite" >
-                                            <Interactivity:Interaction.Triggers>
-                                                <Interactivity:EventTrigger EventName="Click">
-                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.FavoriteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
-                                                </Interactivity:EventTrigger>
-                                            </Interactivity:Interaction.Triggers>
-                                        </toolkit:MenuItem> 
-                                        <toolkit:MenuItem Header="delete this account" >
-                                            <Interactivity:Interaction.Triggers>
-                                                <Interactivity:EventTrigger EventName="Click">
-                                                    <Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.DeleteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
-                                                </Interactivity:EventTrigger>
-                                            </Interactivity:Interaction.Triggers>
-                                        </toolkit:MenuItem>
-                                    </toolkit:ContextMenu>
+										<toolkit:MenuItem Header="edit this account" Tag="{Binding}">
+											<Interactivity:Interaction.Triggers>
+												<Interactivity:EventTrigger EventName="Click">
+													<Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.EditAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+												</Interactivity:EventTrigger>
+											</Interactivity:Interaction.Triggers>
+										</toolkit:MenuItem>
+										<toolkit:MenuItem Header="add to favorite" >
+											<Interactivity:Interaction.Triggers>
+												<Interactivity:EventTrigger EventName="Click">
+													<Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.FavoriteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+												</Interactivity:EventTrigger>
+											</Interactivity:Interaction.Triggers>
+										</toolkit:MenuItem> 
+										<toolkit:MenuItem Header="delete this account" >
+											<Interactivity:Interaction.Triggers>
+												<Interactivity:EventTrigger EventName="Click">
+													<Command:EventToCommand Command="{Binding ElementName=AccountListBox, Path=DataContext.DeleteAccountCommand, Mode=OneWay}" PassEventArgsToCommand="True" CommandParameter="{Binding}" />
+												</Interactivity:EventTrigger>
+											</Interactivity:Interaction.Triggers>
+										</toolkit:MenuItem>
+									</toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
 								<TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
 								<TextBlock Text="{Binding BankName}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
@@ -150,27 +151,27 @@
 
 			<!--Panorama item OPTION-->
 			<controls:PanoramaItem Header="{Binding Path=OptionHeader}">
-                <ListBox Name="OptionListBox" ItemsSource="{Binding OptionViewDataObj}">
+				<ListBox Name="OptionListBox" ItemsSource="{Binding OptionViewDataObj}">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsPasswordTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsPassword, Mode=TwoWay}" />
+							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsPassword, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsSynchroTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsSynchro, Mode=TwoWay}" />
+							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsSynchro, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsTile, Mode=TwoWay}" />
+							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsTile, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsReportTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsReport, Mode=TwoWay}" />
+							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsReport, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsComparatorTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsComparator, Mode=TwoWay}" />
+							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsComparator, Mode=TwoWay}" />
 						</StackPanel>
 					</StackPanel>
 				</ListBox>
