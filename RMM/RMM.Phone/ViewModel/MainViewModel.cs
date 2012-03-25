@@ -154,8 +154,6 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
-        
-
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
         public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
         public ObservableCollection<TransactionViewData> ListeFavorite { get; set; }
