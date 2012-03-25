@@ -2,13 +2,18 @@
 using System.Collections.ObjectModel;
 using RMM.Phone.ViewData.Account;
 using System.Collections.Generic;
+using RMM.Business.AccountService;
+using RMM.Business.CategoryService;
+using RMM.Business.TransactionService;
+using RMM.Phone.ExtensionMethods;
+using System.Windows;
+using System.Linq;
 
 namespace RMM.Phone.ViewModel
 {
     public class CategoryViewModel : ViewModelBase
     {
         public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
-        public List<TransactionViewData> ListeTransaction { get; set; }
 
 
         private string selectedIndex;
@@ -22,36 +27,75 @@ namespace RMM.Phone.ViewModel
             }
         }
 
-        public CategoryViewModel()
+
+        public IAccountService AccountService { get; set; }
+        public ICategoryService CategoryService { get; set; }
+        public ITransactionService TransactionService { get; set; }
+
+        public CategoryViewModel(IAccountService accountService, ITransactionService transactionService, ICategoryService categoryService)
         {
+
+            AccountService = accountService;
+            TransactionService = transactionService;
+            CategoryService = categoryService;
+
             ListeCategory = new ObservableCollection<CategoryViewData>();
-            ListeTransaction = new List<TransactionViewData>();
-            LoadSampleData();
+
+            Deployment.Current.Dispatcher.BeginInvoke(() => SetCategories());
+
+            
         }
 
         public void SelectIndex(string accountId)
         {
-            //Account account = accountService.getAccountbyId(accountid);
-            //selectedIndex = ListeAccount.IndexOf(account).ToString();
-            SelectedIndex = "2";
+            int idToGo = int.Parse(accountId);
 
+            var selectedCategory = ListeCategory.Where(cvd => cvd.Id == idToGo).First();
+
+            SelectedIndex = ListeCategory.IndexOf(selectedCategory).ToString();
         }
 
-        void LoadSampleData()
+        private void SetCategories()
         {
-            var sampleCategory = new CategoryViewData() { Id = 1, Name = "Holiday", Balance = 856 };
-            var sampleCategory2 = new CategoryViewData() { Id = 2, Name = "Food", Balance = 29 };
-            var sampleAccount = new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200, Name = "Courant1" };
+            var resultCategories = CategoryService.GetAllCategories();
 
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
+            var listCategoriesViewData = new List<CategoryViewData>();
 
-            this.ListeCategory.Add(new CategoryViewData() { Id = 1, Name = "Holiday", Balance = 856, ListTransaction = this.ListeTransaction });
-            this.ListeCategory.Add(new CategoryViewData() { Id = 2, Name = "Food", Balance = 29, ListTransaction = this.ListeTransaction });
-            this.ListeCategory.Add(new CategoryViewData() { Id = 3, Name = "Home", Balance = 352, ListTransaction = this.ListeTransaction });
+            if (resultCategories.IsValid)
+            {
+                resultCategories.Value.ForEach(dto => listCategoriesViewData.Add(dto.ToCategoryViewData()));
+            }
+
+            listCategoriesViewData
+                .ForEach(categoryViewData =>
+                {
+                    categoryViewData.ListTransaction = getTransactionForCategoryViewData(categoryViewData);
+                    categoryViewData.Balance = categoryViewData.ListTransaction.Sum(tvd => tvd.Balance);
+                    ListeCategory.Add(categoryViewData);
+                });
+        }
+
+        private List<TransactionViewData> getTransactionForCategoryViewData(CategoryViewData categorieViewData)
+        {
+            var resultatFavoriteTransaction = TransactionService.GetTransactionsByCategoryId(categorieViewData.Id);
+
+
+            var listFavorie = new List<TransactionViewData>();
+
+            if (resultatFavoriteTransaction.IsValid)
+                foreach (var dto in resultatFavoriteTransaction.Value)
+                {
+                    var viewData = dto.ToTransactionViewData();
+
+                    var category = CategoryService.GetCategoryById(dto.CategoryId);
+
+                    if (category.IsValid)
+                        viewData.Category = category.Value.ToCategoryViewData();
+
+                    listFavorie.Add(viewData);
+                }
+
+            return listFavorie;
         }
     }
 }

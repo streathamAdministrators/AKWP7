@@ -36,7 +36,7 @@
                                     <CompositeTransform Rotation="-90"/>
                                 </Rectangle.RenderTransform>
                             </Rectangle>
-                            <TextBlock Text="6525" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86"  />
+                            <TextBlock Text="{Binding Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86"  />
                         </StackPanel>
                         <ListBox ItemsSource="{Binding ListTransaction}">
                             <ListBox.ItemTemplate>
@@ -51,7 +51,7 @@
                                                     <ColumnDefinition Width="12"/>
                                                     <ColumnDefinition Width="140"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding Account.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="0" Text="{Binding Path=Account.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 <Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
                                                     <Rectangle.RenderTransform>

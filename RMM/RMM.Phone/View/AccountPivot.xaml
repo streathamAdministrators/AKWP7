@@ -39,7 +39,7 @@
                                     <CompositeTransform Rotation="-90"/>
                                 </Rectangle.RenderTransform>
                             </Rectangle>
-                            <TextBlock  Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86" Text="{Binding Path=Balance}" FontSize="20" />
+                            <TextBlock  Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86" Text="{Binding Balance}" FontSize="20" />
                         </StackPanel>
                         <ListBox ItemsSource="{Binding ListTransaction}" local:MetroInMotion.IsPivotAnimated="True" list:ListAnimation.IsPivotAnimated="True" >
                         <ListBox.ItemTemplate>
@@ -54,8 +54,8 @@
                                                 <ColumnDefinition Width="12"/>
                                                 <ColumnDefinition Width="140"/>
                                             </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="1" />
-                                                <TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="2" />
+                                                <TextBlock Grid.Column="0" Text="{Binding Path=Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="1" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Path=Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" local:MetroInMotion.AnimationLevel="2" />
                                                 <Rectangle Grid.Column="3" Fill="White" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2" local:MetroInMotion.AnimationLevel="3">
                                                 <Rectangle.RenderTransform>
                                                     <CompositeTransform Rotation="-90"/>

@@ -233,11 +233,6 @@ namespace RMM.Phone.ViewModel
 
                     listFavorie.Add(viewData);
                 }
-
-            
-
-
-
             FavoriteAccount.ListTransaction = listFavorie;
         }
 

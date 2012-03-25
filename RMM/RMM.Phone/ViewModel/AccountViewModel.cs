@@ -2,6 +2,12 @@
 using RMM.Phone.ViewData.Account;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using RMM.Business.AccountService;
+using RMM.Business.TransactionService;
+using RMM.Business.CategoryService;
+using RMM.Phone.ExtensionMethods;
+using System.Linq;
+using System.Windows;
 
 namespace RMM.Phone.ViewModel
 {
@@ -9,7 +15,6 @@ namespace RMM.Phone.ViewModel
     public class AccountViewModel : ViewModelBase
     {
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
-        public List<TransactionViewData> ListeTransaction { get; set; }
 
         private string selectedIndex;
         public string SelectedIndex 
@@ -22,38 +27,77 @@ namespace RMM.Phone.ViewModel
             }
         }
 
-        public AccountViewModel()
+        public IAccountService AccountService { get; set; }
+        public ICategoryService CategoryService { get; set; }
+        public ITransactionService TransactionService { get; set; }
+
+        public AccountViewModel(IAccountService accountService, ITransactionService transactionService, ICategoryService categoryService)
         {
+            AccountService = accountService;
+            TransactionService = transactionService;
+            CategoryService = categoryService;
+
             ListeAccount = new ObservableCollection<AccountViewData>();
-            ListeTransaction = new List<TransactionViewData>(); 
-            LoadSampleData();
+
+            Deployment.Current.Dispatcher.BeginInvoke(() => SetAccounts());
+            
         }
 
         public void SelectIndex(string accountId)
         {
-            //Account account = accountService.getAccountbyId(accountid);
-            //selectedIndex = ListeAccount.IndexOf(account).ToString();
-            SelectedIndex = "2";
-            
+            int idToGo = int.Parse(accountId);
+
+            var selectedAccount = ListeAccount.Where(avd => avd.Id ==  idToGo).First();
+
+            SelectedIndex = ListeAccount.IndexOf(selectedAccount).ToString();
         }
 
-        void LoadSampleData()
+        private void SetAccounts()
         {
-            var sampleCategory = new CategoryViewData() { Id = 1, Name = "Holiday", Balance = 856 };
-            var sampleCategory2 = new CategoryViewData() { Id = 2, Name = "Food", Balance = 29 };
-            var sampleAccount = new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200, Name = "Courant1" };
+            var resultAccounts = AccountService.GetAllAccounts();
 
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 1, Name = "restau ipiuezfhyeif ipuzr zpeoiufpif u", Category = sampleCategory, Account = sampleAccount, Balance = 58987878787.654654 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 2, Name = "piscine", Category = sampleCategory2, Account = sampleAccount, Balance = 361 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 3, Name = "ciné", Category = sampleCategory, Account = sampleAccount, Balance = 125 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 4, Name = "bar", Category = sampleCategory2, Account = sampleAccount, Balance = -410 });
-            this.ListeTransaction.Add(new TransactionViewData() { Id = 5, Name = "club", Category = sampleCategory, Account = sampleAccount, Balance = -98 });
+            var listAccountsViewData = new List<AccountViewData>();
 
-            this.ListeAccount.Add(new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200.95, Name = "Courant1", ListTransaction=this.ListeTransaction });
-            this.ListeAccount.Add(new AccountViewData() { Id = 2, BankName = "CA", Balance = 300, Name = "Courant2", ListTransaction = this.ListeTransaction });
-            this.ListeAccount.Add(new AccountViewData() { Id = 3, BankName = "CA", Balance = 400, Name = "Livret A", ListTransaction = this.ListeTransaction });
+            if (resultAccounts.IsValid)
+            {
+                resultAccounts.Value.ForEach(dto => listAccountsViewData.Add(dto.ToAccountViewData()));
+            }
 
+            listAccountsViewData
+                .ForEach(accountViewData =>
+                    {
+                        accountViewData.ListTransaction = getTransactionForAccountViewData(accountViewData);
+                        accountViewData.Balance = accountViewData.ListTransaction.Sum(tvd => tvd.Balance);
+                        ListeAccount.Add(accountViewData);
+                    });
         }
+
+        private List<TransactionViewData> getTransactionForAccountViewData(AccountViewData accountViewData)
+        {
+            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(accountViewData.Id);
+
+
+            var listFavorie = new List<TransactionViewData>();
+
+            if (resultatFavoriteTransaction.IsValid)
+                foreach (var dto in resultatFavoriteTransaction.Value)
+                {
+                    var viewData = dto.ToTransactionViewData();
+
+                    var category = CategoryService.GetCategoryById(dto.CategoryId);
+
+                    if (category.IsValid)
+                        viewData.Category = category.Value.ToCategoryViewData();
+
+                    listFavorie.Add(viewData);
+                }
+
+            return listFavorie;
+        }
+
+
+
+
 
 
         
