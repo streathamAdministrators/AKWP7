@@ -8,9 +8,9 @@ namespace RMM.Business.DatabaseService
 {
   public  class DatabaseService : IDatabaseService
     {
-        public void Initialize()
+        public bool Initialize()
         {
-            RmmConfiguration.Initialize();
+          return  RmmConfiguration.Initialize();
         }
     }
 }

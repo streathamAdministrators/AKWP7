@@ -7,7 +7,7 @@ namespace RMM.Data
 {
     public class RmmConfiguration
     {
-        public static void Initialize()
+        public static bool Initialize()
         {
             using(RmmDataContext datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
             {
@@ -16,6 +16,11 @@ namespace RMM.Data
                 {
                     datacontext.CreateDatabase();
                     datacontext.SubmitChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }

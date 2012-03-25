@@ -150,27 +150,27 @@
 
 			<!--Panorama item OPTION-->
 			<controls:PanoramaItem Header="{Binding Path=OptionHeader}">
-				<ListBox Name="OptionListBox" ItemsSource="{Binding Option}">
+                <ListBox Name="OptionListBox" ItemsSource="{Binding OptionViewDataObj}">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsPasswordTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-							<toolkit:ToggleSwitch IsChecked="{Binding Path=IsPassword}" />
+                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsPassword, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsSynchroTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-							<toolkit:ToggleSwitch IsChecked="{Binding Path=IsSynchro}" />
+                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsSynchro, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-							<toolkit:ToggleSwitch IsChecked="{Binding Path=IsTile}" />
+                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsTile, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsReportTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-							<toolkit:ToggleSwitch IsChecked="{Binding Path=IsReport}" />
+                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsReport, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding Path=IsComparatorTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
-							<toolkit:ToggleSwitch IsChecked="{Binding Path=IsComparator}" />
+                            <toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsComparator, Mode=TwoWay}" />
 						</StackPanel>
 					</StackPanel>
 				</ListBox>
