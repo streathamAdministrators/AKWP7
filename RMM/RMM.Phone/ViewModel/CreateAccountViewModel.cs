@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using RMM.Phone.ViewData.Account;
 using GalaSoft.MvvmLight.Command;
+using RMM.Phone.ExtensionMethods;
+using RMM.Business.AccountService;
 
 namespace RMM.Phone.ViewModel
 {
@@ -10,16 +12,21 @@ namespace RMM.Phone.ViewModel
         public AccountViewData Account { get; set; }
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
-        
-        public CreateAccountViewModel()
+
+        public IAccountService AccountService { get; set; }
+
+        public CreateAccountViewModel(IAccountService accountService)
         {
             SaveCommand = new RelayCommand(() => HandleCreateTaskSelected());
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
+
+            AccountService = accountService;
         }
 
         void HandleCreateTaskSelected()
         {
-            //LANCER LA CREATION ICI
+            var newAccountDto = Account.ToAccountDto();
+            AccountService.CreateAccount(newAccountDto);
         }
 
         void HandleCancelTaskSelected()

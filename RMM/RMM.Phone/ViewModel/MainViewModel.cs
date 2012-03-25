@@ -232,7 +232,7 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?"  , "Delete an account", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    //LANCER LA COMMANDE DELETEACCOUNTBYID
+                    AccountService.DeleteAccountById(args.Id);
                 }
             }
         }
@@ -259,7 +259,7 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?", "Delete a category", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    //LANCER LA COMMANDE DELETEACCOUNTBYID
+                    AccountService.DeleteAccountById(args.Id);
                 }
             }
         }

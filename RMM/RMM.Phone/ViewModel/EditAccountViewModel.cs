@@ -2,6 +2,8 @@
 using RMM.Phone.ViewData.Account;
 using GalaSoft.MvvmLight.Command;
 using System.Windows;
+using RMM.Business.AccountService;
+using RMM.Phone.ExtensionMethods;
 
 namespace RMM.Phone.ViewModel
 {
@@ -14,8 +16,11 @@ namespace RMM.Phone.ViewModel
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        public EditAccountViewModel()
+        public IAccountService Accountservice { get; set; }
+
+        public EditAccountViewModel(IAccountService accountService)
         {
+            Accountservice = accountService;
             LoadData();
 
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
@@ -25,7 +30,12 @@ namespace RMM.Phone.ViewModel
 
         public void SelectIndex(string accountId)
         {
-            //GET L'ACCOUNT By ID
+            var IntToGo = int.Parse(accountId);
+
+            var selectedAccount = Accountservice.GetAccountById(IntToGo);
+
+            if (selectedAccount.IsValid)
+                Account = selectedAccount.Value.ToAccountViewData();
             
         }
 
@@ -34,13 +44,13 @@ namespace RMM.Phone.ViewModel
             MessageBoxResult result = MessageBox.Show("Do you really want to delete this account ?", "delete " + Account.Name, MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
-                //LANCER LE DELETE ICI
+                Accountservice.GetAccountById(Account.Id);
             }
         }
 
         void HandleUpdateTaskSelected()
         {
-            //LANCER L'UPDATE ICI
+            Accountservice.UpdateAccount(Account.ToAccountDto());
         }
 
         void HandleCancelTaskSelected()
