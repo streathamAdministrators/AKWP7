@@ -147,12 +147,12 @@ namespace RMM.Phone.ViewModel
             //A VIRER
             var isAlreadyCreated = DatabaseService.Initialize();
 
-           if (isAlreadyCreated)
+            if (isAlreadyCreated)
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
 
-           this.ListeAccount = new ObservableCollection<AccountViewData>();//{ new AccountViewData() { Name = "ffeefoj", BankName = "fozdijf", Balance = 25874.26 } };//new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>() ; //{ new CategoryViewData() { Name="fezff", Balance=254.36 } };
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
 
             SetListAccount();
             SetListCategory();
@@ -286,7 +286,6 @@ namespace RMM.Phone.ViewModel
 
             var rootFrame = (App.Current as App).RootFrame;
             rootFrame.Navigate(new System.Uri("/View/CategoryPivot.xaml?categoryId=" + category.Id.ToString(), System.UriKind.Relative));
-
         }
 
         #endregion
