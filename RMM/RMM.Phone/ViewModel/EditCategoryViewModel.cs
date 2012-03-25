@@ -38,6 +38,7 @@ namespace RMM.Phone.ViewModel
             if (selectedCategory.IsValid)
                 Category = selectedCategory.Value.ToCategoryViewData();
 
+            RaisePropertyChanged("Category");
         }
 
         void HandleDeleteAllTransactionTaskSelected()

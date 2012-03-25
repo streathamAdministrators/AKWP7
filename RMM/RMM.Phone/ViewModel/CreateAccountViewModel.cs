@@ -21,6 +21,8 @@ namespace RMM.Phone.ViewModel
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
 
             AccountService = accountService;
+
+            Account = new AccountViewData();
         }
 
         void HandleCreateTaskSelected()

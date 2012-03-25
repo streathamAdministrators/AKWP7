@@ -23,6 +23,8 @@ namespace RMM.Phone.ViewModel
             SaveCommand = new RelayCommand(() => HandleCreateTaskSelected());
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
 
+            Category = new CategoryViewData();
+
             CategoryService = categoryService;
         }
 
