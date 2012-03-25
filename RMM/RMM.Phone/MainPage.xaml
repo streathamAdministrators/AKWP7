@@ -45,7 +45,7 @@
 
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Margin="0,0,0,17" Width="432" Height="90">
+							<StackPanel Margin="0,0,0,17" Width="432" Height="111">
 								<toolkit:ContextMenuService.ContextMenu>
 									<toolkit:ContextMenu x:Name="AccountContextMenu">
 										<toolkit:MenuItem Header="edit this account" Tag="{Binding}">
@@ -72,7 +72,11 @@
 									</toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
 								<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-								<TextBlock Text="{Binding BankName}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding BankName}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" VerticalAlignment="Center" Width="260"/>
+                                    <TextBlock TextWrapping="NoWrap"  Style="{StaticResource PhoneTextAccentStyle}" VerticalAlignment="Center" Margin="0,0,-121,0" Text="{Binding Path=Balance}" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                                <Rectangle Fill="#FFF4F4F5" Height="3" Stroke="Black" Margin="0,5,0,0"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
@@ -140,7 +144,7 @@
 
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Margin="0,0,0,17" Width="432" Height="90">
+							<StackPanel Margin="0,0,0,17" Width="432" Height="101">
                                 <toolkit:ContextMenuService.ContextMenu>
                                     <toolkit:ContextMenu x:Name="AccountContextMenu">
                                         <toolkit:MenuItem Header="edit this category" Tag="{Binding}">
@@ -167,8 +171,9 @@
                                     </toolkit:ContextMenu>
                                 </toolkit:ContextMenuService.ContextMenu>
                                 <TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-								<TextBlock Text="{Binding Balance}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-							</StackPanel>
+                                <TextBlock Text="{Binding Balance}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextAccentStyle}" HorizontalAlignment="Right"/>
+                                <Rectangle Fill="#FFF4F4F5" Height="3" Stroke="Black" Margin="0,5,0,0"/>
+                            </StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
@@ -179,23 +184,23 @@
 				<ListBox Name="OptionListBox" ItemsSource="{Binding OptionViewDataObj}">
 					<StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding Path=IsPasswordTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
+							<TextBlock Text="{Binding Path=IsPasswordTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsPassword, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding Path=IsSynchroTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
+							<TextBlock Text="{Binding Path=IsSynchroTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="24" />
 							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsSynchro, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding Path=IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
+							<TextBlock Text="{Binding Path=IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsTile, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding Path=IsReportTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
+							<TextBlock Text="{Binding Path=IsReportTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsReport, Mode=TwoWay}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding Path=IsComparatorTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" />
+							<TextBlock Text="{Binding Path=IsComparatorTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding Path=OptionViewData.IsComparator, Mode=TwoWay}" />
 						</StackPanel>
 					</StackPanel>

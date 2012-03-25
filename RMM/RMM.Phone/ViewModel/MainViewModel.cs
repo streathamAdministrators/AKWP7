@@ -151,8 +151,8 @@ namespace RMM.Phone.ViewModel
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
 
-            this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+           this.ListeAccount = new ObservableCollection<AccountViewData>();//{ new AccountViewData() { Name = "ffeefoj", BankName = "fozdijf", Balance = 25874.26 } };//new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>() ; //{ new CategoryViewData() { Name="fezff", Balance=254.36 } };
 
             SetListAccount();
             SetListCategory();
