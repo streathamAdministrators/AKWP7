@@ -41,7 +41,7 @@ namespace RMM.Phone.ExtensionMethods
         public static AccountDto ToAccountDto(this AccountViewData Objectsource)
         {
             var newAccountDto = new AccountDto();
-
+            newAccountDto.Id = Objectsource.Id;
             newAccountDto.Name = Objectsource.Name;
             newAccountDto.BankName = Objectsource.BankName;
             newAccountDto.Balance = Objectsource.Balance;

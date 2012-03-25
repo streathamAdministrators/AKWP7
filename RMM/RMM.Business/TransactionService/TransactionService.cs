@@ -48,9 +48,7 @@ namespace RMM.Business.TransactionService
                 {
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
-                        var transaction = (from t in datacontext.Transaction
-                                           where t.transactionid == transactionId
-                                           select t).First();
+                        var transaction = datacontext.Transaction.Where(t => t.transactionid == transactionId).First();
 
                         var dto = transaction.ToTransactionDto();
                             result.Value = dto;

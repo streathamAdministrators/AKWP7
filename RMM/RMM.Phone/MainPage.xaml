@@ -74,7 +74,7 @@
 								<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding BankName}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}" VerticalAlignment="Center" Width="260"/>
-                                    <TextBlock TextWrapping="NoWrap"  Style="{StaticResource PhoneTextAccentStyle}" VerticalAlignment="Center" Margin="0,0,-121,0" Text="{Binding Path=Balance}" HorizontalAlignment="Right"/>
+                                    <TextBlock TextWrapping="NoWrap"  Style="{StaticResource PhoneTextAccentStyle}" VerticalAlignment="Center" Margin="0,0,-121,0" Text="{Binding Balance}" HorizontalAlignment="Right"/>
                                 </StackPanel>
                                 <Rectangle Fill="#FFF4F4F5" Height="3" Stroke="Black" Margin="0,5,0,0"/>
 							</StackPanel>

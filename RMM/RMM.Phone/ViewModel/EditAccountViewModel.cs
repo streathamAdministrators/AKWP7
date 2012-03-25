@@ -21,7 +21,6 @@ namespace RMM.Phone.ViewModel
         public EditAccountViewModel(IAccountService accountService)
         {
             Accountservice = accountService;
-            LoadData();
 
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
@@ -36,6 +35,8 @@ namespace RMM.Phone.ViewModel
 
             if (selectedAccount.IsValid)
                 Account = selectedAccount.Value.ToAccountViewData();
+
+            RaisePropertyChanged("Account");
             
         }
 
@@ -44,7 +45,7 @@ namespace RMM.Phone.ViewModel
             MessageBoxResult result = MessageBox.Show("Do you really want to delete this account ?", "delete " + Account.Name, MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
-                Accountservice.GetAccountById(Account.Id);
+                //DELETE ALL
             }
         }
 
@@ -57,11 +58,6 @@ namespace RMM.Phone.ViewModel
         {
             var rootFrame = (App.Current as App).RootFrame;
             rootFrame.Navigate(new System.Uri("/MainPage.xaml", System.UriKind.Relative));
-        }
-
-        void LoadData()
-        {
-            Account = new AccountViewData() { Id = 1, BankName = "HSBC", Balance = 200.95, Name = "Courant1" };
         }
     }
 }

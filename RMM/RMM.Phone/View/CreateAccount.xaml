@@ -31,16 +31,16 @@
             <TextBlock x:Name="PageTitle" Text="new account" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,101" DataContext="{Binding Path=Account}">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,101" DataContext="{Binding Account}">
             <ScrollViewer>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Height="90">
                         <TextBlock Text="Account name :" Style="{StaticResource PhoneTextAccentStyle}" Height="37" />
-                        <TextBox Text="{Binding Path=Name, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
+                        <TextBox Text="{Binding Name, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="90">
                         <TextBlock Text="Bank name :" Style="{StaticResource PhoneTextAccentStyle}" Height="37" Width="137" />
-                        <TextBox Text="{Binding Path=BankName, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
+                        <TextBox Text="{Binding BankName, Mode=TwoWay}" Width="294" Height="70" Foreground="DimGray" />
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
