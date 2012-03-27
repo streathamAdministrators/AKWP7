@@ -152,14 +152,9 @@ namespace RMM.Phone.ViewModel
             if (isAlreadyCreated)
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
-
-<<<<<<< HEAD
            this.ListeAccount = new ObservableCollection<AccountViewData>();
             this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
-=======
-            this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>();
->>>>>>> 7fe9a3ad79d97138946133c3cf951a03a31da1c8
+
 
             SetListAccount();
             SetListCategory();
