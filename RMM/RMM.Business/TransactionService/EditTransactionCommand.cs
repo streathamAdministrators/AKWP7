@@ -9,11 +9,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace RMM.Phone.ViewData.Account
+namespace RMM.Business.TransactionService
 {
-    public class TransactionViewData
+    //A PENSER : ne pas updater si l'object n'a pas changé...
+    public class EditTransactionCommand
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
         public string Name { get; set; }
 
@@ -21,10 +22,8 @@ namespace RMM.Phone.ViewData.Account
 
         public double Amount { get; set; }
 
-        public string CreatedDate { get; set; }
+        public int? categoryId { get; set; }
 
-        public AccountViewData Account { get; set; }
-
-        public CategoryViewData Category { get; set; }
+        public int accountId { get; set; }
     }
 }

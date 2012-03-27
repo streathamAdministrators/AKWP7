@@ -33,7 +33,7 @@ namespace RMM.Phone.ViewModel
         {
             var IntToGo = int.Parse(categoryId);
 
-            var selectedCategory = CategoryService.GetCategoryById(IntToGo);
+            var selectedCategory = CategoryService.GetCategoryById(IntToGo, false);
 
             if (selectedCategory.IsValid)
                 Category = selectedCategory.Value.ToCategoryViewData();
@@ -52,7 +52,8 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            CategoryService.UpdateCategory(Category.ToCategoryDto());
+            var commande = new EditCategoryCommand() { Name = Category.Name, Color = Category.Color, id = Category.Id };
+            CategoryService.UpdateCategory(commande);
         }
 
         void HandleCancelTaskSelected()

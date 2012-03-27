@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using RMM.Business.AccountService;
 using RMM.Phone.ExtensionMethods;
+using RMM.Business.CategoryService;
 
 namespace RMM.Phone.ViewModel
 {
@@ -31,7 +32,7 @@ namespace RMM.Phone.ViewModel
         {
             var IntToGo = int.Parse(accountId);
 
-            var selectedAccount = Accountservice.GetAccountById(IntToGo);
+            var selectedAccount = Accountservice.GetAccountById(IntToGo, true);
 
             if (selectedAccount.IsValid)
                 Account = selectedAccount.Value.ToAccountViewData();
@@ -51,7 +52,8 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            Accountservice.UpdateAccount(Account.ToAccountDto());
+            var editcommande = new EditAccountCommand() { id = Account.Id, BankName = Account.BankName, Name = Account.Name, PhotoUrl = Account.PhotoUrl };
+            Accountservice.UpdateAccount(editcommande);
         }
 
         void HandleCancelTaskSelected()

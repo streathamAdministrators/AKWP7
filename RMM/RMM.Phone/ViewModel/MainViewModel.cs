@@ -144,15 +144,15 @@ namespace RMM.Phone.ViewModel
             CategoryService = categoryService;
             OptionService = optionService;
 
-            //A VIRER
+
             var isAlreadyCreated = DatabaseService.Initialize();
 
            if (isAlreadyCreated)
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
 
-           this.ListeAccount = new ObservableCollection<AccountViewData>();//{ new AccountViewData() { Name = "ffeefoj", BankName = "fozdijf", Balance = 25874.26 } };//new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>() ; //{ new CategoryViewData() { Name="fezff", Balance=254.36 } };
+           this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
 
             SetListAccount();
             SetListCategory();
@@ -165,29 +165,29 @@ namespace RMM.Phone.ViewModel
         {
 
             FavoriteAccount = this.ListeAccount.First();
-            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id);
+            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id, true);
 
 
-            var listFavorie = new List<TransactionViewData>();
+            //var listFavorie = new List<TransactionViewData>();
 
-            if (resultatFavoriteTransaction.IsValid)
-                foreach (var dto in resultatFavoriteTransaction.Value)
-                {
-                    var viewData = dto.ToTransactionViewData();
+            //if (resultatFavoriteTransaction.IsValid)
+            //    foreach (var dto in resultatFavoriteTransaction.Value)
+            //    {
+            //        var viewData = dto.ToTransactionViewData();
 
-                    var category = CategoryService.GetCategoryById(dto.CategoryId);
+            //        var category = CategoryService.GetCategoryById(dto.Account.Id);
 
-                    if (category.IsValid)
-                        viewData.Category = category.Value.ToCategoryViewData();
+            //        if (category.IsValid)
+            //            viewData.Category = category.Value.ToCategoryViewData();
 
-                    listFavorie.Add(viewData);
-                }
-            FavoriteAccount.ListTransaction = listFavorie;
+            //        listFavorie.Add(viewData);
+            //    }
+            //FavoriteAccount.ListTransaction = listFavorie;
         }
 
         private void SetListAccount()
         {
-            var resultatAccountService = AccountService.GetAllAccounts();
+            var resultatAccountService = AccountService.GetAllAccounts(true);
             if (resultatAccountService.IsValid)
             {
                 resultatAccountService.Value.ForEach(dto => this.ListeAccount.Add(dto.ToAccountViewData()));
@@ -196,7 +196,7 @@ namespace RMM.Phone.ViewModel
 
         private void SetListCategory()
         {
-            var resultatCategoryService = CategoryService.GetAllCategories();
+            var resultatCategoryService = CategoryService.GetAllCategories(true);
             if (resultatCategoryService.IsValid)
             {
                 resultatCategoryService.Value.ForEach(dto => this.ListeCategory.Add(dto.ToCategoryViewData()));

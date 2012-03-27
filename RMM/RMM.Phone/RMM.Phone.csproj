@@ -67,6 +67,7 @@
     </Reference>
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Input.Touch" />
+    <Reference Include="system.data.linq" />
     <Reference Include="System.Windows.Interactivity">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Laurent Bugnion (GalaSoft)\Mvvm Light Toolkit\Binaries\WP71\System.Windows.Interactivity.dll</HintPath>
@@ -185,6 +186,10 @@
     <ProjectReference Include="..\RMM.Business\RMM.Business.csproj">
       <Project>{F40BDCCD-D7E3-41DE-B394-B75077EA1130}</Project>
       <Name>RMM.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMM.Data\RMM.Data.csproj">
+      <Project>{36C0EAB3-441F-44A6-A660-DDE6FD54B9CD}</Project>
+      <Name>RMM.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

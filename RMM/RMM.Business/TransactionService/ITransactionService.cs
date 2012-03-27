@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RMM.Data.Model;
 
 namespace RMM.Business.TransactionService
 {
     public interface ITransactionService
     {
-        //Renvoi l'element supprimé
-        Result<TransactionDto> DeleteTransactionById(int transactionId);
 
-        //Retournera un Dto
-        Result<TransactionDto> GetTransactionById(int transactionId);
+        Result<Transaction> DeleteTransactionById(int transactionId);
 
-        //Retournera une liste de Dto
-        Result<List<TransactionDto>> GetTransactionsByCategoryId(int categoryId);
 
-        //Retournera une liste de Dto
-        Result<List<TransactionDto>> GetTransactionsByAccountId(int accountId);
+        Result<Transaction> GetTransactionById(int transactionId, bool OnMinimal);
 
-        //Passage d'un dto en param apres
-        Result<TransactionDto> CreateTransaction(TransactionDto transaction);
 
-        //Passage d'un dto en param apres
-        Result<TransactionDto> UpdateTransaction(TransactionDto transactionToUpdate);
+        Result<List<Transaction>> GetTransactionsByCategoryId(int categoryId, bool OnMinimal);
 
-        Result<List<TransactionDto>> GetAllTransactions();
+
+        Result<List<Transaction>> GetTransactionsByAccountId(int accountId, bool OnMinimal);
+
+
+        Result<Transaction> CreateTransaction(CreateTransactionCommand nouvelleTransaction);
+
+
+        Result<Transaction> UpdateTransaction(EditTransactionCommand EditTransactionCommand);
+
+        Result<List<Transaction>> GetAllTransactions(bool OnMinimal);
         
     }
 }

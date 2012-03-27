@@ -101,7 +101,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
             item.BankName = "AA";
             item.Name = "Mon Compte 2";
 
-            var Accounts = AccountService.GetAllAccounts();
+            var Accounts = AccountService.GetAllAccounts(false, false);
 
             addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessage,ObjectType.itemCount.ToString(), Accounts.Value.Count.ToString()));
 
@@ -117,7 +117,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
 
                 }
 
-                Accounts = AccountService.GetAllAccounts();
+                Accounts = AccountService.GetAllAccounts(false, false);
 
                 addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessage, ObjectType.itemCount.ToString(), Accounts.Value.Count.ToString()));
 
@@ -130,7 +130,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
 
           addToOc(ActionsEnum.Insert.ToString(),string.Format(TEMPLATEMessage,ObjectType.itemId.ToString(), addedaccount.Value.Id.ToString()));
 
-          var Account = AccountService.GetAccountById(addedaccount.Value.Id);
+          var Account = AccountService.GetAccountById(addedaccount.Value.Id, false, false);
 
           addToOc(ActionsEnum.Get.ToString(), string.Format(TEMPLATEMessage, ObjectType.itemId.ToString(), Account.Value.Id));
 
@@ -154,7 +154,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
             item.Color = "AA";
             item.Name = "MyCategory";
 
-            var Categories = CategoryService.GetAllCategories();
+            var Categories = CategoryService.GetAllCategories(false, false);
 
             addToOc(ActionsEnum.GetList.ToString(),string.Format(TEMPLATEMessage,ObjectType.itemCount.ToString(), Categories.Value.Count));
 
@@ -166,7 +166,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
                     addToOc(ActionsEnum.Delete.ToString(),string.Format(TEMPLATEMessage,ObjectType.itemId.ToString(),  dto.Id));
                 }
                 
-            Categories = CategoryService.GetAllCategories();
+            Categories = CategoryService.GetAllCategories(false, false);
 
             addToOc(ActionsEnum.GetList.ToString(),string.Format(TEMPLATEMessage, ObjectType.itemCount.ToString(),  Categories.Value.Count));
             }
@@ -178,7 +178,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
             addToOc(ActionsEnum.Insert.ToString(),string.Format(TEMPLATEMessage, ObjectType.itemId.ToString(), addedCategory.Value.Id));
 
 
-            var category = CategoryService.GetCategoryById(addedCategory.Value.Id).Value;
+            var category = CategoryService.GetCategoryById(addedCategory.Value.Id, false, false).Value;
 
             addToOc(ActionsEnum.Get.ToString(),string.Format(TEMPLATEMessage, ObjectType.itemId.ToString(), category.Id));
 
@@ -213,12 +213,12 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
 
             #region Nettoyage Base
 
-            var Categories = CategoryService.GetAllCategories();
+            var Categories = CategoryService.GetAllCategories(false, false);
 
             addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Category.ToString(), ObjectType.itemCount.ToString(), Categories.Value.Count));
 
 
-            var Accounts = AccountService.GetAllAccounts();
+            var Accounts = AccountService.GetAllAccounts(false, false);
 
             addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Account.ToString(), ObjectType.itemCount.ToString(), Accounts.Value.Count));
 
@@ -232,7 +232,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
                     addToOc(ActionsEnum.Delete.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Category.ToString(), ObjectType.itemId.ToString(), dto.Id));
                 }
 
-                Categories = CategoryService.GetAllCategories();
+                Categories = CategoryService.GetAllCategories(false, false);
 
                 addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Category.ToString(), ObjectType.itemCount.ToString(), Categories.Value.Count));
             }
@@ -245,7 +245,7 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
                     addToOc(ActionsEnum.Delete.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Account.ToString(), ObjectType.itemId.ToString(), dto.Id));
                 }
 
-                Accounts = AccountService.GetAllAccounts();
+                Accounts = AccountService.GetAllAccounts(false, false);
 
                 addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Account.ToString(), ObjectType.itemCount.ToString(), Accounts.Value.Count));
             }
@@ -271,13 +271,13 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
             var newTransaction = new TransactionDto();
             newTransaction.Name = "First Transaction !";
             newTransaction.Balance = 40.0;
-            newTransaction.AccountId = addedAccount.Value.Id;
-            newTransaction.CategoryId = addedCategory.Value.Id;
+            newTransaction.Account = addedAccount.Value;
+            newTransaction.Category = addedCategory.Value;
 
             var newTransaction2 = new TransactionDto();
             newTransaction2.Name = "Second Transaction !";
             newTransaction2.Balance = 40.0;
-            newTransaction2.AccountId = addedAccount.Value.Id;
+            newTransaction2.Account = addedAccount.Value;
 
             var addedtransaction = TransactionService.CreateTransaction(newTransaction);
 
@@ -291,18 +291,18 @@ namespace RMM.Phone.TestFonctionnel.ViewModel
 
             #region get des listes par account et par category
 
-            var listebyAccount = TransactionService.GetTransactionsByAccountId(addedAccount.Value.Id);
+            var listebyAccount = TransactionService.GetTransactionsByAccountId(addedAccount.Value.Id, false, false);
 
             addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Transaction.ToString(), ObjectType.itemCount.ToString(), listebyAccount.Value.Count));
 
 
-           var listebyCategory = TransactionService.GetTransactionsByCategoryId(addedCategory.Value.Id);
+           var listebyCategory = TransactionService.GetTransactionsByCategoryId(addedCategory.Value.Id, false, false);
 
            addToOc(ActionsEnum.GetList.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Transaction.ToString(), ObjectType.itemCount.ToString(), listebyCategory.Value.Count));
 
             #endregion
 
-           var gettedTrans = TransactionService.GetTransactionById(addedtransaction.Value.Id).Value;
+           var gettedTrans = TransactionService.GetTransactionById(addedtransaction.Value.Id, false, false).Value;
 
            addToOc(ActionsEnum.Get.ToString(), string.Format(TEMPLATEMessagedifferService, ServiceEnum.Transaction.ToString(), ObjectType.itemName.ToString(), gettedTrans.Name));
 

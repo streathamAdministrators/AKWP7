@@ -58,7 +58,7 @@
                                                         <CompositeTransform Rotation="-90"/>
                                                     </Rectangle.RenderTransform>
                                                 </Rectangle>
-                                                <TextBlock Grid.Column="3" Text="{Binding Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="{Binding Amount}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center" />
                                             </Grid>
                                         </StackPanel>
                                     </StackPanel>

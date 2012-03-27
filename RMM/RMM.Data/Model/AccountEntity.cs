@@ -10,8 +10,17 @@ namespace RMM.Data.Model
     [Table(Name="Account")]
     public class AccountEntity
     {
+
+        private EntitySet<Transaction> transactionRef;
+
+        public AccountEntity()
+        {
+            this.transactionRef = new EntitySet<Transaction>(this.OnTransactionAdded, this.OnTransactionRemoved);
+        }
+
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int id { get; set; }
+        public int ID { get; set; }
 
         [Column]
         public string Name { get; set; }
@@ -25,16 +34,29 @@ namespace RMM.Data.Model
         [Column]
         public string PhotoUrl { get; set; }
 
-        private EntitySet<Transaction> transactionList = new EntitySet<Transaction>();
-        [Association(Storage = "transactionList", ThisKey = "id", OtherKey = "transactionid")]
+
+        [Association(Name = "FK_Account_Transactions", Storage = "transactionRef", ThisKey = "ID", OtherKey = "AccountID")]
         public EntitySet<Transaction> TransactionList 
         {
-            get { return this.transactionList; }
-            set { transactionList = value; }
+            get { return this.transactionRef; }
         }
 
+
+
+        private void OnTransactionAdded(Transaction transaction)
+        {
+            transaction.Account = this;
+        }
+
+        private void OnTransactionRemoved(Transaction transaction)
+        {
+            transaction.Account = this;
+        } 
+        
         [Column]
         public DateTime CreatedDate { get; set; }
+
+
 
     }
 }

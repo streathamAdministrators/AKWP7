@@ -10,8 +10,17 @@ namespace RMM.Data.Model
     [Table(Name="Category")]
     public class CategoryEntity
     {
+
+        private EntitySet<Transaction> transactionRef;
+
+        public CategoryEntity()
+        {
+            this.transactionRef = new EntitySet<Transaction>(this.OnTransactionAdded, this.OnTransactionRemoved);
+
+        }
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int id { get; set; }
+        public int ID { get; set; }
 
         [Column]
         public string Name { get; set; }
@@ -22,13 +31,24 @@ namespace RMM.Data.Model
         [Column]
         public string Color { get; set; }
 
-        private EntitySet<Transaction> transactionList = new EntitySet<Transaction>();
-        [Association(Name = "FK_Category_Transaction", Storage = "transactionList", ThisKey = "id", OtherKey = "transactionid")]
+
+        [Association(Name = "FK_Category_Transaction", Storage = "transactionRef", ThisKey = "ID", OtherKey = "CategoryID")]
         public EntitySet<Transaction> TransactionList
         {
-            get { return this.transactionList; }
-            set { transactionList = value; }
+            get { return this.transactionRef; }
         }
+
+
+        private void OnTransactionAdded(Transaction transaction)
+        {
+            transaction.Category = this;
+        }
+
+        private void OnTransactionRemoved(Transaction transaction)
+        {
+            transaction.Category = this;
+        } 
+        
 
         [Column]
         public DateTime CreatedDate { get; set; }

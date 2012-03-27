@@ -27,8 +27,8 @@ namespace RMM.Phone.ViewModel
 
         void HandleCreateTaskSelected()
         {
-            var newAccountDto = Account.ToAccountDto();
-            AccountService.CreateAccount(newAccountDto);
+            
+            AccountService.CreateAccount(new CreateAccountCommand());
         }
 
         void HandleCancelTaskSelected()

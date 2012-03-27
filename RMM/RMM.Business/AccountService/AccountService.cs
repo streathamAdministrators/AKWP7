@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RMM.Data;
-using RMM.Business.ExtensionMethods;
+using RMM.Business.Helpers;
+using RMM.Data.Model;
+using System.Linq.Expressions;
 
 namespace RMM.Business.AccountService
 {
@@ -11,14 +13,15 @@ namespace RMM.Business.AccountService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<AccountDto> DeleteAccountById(int accountId)
+        public Result<AccountEntity> DeleteAccountById(int accountId)
         {
-            return Result<AccountDto>.SafeExecute<AccountService>(result =>
+            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
             {
+                 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var account = (from t in datacontext.Account
-                                    where t.id == accountId
+                                    where t.ID == accountId
                                     select t).First();
 
                     if (account != null)
@@ -27,96 +30,100 @@ namespace RMM.Business.AccountService
                         datacontext.SubmitChanges();
                     }
 
-                    result.Value = account.ToAccountDto();
+                    result.Value = account;
                 }
 
             }, () => "error");
         }
 
-        public Result<AccountDto> GetAccountById(int accountId)
+        public Result<AccountEntity> GetAccountById(int accountId, bool OnMinimal)
         {
-            return Result<AccountDto>.SafeExecute<AccountService>(result =>
+            
+            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var account = datacontext.Account.Where(a => a.id == accountId).First();
+                    if (!OnMinimal)
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<AccountEntity>(acc => acc.TransactionList);
+
+                    var account = datacontext.Account.Where(a => a.ID == accountId).First();
 
 
-                    result.Value = account.ToAccountDto();
+                    result.Value = account;
                 }
 
             }, () => "error");
         }
 
-        public Result<AccountDto> CreateAccount(AccountDto account)
+        public Result<AccountEntity> CreateAccount(CreateAccountCommand newAccountCommand)
         {
-            return Result<AccountDto>.SafeExecute<AccountService>(result =>
+            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var newEntity = account.ToAccountEntity();
+                    var newAccountEntity = new AccountEntity();
+                    newAccountEntity.Name = newAccountCommand.Name;
+                    newAccountEntity.PhotoUrl = newAccountCommand.PhotoUrl;
+                    newAccountEntity.BankName = newAccountCommand.BankName;
+                    newAccountEntity.CreatedDate = DateTime.Now;
+                    newAccountEntity.Balance = 0;
 
-                    datacontext.Account.InsertOnSubmit(newEntity);
+
+                    datacontext.Account.InsertOnSubmit(newAccountEntity);
 
                     datacontext.SubmitChanges();
 
-                    var AddedAccount = datacontext.Account.Where(a => a.CreatedDate == newEntity.CreatedDate).First();
+                    var AddedAccount = datacontext.Account.Where(a => a.CreatedDate == newAccountEntity.CreatedDate).First();
 
-                    result.Value = AddedAccount.ToAccountDto();
+                    result.Value = AddedAccount;
 
                 }
 
             }, () => "error");
         }
 
-        public Result<AccountDto> UpdateAccount(AccountDto accountToUpdate)
+        public Result<AccountEntity> UpdateAccount(EditAccountCommand editAccountCommand)
         {
-            return Result<AccountDto>.SafeExecute<AccountService>(result =>
+            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
             {
 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
 
-                    //MAPPING
-                    var UpdatedEntity = accountToUpdate.ToAccountEntity();
+                    var entityToUpdate = datacontext.Account.Where(t => t.ID == editAccountCommand.id).First();
 
-
-
-                    var entityToUpdate = datacontext.Account.Where(t => t.id == UpdatedEntity.id).First();
-
-                    entityToUpdate.id = UpdatedEntity.id;
-                    entityToUpdate.Name = UpdatedEntity.Name;
-                    entityToUpdate.BankName = UpdatedEntity.BankName;
-                    entityToUpdate.Balance = UpdatedEntity.Balance;
+                    entityToUpdate.ID = editAccountCommand.id;
+                    entityToUpdate.Name = editAccountCommand.Name;
+                    entityToUpdate.BankName = editAccountCommand.BankName;
                     entityToUpdate.CreatedDate = DateTime.Now;
 
 
                     datacontext.SubmitChanges();
 
-                    result.Value = entityToUpdate.ToAccountDto();
+                    result.Value = entityToUpdate;
                 }
 
             }, () => "error");
         }
 
 
-        public Result<List<AccountDto>> GetAllAccounts()
+        public Result<List<AccountEntity>> GetAllAccounts(bool OnMinimal)
         {
-            return Result<List<AccountDto>>.SafeExecute<AccountService>(result =>
+            return Result<List<AccountEntity>>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var accounts = (from t in datacontext.Account
-                                    select t).ToList();
+                    if(!OnMinimal)
+                     datacontext.LoadOptions =   DBHelpers.GetConfigurationLoader<AccountEntity>(Acc => Acc.TransactionList);
 
-                    var listeDto = new List<AccountDto>();
+                    var accounts = datacontext.Account.ToList();
 
-                    accounts.ForEach(account => listeDto.Add(account.ToAccountDto()));
-
-                    result.Value = listeDto;
+                    result.Value = accounts;
                 }
 
             }, () => "error");
         }
+
+
     }
 }

@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RMM.Data.Model;
 
 namespace RMM.Business.CategoryService
 {
     public interface ICategoryService
     {
-        //Renvoi l'element supprimé
-        Result<CategoryDto> DeleteCategorieById(int categoryId);
 
-        //Retournera un Dto
-        Result<CategoryDto> GetCategoryById(int categoryId);
+        Result<CategoryEntity> DeleteCategorieById(int categoryId);
 
-        Result<List<CategoryDto>> GetAllCategories();
+        Result<CategoryEntity> GetCategoryById(int categoryId, bool OnMinimal);
 
-        //Passage d'un dto en param apres
-        Result<CategoryDto> CreateCategory(CategoryDto category);
+        Result<List<CategoryEntity>> GetAllCategories(bool OnMinimal);
 
-        //Passage d'un dto en param apres
-        Result<CategoryDto> UpdateCategory(CategoryDto categoryToUpdate);
+
+        Result<CategoryEntity> CreateCategory(CreateCategoryCommand newCategoryCommand);
+
+        Result<CategoryEntity> UpdateCategory(EditCategoryCommand editCategoryCommand);
     }
 }
