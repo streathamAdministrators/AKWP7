@@ -113,6 +113,8 @@ namespace RMM.Phone.ViewModel
         public AccountViewData FavoriteAccount { get; set; }
         public OptionViewData OptionViewDataObj { get; set; }
 
+        //public int SelectIndex { get; set; }
+
         #region Services
 
         public IDatabaseService DatabaseService { get; set; }
@@ -147,18 +149,38 @@ namespace RMM.Phone.ViewModel
 
             var isAlreadyCreated = DatabaseService.Initialize();
 
-           if (isAlreadyCreated)
+            if (isAlreadyCreated)
             DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
 
+<<<<<<< HEAD
            this.ListeAccount = new ObservableCollection<AccountViewData>();
             this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
+=======
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+>>>>>>> 7fe9a3ad79d97138946133c3cf951a03a31da1c8
 
             SetListAccount();
             SetListCategory();
             SetOption();
             SetFavori();
 
+        }
+
+        public void RefreshAccountAfterUpdate()
+        {
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            SetListAccount();
+            RaisePropertyChanged("ListeAccount");
+        }
+
+        public void RefreshCategoryAfterUpdate()
+        {
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            SetListCategory();
+            RaisePropertyChanged("ListeCategory");
+            //SelectIndex = 2;
         }
 
         private void SetFavori()
@@ -232,7 +254,8 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?"  , "Delete an account", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    AccountService.DeleteAccountById(args.Id);
+                    var resultat = AccountService.DeleteAccountById(args.Id);
+                    RaisePropertyChanged("ListeAccount");
                 }
             }
         }
@@ -286,7 +309,6 @@ namespace RMM.Phone.ViewModel
 
             var rootFrame = (App.Current as App).RootFrame;
             rootFrame.Navigate(new System.Uri("/View/CategoryPivot.xaml?categoryId=" + category.Id.ToString(), System.UriKind.Relative));
-
         }
 
         #endregion

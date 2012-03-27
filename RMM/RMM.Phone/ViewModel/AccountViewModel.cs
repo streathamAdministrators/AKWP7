@@ -40,7 +40,6 @@ namespace RMM.Phone.ViewModel
             ListeAccount = new ObservableCollection<AccountViewData>();
 
             Deployment.Current.Dispatcher.BeginInvoke(() => SetAccounts());
-            
         }
 
         public void SelectIndex(string accountId)

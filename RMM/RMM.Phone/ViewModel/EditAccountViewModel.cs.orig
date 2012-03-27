@@ -52,12 +52,17 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
+<<<<<<< HEAD
+            var editcommande = new EditAccountCommand() { id = Account.Id, BankName = Account.BankName, Name = Account.Name, PhotoUrl = Account.PhotoUrl };
+            Accountservice.UpdateAccount(editcommande);
+=======
             var result =  Accountservice.UpdateAccount(Account.ToAccountDto());
             if (result.IsValid)
             {
                 var rootFrame = (App.Current as App).RootFrame;
                 rootFrame.Navigate(new System.Uri("/MainPage.xaml?update=account", System.UriKind.Relative));
             }
+>>>>>>> 7fe9a3ad79d97138946133c3cf951a03a31da1c8
         }
 
         void HandleCancelTaskSelected()
