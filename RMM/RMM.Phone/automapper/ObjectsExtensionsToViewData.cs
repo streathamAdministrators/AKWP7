@@ -13,58 +13,95 @@ using RMM.Phone.ViewData.Account;
 using RMM.Business.AccountService;
 using RMM.Business.OptionService;
 using RMM.Business.CategoryService;
+using RMM.Data.Model;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace RMM.Phone.ExtensionMethods
 {
     public static class ObjectsExtensionsToViewData
     {
-        public static TransactionViewData ToTransactionViewData(this TransactionDto Objectsource)
+        public static TransactionViewData ToTransactionViewData(this Transaction Objectsource, bool OnDetails)
         {
             var newTransactionViewData = new TransactionViewData();
 
-            newTransactionViewData.Id = Objectsource.Id;
+            newTransactionViewData.Id = Objectsource.ID;
             newTransactionViewData.Name = Objectsource.Name;
+
+            if (Objectsource.Account != null && OnDetails)
+                newTransactionViewData.Account = Objectsource.Account.ToAccountViewData() ;
+
+            if (Objectsource.Category != null && OnDetails)
+                newTransactionViewData.Category = Objectsource.Category.ToCategoryViewData();
+
+
             newTransactionViewData.Description = Objectsource.Description;
-            newTransactionViewData.Balance = Objectsource.Balance;
+            newTransactionViewData.Amount = Objectsource.Amount;
             newTransactionViewData.CreatedDate = Objectsource.CreatedDate.ToShortDateString();
 
             return newTransactionViewData;
 
         }
 
-        public static AccountViewData ToAccountViewData(this AccountDto Objectsource)
+        public static TransactionViewData ToTransactionMinimalViewData(this Transaction Objectsource)
+        {
+            var newTransactionViewData = new TransactionViewData();
+
+            newTransactionViewData.Id = Objectsource.ID;
+            newTransactionViewData.Name = Objectsource.Name;
+            newTransactionViewData.Description = Objectsource.Description;
+            newTransactionViewData.Amount = Objectsource.Amount;
+            newTransactionViewData.CreatedDate = Objectsource.CreatedDate.ToShortDateString();
+
+            return newTransactionViewData;
+
+        }
+
+        public static AccountViewData ToAccountViewData(this AccountEntity Objectsource)
         {
             var newAccountViewData = new AccountViewData();
 
-            newAccountViewData.Id = Objectsource.Id;
+            newAccountViewData.Id = Objectsource.ID;
             newAccountViewData.Name = Objectsource.Name;
             newAccountViewData.BankName = Objectsource.BankName;
             newAccountViewData.Balance = Objectsource.Balance;
             newAccountViewData.PhotoUrl = Objectsource.PhotoUrl;
 
+            if (Objectsource.TransactionList.HasLoadedOrAssignedValues)
+            {
+                newAccountViewData.ListTransaction = Objectsource.TransactionList.Select(t => t.ToTransactionMinimalViewData()).ToList();
+            }
+
+
             return newAccountViewData;
         }
 
-        public static OptionViewData ToOptionViewData(this OptionDto Objectsource)
+        public static OptionViewData ToOptionViewData(this Option Objectsource)
         {
             var newOptionViewData = new OptionViewData();
             newOptionViewData.IsComparator = Objectsource.IsComparator;
             newOptionViewData.IsPassword = Objectsource.IsPassword;
             newOptionViewData.IsPrimaryTile = Objectsource.IsPrimaryTile;
-            newOptionViewData.IsReport = Objectsource.Isreport;
+            newOptionViewData.IsReport = Objectsource.IsReport;
             newOptionViewData.IsSynchro = Objectsource.IsSynchro;
 
             return newOptionViewData;
         }
 
-        public static CategoryViewData ToCategoryViewData(this CategoryDto Objectsource)
+        public static CategoryViewData ToCategoryViewData(this CategoryEntity Objectsource)
         {
             var newCategoryViewData = new CategoryViewData();
 
-            newCategoryViewData.Id = Objectsource.Id;
+            newCategoryViewData.Id = Objectsource.ID;
             newCategoryViewData.Name = Objectsource.Name;
             newCategoryViewData.Balance = Objectsource.Balance;
             newCategoryViewData.Color = Objectsource.Color;
+
+            if (Objectsource.TransactionList.HasLoadedOrAssignedValues)
+            {
+                newCategoryViewData.ListTransaction = Objectsource.TransactionList.Select(t => t.ToTransactionMinimalViewData()).ToList();
+            }
+
 
             return newCategoryViewData;
         }

@@ -9,22 +9,24 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace RMM.Phone.ViewData.Account
+namespace RMM.Business.TransactionService
 {
-    public class TransactionViewData
+    public class CreateTransactionCommand
     {
-        public int Id { get; set; }
-
+        //Obligatoire
         public string Name { get; set; }
 
+        //Non Obligatoire
         public string Description { get; set; }
 
+        //Obligatoire
         public double Amount { get; set; }
 
-        public string CreatedDate { get; set; }
+        //Non Obligatoire : Definition fonctionnelle
+        public int? categoryId { get; set; }
 
-        public AccountViewData Account { get; set; }
+        //Obligatoire
+        public int accountId { get; set; }
 
-        public CategoryViewData Category { get; set; }
     }
 }

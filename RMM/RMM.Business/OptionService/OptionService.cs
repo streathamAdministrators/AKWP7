@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RMM.Data;
-using RMM.Business.ExtensionMethods;
+using RMM.Data.Model;
 
 namespace RMM.Business.OptionService
 {
@@ -11,81 +11,67 @@ namespace RMM.Business.OptionService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<OptionDto> GetOption()
+        public Result<Option> GetOption()
         {
-            return Result<OptionDto>.SafeExecute<IOptionService>(result =>
+            return Result<Option>.SafeExecute<IOptionService>(result =>
             {
 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var option = (from t in datacontext.Option
-                                       select t).First();
+                                  select t).First();
 
-
-
-                    //MAPPING de option a optionDto
-                    var dto = option.ToOptionDto();
-
-
-                    result.Value = dto;
+                    result.Value = option;
                 }
 
             }, () => "erreur");
         }
 
-        public Result<OptionDto> UpdateOption(OptionDto optionToUpdate)
+        public Result<Option> UpdateOption(Option optionToUpdate)
         {
-            return Result<OptionDto>.SafeExecute<IOptionService>(result =>
+            return Result<Option>.SafeExecute<IOptionService>(result =>
             {
-                //MAPPING
-                var UpdatedEntity = optionToUpdate.ToOptionEntity();
-
-
 
                 var entityToUpdate = datacontext.Option.First();
 
-                entityToUpdate.IsComparator = UpdatedEntity.IsComparator;
-                entityToUpdate.IsPassword = UpdatedEntity.IsPassword;
-                entityToUpdate.IsPrimaryTile = UpdatedEntity.IsPrimaryTile;
-                entityToUpdate.IsReport = UpdatedEntity.IsReport;
-                entityToUpdate.IsSynchro = UpdatedEntity.IsSynchro;
+                entityToUpdate.IsComparator = optionToUpdate.IsComparator;
+                entityToUpdate.IsPassword = optionToUpdate.IsPassword;
+                entityToUpdate.IsPrimaryTile = optionToUpdate.IsPrimaryTile;
+                entityToUpdate.IsReport = optionToUpdate.IsReport;
+                entityToUpdate.IsSynchro = optionToUpdate.IsSynchro;
 
                 datacontext.SubmitChanges();
 
-                result.Value = optionToUpdate;
+                result.Value = entityToUpdate;
 
             }, () => "erreur");
 
-            
+
         }
 
 
-        public Result<OptionDto> SetFirstTimeOption()
+        public Result<Option> SetFirstTimeOption()
         {
-            return Result<OptionDto>.SafeExecute<IOptionService>(result =>
+            return Result<Option>.SafeExecute<IOptionService>(result =>
             {
-                var newFirstTimeOptionDto = new OptionDto()
+                var newFirstTimeOption = new Option()
                 {
                     IsComparator = false,
                     IsPrimaryTile = false,
                     IsPassword = false,
-                    Isreport = false,
-                    IsSynchro = false
+                    IsReport = false,
+                    IsSynchro = false,
+                    ModifiedDate = DateTime.Now
                 };
 
-                var newFirstEntity = newFirstTimeOptionDto.ToOptionEntity();
-
-                datacontext.Option.InsertOnSubmit(newFirstEntity);
+                datacontext.Option.InsertOnSubmit(newFirstTimeOption);
 
                 datacontext.SubmitChanges();
 
-                var AddedOption = datacontext.Option.First();
-
-                result.Value = AddedOption.ToOptionDto();
-
+                result.Value = datacontext.Option.First();
             }, () => "erreur");
 
-            
+
         }
     }
 }

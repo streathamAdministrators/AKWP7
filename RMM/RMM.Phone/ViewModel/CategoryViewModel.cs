@@ -57,7 +57,7 @@ namespace RMM.Phone.ViewModel
 
         private void SetCategories()
         {
-            var resultCategories = CategoryService.GetAllCategories();
+            var resultCategories = CategoryService.GetAllCategories(false);
 
             var listCategoriesViewData = new List<CategoryViewData>();
 
@@ -69,33 +69,9 @@ namespace RMM.Phone.ViewModel
             listCategoriesViewData
                 .ForEach(categoryViewData =>
                 {
-                    categoryViewData.ListTransaction = getTransactionForCategoryViewData(categoryViewData);
-                    categoryViewData.Balance = categoryViewData.ListTransaction.Sum(tvd => tvd.Balance);
+                    categoryViewData.Balance = categoryViewData.ListTransaction.Sum(tvd => tvd.Amount);
                     ListeCategory.Add(categoryViewData);
                 });
-        }
-
-        private List<TransactionViewData> getTransactionForCategoryViewData(CategoryViewData categorieViewData)
-        {
-            var resultatFavoriteTransaction = TransactionService.GetTransactionsByCategoryId(categorieViewData.Id);
-
-
-            var listFavorie = new List<TransactionViewData>();
-
-            if (resultatFavoriteTransaction.IsValid)
-                foreach (var dto in resultatFavoriteTransaction.Value)
-                {
-                    var viewData = dto.ToTransactionViewData();
-
-                    var category = CategoryService.GetCategoryById(dto.CategoryId);
-
-                    if (category.IsValid)
-                        viewData.Category = category.Value.ToCategoryViewData();
-
-                    listFavorie.Add(viewData);
-                }
-
-            return listFavorie;
         }
     }
 }

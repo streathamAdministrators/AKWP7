@@ -14,6 +14,7 @@ using RMM.Business.AccountService;
 using RMM.Business.TransactionService;
 using System.Collections.Generic;
 using RMM.Business.OptionService;
+using RMM.Data.Model;
 
 namespace RMM.Business
 {
@@ -24,12 +25,12 @@ namespace RMM.Business
         {
             #region Categories
 
-            var c1 = new CategoryDto();
+            var c1 = new CategoryEntity();
             c1.Balance = 7.0;
             c1.Color = "FFA640";
             c1.Name = "Vacances";
 
-            var c2 = new CategoryDto();
+            var c2 = new CategoryEntity();
             c2.Balance = 7.0;
             c2.Color = "FFA640";
             c2.Name = "Profesionnel";
@@ -38,17 +39,17 @@ namespace RMM.Business
 
             #region Accounts
 
-            var na1 = new AccountDto();
+            var na1 = new AccountEntity();
             na1.Balance = 7.0;
             na1.BankName = "Credit Agricole";
             na1.Name = "Mon compte courant";
 
-            var na2 = new AccountDto();
+            var na2 = new AccountEntity();
             na2.Balance = 7.0;
             na2.BankName = "HSBC";
             na2.Name = "Mon compte courant";
 
-            var na3 = new AccountDto();
+            var na3 = new AccountEntity();
             na3.Balance = 7.0;
             na3.BankName = "HSBC";
             na3.Name = "Mon compte epargne HSBC";
@@ -59,37 +60,39 @@ namespace RMM.Business
 
             #region DB Cleaner
 
-            var Categories = CategoryService.GetAllCategories();
+            var Categories = CategoryService.GetAllCategories(true);
 
-            var Accounts = AccountService.GetAllAccounts();
+            var Accounts = AccountService.GetAllAccounts(true);
 
             if (Categories.Value.Count > 0)
             {
-                foreach (var dto in Categories.Value)
+                foreach (var entity in Categories.Value)
                 {
-                    CategoryService.DeleteCategorieById(dto.Id);
+                    CategoryService.DeleteCategorieById(entity.ID);
                 }
             }
 
             if (Accounts.Value.Count > 0)
             {
-                foreach (var dto in Accounts.Value)
+                foreach (var entity in Accounts.Value)
                 {
-                    AccountService.DeleteAccountById(dto.Id);
+                    AccountService.DeleteAccountById(entity.ID);
 
                 }
             }
+
+            var transactions =
 
             #endregion
 
             #region Ajout Données
 
-            na1 = AccountService.CreateAccount(na1).Value;
-            na2 = AccountService.CreateAccount(na2).Value;
-            na3 = AccountService.CreateAccount(na3).Value;
+            na1 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na1.BankName, Name = na1.Name, PhotoUrl = na1.PhotoUrl }).Value;
+            na2 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na2.BankName, Name = na2.Name, PhotoUrl = na2.PhotoUrl }).Value;
+            na3 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na3.BankName, Name = na3.Name, PhotoUrl = na3.PhotoUrl }).Value;
 
-            c1 = CategoryService.CreateCategory(c1).Value;
-            c2 = CategoryService.CreateCategory(c2).Value;
+            c1 = CategoryService.CreateCategory(new CreateCategoryCommand() { Name = c1.Name, Color = c1.Color }).Value;
+            c2 = CategoryService.CreateCategory(new CreateCategoryCommand() { Name = c2.Name, Color = c2.Color }).Value;
 
             #endregion
 
@@ -97,34 +100,34 @@ namespace RMM.Business
 
             #region Ajout 26 transactions
 
-            var t1 = new TransactionDto() { Name = "redevance tv", AccountId = na1.Id, Balance = -100, Description="test de la description" };
-            var t2 = new TransactionDto() { Name = "les courses", AccountId = na1.Id, Balance = -80, Description = "test de la description" };
-            var t3 = new TransactionDto() { Name = "restau", AccountId = na2.Id, CategoryId = c2.Id, Balance = -40, Description = "test de la description" };
-            var t4 = new TransactionDto() { Name = "piscine", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
-            var t5 = new TransactionDto() { Name = "ciné", AccountId = na1.Id, Balance = -5, Description = "test de la description" };
-            var t6 = new TransactionDto() { Name = "bar", AccountId = na1.Id, CategoryId = c1.Id, Balance = -10.5, Description = "test de la description" };
-            var t7 = new TransactionDto() { Name = "club", AccountId = na1.Id, CategoryId = c1.Id, Balance = -15.5, Description = "test de la description" };
-            var t8 = new TransactionDto() { Name = "lotto", AccountId = na1.Id, Balance = 7, Description = "test de la description" };
-            var t9 = new TransactionDto() { Name = "la biere", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
-            var t10 = new TransactionDto() { Name = "bouquet de fleur", AccountId = na1.Id, Balance = -20, Description = "test de la description" };
-            var t11 = new TransactionDto() { Name = "medicaments", AccountId = na1.Id, Balance = -5, Description = "test de la description" };
-            var t12 = new TransactionDto() { Name = "pizza tv", AccountId = na1.Id, Balance = -10, Description = "test de la description" };
-            var t13 = new TransactionDto() { Name = "moulin de la forge tv", AccountId = na1.Id, CategoryId = c1.Id, Balance = -150, Description = "test de la description" };
-            var t14 = new TransactionDto() { Name = "licence MS", AccountId = na2.Id, CategoryId = c2.Id, Balance = -35, Description = "test de la description" };
-            var t15 = new TransactionDto() { Name = "James", AccountId = na2.Id, CategoryId = c2.Id, Balance = 500, Description = "test de la description" };
-            var t16 = new TransactionDto() { Name = "Ian", AccountId = na2.Id, CategoryId = c2.Id, Balance = 1000, Description = "test de la description" };
-            var t17 = new TransactionDto() { Name = "Villa", AccountId = na2.Id, CategoryId = c1.Id, Balance = -200, Description = "test de la description" };
-            var t18 = new TransactionDto() { Name = "Telephone", AccountId = na2.Id, CategoryId = c2.Id, Balance = -30, Description = "test de la description" };
-            var t19 = new TransactionDto() { Name = "park d'actraction", AccountId = na2.Id, Balance = -20, Description = "test de la description" };
-            var t20 = new TransactionDto() { Name = "enfants", AccountId = na2.Id, Balance = 46.7, Description = "test de la description" };
-            var t21 = new TransactionDto() { Name = "nouvelle maison", AccountId = na3.Id, Balance = -33.6, Description = "test de la description" };
-            var t22 = new TransactionDto() { Name = "epargne taux fixe", AccountId = na3.Id, Balance = 10, Description = "test de la description" };
-            var t23 = new TransactionDto() { Name = "epargne sur montpellier", AccountId = na3.Id, Balance = 60, Description = "test de la description" };
-            var t24 = new TransactionDto() { Name = "epargne de Paris", AccountId = na3.Id, Balance = -20, Description = "test de la description" };
-            var t25 = new TransactionDto() { Name = "investissement", AccountId = na3.Id, Balance = 250, Description = "test de la description" };
-            var t26 = new TransactionDto() { Name = "import maman", AccountId = na1.Id, Balance = 700, Description = "test de la description" };
+            var t1 = new Transaction() { Name = "redevance tv", Account = na1, Amount = -100, Description="test de la description" };
+            var t2 = new Transaction() { Name = "les courses", Account = na1, Amount = -80, Description = "test de la description" };
+            var t3 = new Transaction() { Name = "restau", Account = na2, Category = c2, Amount = -40, Description = "test de la description" };
+            var t4 = new Transaction() { Name = "piscine", Account = na1, Amount = -10, Description = "test de la description" };
+            var t5 = new Transaction() { Name = "ciné", Account = na1, Amount = -5, Description = "test de la description" };
+            var t6 = new Transaction() { Name = "bar", Account = na1, Category = c1, Amount = -10.5, Description = "test de la description" };
+            var t7 = new Transaction() { Name = "club", Account = na1, Category = c1, Amount = -15.5, Description = "test de la description" };
+            var t8 = new Transaction() { Name = "lotto", Account = na1, Amount = 7, Description = "test de la description" };
+            var t9 = new Transaction() { Name = "la biere", Account = na1, Amount = -10, Description = "test de la description" };
+            var t10 = new Transaction() { Name = "bouquet de fleur", Account = na1, Amount = -20, Description = "test de la description" };
+            var t11 = new Transaction() { Name = "medicaments", Account = na1, Amount = -5, Description = "test de la description" };
+            var t12 = new Transaction() { Name = "pizza tv", Account = na1, Amount = -10, Description = "test de la description" };
+            var t13 = new Transaction() { Name = "moulin de la forge tv", Account = na1, Category = c1, Amount = -150, Description = "test de la description" };
+            var t14 = new Transaction() { Name = "licence MS", Account = na2, Category = c2, Amount = -35, Description = "test de la description" };
+            var t15 = new Transaction() { Name = "James", Account = na2, Category = c2, Amount = 500, Description = "test de la description" };
+            var t16 = new Transaction() { Name = "Ian", Account = na2, Category = c2, Amount = 1000, Description = "test de la description" };
+            var t17 = new Transaction() { Name = "Villa", Account = na2, Category = c1, Amount = -200, Description = "test de la description" };
+            var t18 = new Transaction() { Name = "Telephone", Account = na2, Category = c2, Amount = -30, Description = "test de la description" };
+            var t19 = new Transaction() { Name = "park d'actraction", Account = na2, Amount = -20, Description = "test de la description" };
+            var t20 = new Transaction() { Name = "enfants", Account = na2, Amount = 46.7, Description = "test de la description" };
+            var t21 = new Transaction() { Name = "nouvelle maison", Account = na3, Amount = -33.6, Description = "test de la description" };
+            var t22 = new Transaction() { Name = "epargne taux fixe", Account = na3, Amount = 10, Description = "test de la description" };
+            var t23 = new Transaction() { Name = "epargne sur montpellier", Account = na3, Amount = 60, Description = "test de la description" };
+            var t24 = new Transaction() { Name = "epargne de Paris", Account = na3, Amount = -20, Description = "test de la description" };
+            var t25 = new Transaction() { Name = "investissement", Account = na3, Amount = 250, Description = "test de la description" };
+            var t26 = new Transaction() { Name = "import maman", Account = na1, Amount = 700, Description = "test de la description" };
 
-            var listDeTransaction = new List<TransactionDto>();
+            var listDeTransaction = new List<Transaction>();
             listDeTransaction.Add(t1);
             listDeTransaction.Add(t2);
             listDeTransaction.Add(t3);
@@ -155,7 +158,26 @@ namespace RMM.Business
 
             #endregion
 
-            listDeTransaction.ForEach(transacDto => TransactionService.CreateTransaction(transacDto));
+
+
+            listDeTransaction.ForEach(transac => 
+                
+                {
+            var newtransaction = new CreateTransactionCommand()
+            {
+                Name = transac.Name,
+                accountId = transac.Account.ID,
+                Amount = transac.Amount,
+                Description = transac.Description
+            };
+
+                    if (transac.Category != null)
+                    {
+                        newtransaction.categoryId = transac.Category.ID;
+                    }
+
+                    TransactionService.CreateTransaction(newtransaction);
+                });
 
             OptionService.SetFirstTimeOption();
         }

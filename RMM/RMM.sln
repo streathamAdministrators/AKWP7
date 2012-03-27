@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMM.Data", "RMM.Data\RMM.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMM.Business", "RMM.Business\RMM.Business.csproj", "{F40BDCCD-D7E3-41DE-B394-B75077EA1130}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMM.Phone.TestFonctionnel", "RMM.Phone.TestFonctionnel\RMM.Phone.TestFonctionnel.csproj", "{FBA51337-61F8-463C-A9D6-D4D03CA7D654}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +27,6 @@ Global
 		{F40BDCCD-D7E3-41DE-B394-B75077EA1130}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F40BDCCD-D7E3-41DE-B394-B75077EA1130}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F40BDCCD-D7E3-41DE-B394-B75077EA1130}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBA51337-61F8-463C-A9D6-D4D03CA7D654}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

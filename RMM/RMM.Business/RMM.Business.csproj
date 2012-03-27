@@ -50,25 +50,26 @@
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountService\AccountDto.cs" />
     <Compile Include="AccountService\AccountService.cs" />
+    <Compile Include="AccountService\CreateAccountCommand.cs" />
+    <Compile Include="AccountService\EditAccountCommand.cs" />
     <Compile Include="AccountService\IAccountService.cs" />
-    <Compile Include="automapper\ObjectsExtensionsToDto.cs" />
-    <Compile Include="automapper\ObjectsExtensionsToEntity.cs" />
-    <Compile Include="CategoryService\CategoryDto.cs" />
+    <Compile Include="automapper\DBHelpers.cs" />
     <Compile Include="CategoryService\CategoryService.cs" />
+    <Compile Include="CategoryService\CreateCategoryCommand.cs" />
+    <Compile Include="CategoryService\EditCategoryCommand.cs" />
     <Compile Include="CategoryService\ICategoryService.cs" />
     <Compile Include="DatabaseService\DatabaseService.cs" />
     <Compile Include="DatabaseService\IDatabaseService.cs" />
     <Compile Include="DumpMyDBSQLCE.cs" />
     <Compile Include="Erreur.cs" />
     <Compile Include="OptionService\IOptionService.cs" />
-    <Compile Include="OptionService\OptionDto.cs" />
     <Compile Include="OptionService\OptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result.cs" />
+    <Compile Include="TransactionService\CreateTransactionCommand.cs" />
+    <Compile Include="TransactionService\EditTransactionCommand.cs" />
     <Compile Include="TransactionService\ITransactionService.cs" />
-    <Compile Include="TransactionService\TransactionDto.cs" />
     <Compile Include="TransactionService\TransactionService.cs" />
   </ItemGroup>
   <ItemGroup>

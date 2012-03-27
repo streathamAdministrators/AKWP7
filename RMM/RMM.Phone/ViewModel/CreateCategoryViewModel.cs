@@ -30,8 +30,10 @@ namespace RMM.Phone.ViewModel
 
         void HandleCreateTaskSelected()
         {
-            var newCategory = Category.ToCategoryDto();
-            CategoryService.CreateCategory(newCategory);
+            var newCategoryCommand = new CreateCategoryCommand() { Name = Category.Name, Color = Category.Color };
+
+
+            CategoryService.CreateCategory(newCategoryCommand);
         }
 
         void HandleCancelTaskSelected()

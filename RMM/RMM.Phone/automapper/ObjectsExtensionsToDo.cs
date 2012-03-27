@@ -13,68 +13,70 @@ using RMM.Business.TransactionService;
 using RMM.Business.AccountService;
 using RMM.Business.OptionService;
 using RMM.Business.CategoryService;
+using RMM.Data.Model;
+using Microsoft.Phone.UserData;
 
 namespace RMM.Phone.ExtensionMethods
 {
     public static class ObjectsExtensionsToDo
     {
 
-        public static TransactionDto ToTransactionDto(this TransactionViewData Objectsource)
+        public static Transaction ToTransaction(this TransactionViewData Objectsource)
         {
-            var newtransactionDto = new TransactionDto();
+            var newtransaction = new Transaction();
 
-            newtransactionDto.Id = Objectsource.Id;
-            newtransactionDto.Name = Objectsource.Name;
-            newtransactionDto.Description = Objectsource.Description;
-            newtransactionDto.Balance = Objectsource.Balance;
+            newtransaction.ID = Objectsource.Id;
+            newtransaction.Name = Objectsource.Name;
+            newtransaction.Description = Objectsource.Description;
+            newtransaction.Amount = Objectsource.Amount;
 
             if (Objectsource.Category != null)
-                newtransactionDto.CategoryId = Objectsource.Category.Id;
+                newtransaction.Category = Objectsource.Category.ToCategoryEntity();
 
             if (Objectsource.Account != null)
-                newtransactionDto.AccountId = Objectsource.Account.Id;
+                newtransaction.Account = Objectsource.Account.ToAccountEntity();
 
 
-            return newtransactionDto;
+            return newtransaction;
         }
 
-        public static AccountDto ToAccountDto(this AccountViewData Objectsource)
+        public static AccountEntity ToAccountEntity(this AccountViewData Objectsource)
         {
-            var newAccountDto = new AccountDto();
-            newAccountDto.Id = Objectsource.Id;
-            newAccountDto.Name = Objectsource.Name;
-            newAccountDto.BankName = Objectsource.BankName;
-            newAccountDto.Balance = Objectsource.Balance;
-            newAccountDto.PhotoUrl = Objectsource.PhotoUrl;
+            var newAccount = new AccountEntity();
+            newAccount.ID = Objectsource.Id;
+            newAccount.Name = Objectsource.Name;
+            newAccount.BankName = Objectsource.BankName;
+            newAccount.Balance = Objectsource.Balance;
+            newAccount.PhotoUrl = Objectsource.PhotoUrl;
 
-            return newAccountDto;
+            return newAccount;
         }
 
-        public static OptionDto ToOptionDto(this OptionViewData Objectsource)
+        public static Option ToOption(this OptionViewData Objectsource)
         {
-            var newOptionDto = new OptionDto();
+            var newOption = new Option();
 
-            newOptionDto.IsComparator = Objectsource.IsComparator;
-            newOptionDto.IsPassword = Objectsource.IsPassword;
-            newOptionDto.IsPrimaryTile = Objectsource.IsPrimaryTile;
-            newOptionDto.Isreport = Objectsource.IsReport;
-            newOptionDto.IsSynchro = Objectsource.IsSynchro;
-            newOptionDto.ModifiedDate = newOptionDto.ModifiedDate;
+            newOption.IsComparator = Objectsource.IsComparator;
+            newOption.IsPassword = Objectsource.IsPassword;
+            newOption.IsPrimaryTile = Objectsource.IsPrimaryTile;
+            newOption.IsReport = Objectsource.IsReport;
+            newOption.IsSynchro = Objectsource.IsSynchro;
+            newOption.ModifiedDate = newOption.ModifiedDate;
 
-            return newOptionDto;
+            return newOption;
 
         }
 
-        public static CategoryDto ToCategoryDto(this CategoryViewData Objectsource)
+        public static CategoryEntity ToCategoryEntity(this CategoryViewData Objectsource)
         {
-            var newCategoryDto = new CategoryDto();
+            var newCategory = new CategoryEntity();
 
-            newCategoryDto.Id = Objectsource.Id;
-            newCategoryDto.Name = Objectsource.Name;
-            newCategoryDto.Color = Objectsource.Color;
-            newCategoryDto.Balance = Objectsource.Balance;
+            newCategory.ID = Objectsource.Id;
+            newCategory.Name = Objectsource.Name;
+            newCategory.Color = Objectsource.Color;
+            newCategory.Balance = Objectsource.Balance;
 
-            return newCategoryDto;
+            return newCategory;
         }
 
     }

@@ -53,52 +53,21 @@ namespace RMM.Phone.ViewModel
 
         private void SetAccounts()
         {
-            var resultAccounts = AccountService.GetAllAccounts();
+            var resultAccounts = AccountService.GetAllAccounts(false);
 
             var listAccountsViewData = new List<AccountViewData>();
 
             if (resultAccounts.IsValid)
             {
-                resultAccounts.Value.ForEach(dto => listAccountsViewData.Add(dto.ToAccountViewData()));
+                resultAccounts.Value.ForEach(vd => listAccountsViewData.Add(vd.ToAccountViewData()));
             }
 
             listAccountsViewData
                 .ForEach(accountViewData =>
                     {
-                        accountViewData.ListTransaction = getTransactionForAccountViewData(accountViewData);
-                        accountViewData.Balance = accountViewData.ListTransaction.Sum(tvd => tvd.Balance);
+                        accountViewData.Balance = accountViewData.ListTransaction.Sum(tvd => tvd.Amount);
                         ListeAccount.Add(accountViewData);
                     });
-        }
-
-        private List<TransactionViewData> getTransactionForAccountViewData(AccountViewData accountViewData)
-        {
-            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(accountViewData.Id);
-
-
-            var listFavorie = new List<TransactionViewData>();
-
-            if (resultatFavoriteTransaction.IsValid)
-                foreach (var dto in resultatFavoriteTransaction.Value)
-                {
-                    var viewData = dto.ToTransactionViewData();
-
-                    var category = CategoryService.GetCategoryById(dto.CategoryId);
-
-                    if (category.IsValid)
-                        viewData.Category = category.Value.ToCategoryViewData();
-
-                    listFavorie.Add(viewData);
-                }
-
-            return listFavorie;
-        }
-
-
-
-
-
-
-        
+        }   
     }
 }

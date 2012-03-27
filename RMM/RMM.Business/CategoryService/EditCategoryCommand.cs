@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RMM.Business.TransactionService;
 
 namespace RMM.Business.CategoryService
 {
-    public class CategoryDto
+   public class EditCategoryCommand
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
         public string Name { get; set; }
 
-        public double Balance { get; set; }
-
         public string Color { get; set; }
-
-        
-        public DateTime CreatedDate { get; set; }
     }
 }

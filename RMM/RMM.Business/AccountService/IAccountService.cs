@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RMM.Data.Model;
+using System.Linq.Expressions;
 
 namespace RMM.Business.AccountService
 {
     public interface IAccountService
     {
-        //Renvoi l'element supprimé
-        Result<AccountDto> DeleteAccountById(int accountId);
 
-        //Retournera un Dto
-        Result<AccountDto> GetAccountById(int accountId);
+        Result<AccountEntity> DeleteAccountById(int accountId);
 
-        Result<List<AccountDto>> GetAllAccounts();
 
-        //Passage d'un dto en param apres
-        Result<AccountDto> CreateAccount(AccountDto account);
+        Result<AccountEntity> GetAccountById(int accountId, bool OnMinimal);
 
-        //Passage d'un dto en param apres
-        Result<AccountDto> UpdateAccount(AccountDto accountToUpdate);
+        Result<List<AccountEntity>> GetAllAccounts(bool OnMinimal);
+
+
+        Result<AccountEntity> CreateAccount(CreateAccountCommand newAccountCommand);
+
+        Result<AccountEntity> UpdateAccount(EditAccountCommand editAccountCommand);
     }
 }

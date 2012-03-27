@@ -11,8 +11,16 @@ namespace RMM.Data.Model
     [Table(Name="Transaction")]
     public class Transaction
     {
+
+        private Nullable<int> accountID;
+        private Nullable<int> categoryID;
+
+        private EntityRef<AccountEntity> AccountRef = new EntityRef<AccountEntity>();
+        private EntityRef<CategoryEntity> CategoryRef = new EntityRef<CategoryEntity>();
+
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int transactionid { get; set; }
+        public int ID { get; set; }
 
         [Column]
         public string Name { get; set; }
@@ -21,71 +29,83 @@ namespace RMM.Data.Model
         public string Description { get; set; }
 
         [Column]
-        public double Balance { get; set; }
+        public double Amount { get; set; }
 
-        [Column]
-        internal int? _accountId;
 
-        private EntityRef<AccountEntity> account;
+    [Column(Storage="accountID", DbType="Int")]
+        public int? AccountID
+    {
+        get { return this.accountID;}
+        set { this.accountID = value; }
+    }
 
-        [Association(Storage = "account", ThisKey = "_accountId", OtherKey = "id", IsForeignKey=true)]
+            [Column(Storage="categoryID", DbType="Int")]
+        public int? CategoryID
+    {
+        get { return this.categoryID;}
+        set { this.categoryID = value; }
+    }
+
+
+
+        [Association(Name="FK_Account_Transactions", Storage = "AccountRef", ThisKey = "AccountID", OtherKey = "ID", IsForeignKey = true)]
         public AccountEntity Account 
         {
-            get { return this.account.Entity; }
+            get { return this.AccountRef.Entity; }
             set 
             {
-                AccountEntity previousValue = this.account.Entity; 
+                AccountEntity previousValue = this.AccountRef.Entity; 
                  
-                 if (previousValue != value || this.account.HasLoadedOrAssignedValue == false)
+                 if (previousValue != value || this.AccountRef.HasLoadedOrAssignedValue == false)
                  {
                      if (previousValue != null)
                      {
-                         this.account.Entity = null; 
+                         this.AccountRef.Entity = null; 
                          previousValue.TransactionList.Remove(this);
                      } 
                      
-                     this.account.Entity = value; 
+                     this.AccountRef.Entity = value; 
                      
                      if (value != null)
                      {
                          value.TransactionList.Add(this);
-                         this.transactionid = value.id;
+                         this.accountID = value.ID;
                      } 
                      else
                      {
-                         this.transactionid = default(int);
+                         this.AccountID = default(Nullable<int>);
                      }
                  }
             }
         }
 
-        private EntityRef<CategoryEntity> category = new EntityRef<CategoryEntity>();
-        [Association(Name = "FK_Category_Transaction", Storage = "category", ThisKey = "transactionid", OtherKey = "id")]
+        
+        [Association(Name = "FK_Category_Transactions", Storage = "CategoryRef", ThisKey = "CategoryID", OtherKey = "ID", IsForeignKey = true)]
         public CategoryEntity Category 
         {
-            get { return this.category.Entity; }
+            get { return this.CategoryRef.Entity; }
             set
             {
-                CategoryEntity previousValue = this.category.Entity;
+                CategoryEntity previousValue = this.CategoryRef.Entity;
 
-                if (previousValue != value || this.category.HasLoadedOrAssignedValue == false)
+                if (previousValue != value || this.CategoryRef.HasLoadedOrAssignedValue == false)
                 {
                     if (previousValue != null)
                     {
-                        this.category.Entity = null;
+                        this.CategoryRef.Entity = null;
                         previousValue.TransactionList.Remove(this);
                     }
 
-                    this.category.Entity = value;
+                    this.CategoryRef.Entity = value;
 
                     if (value != null)
                     {
                         value.TransactionList.Add(this);
-                        this.transactionid = value.id;
+                        this.categoryID = value.ID;
                     }
                     else
                     {
-                        this.transactionid = default(int);
+                        this.categoryID = default(Nullable<int>);
                     }
                 }
             }

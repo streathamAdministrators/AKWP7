@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RMM.Data;
-using RMM.Business.ExtensionMethods;
 using System.Data.Linq;
+using RMM.Business.Helpers;
+using RMM.Data.Model;
+using System.Linq.Expressions;
 
 namespace RMM.Business.CategoryService
 {
@@ -12,14 +14,14 @@ namespace RMM.Business.CategoryService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<CategoryDto> DeleteCategorieById(int categoryId)
+        public Result<CategoryEntity> DeleteCategorieById(int categoryId)
         {
-            return Result<CategoryDto>.SafeExecute<CategoryService>(result =>
+            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
                 {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var category = (from t in datacontext.Category
-                                    where t.id == categoryId
+                                    where t.ID == categoryId
                                     select t).First();
 
                     if (category != null)
@@ -29,93 +31,96 @@ namespace RMM.Business.CategoryService
                         datacontext.SubmitChanges();
                     }
 
-                    result.Value = category.ToCategoryDto();
+                    result.Value = category;
                     }
 
                 },() => "error");
         }
 
-        public Result<CategoryDto> GetCategoryById(int categoryId)
+        public Result<CategoryEntity> GetCategoryById(int categoryId, bool OnMinimal)
         {
-            return Result<CategoryDto>.SafeExecute<CategoryService>(result =>
+            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var category = datacontext.Category.Where(a => a.id == categoryId).First();
+                    if(!OnMinimal)
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<CategoryEntity>(c => c.TransactionList);
+
+                    var category = datacontext.Category.Where(a => a.ID == categoryId).First();
 
 
-                    result.Value = category.ToCategoryDto();
+                    result.Value = category;
                 }
 
             }, () => "error");
         }
 
-        public Result<CategoryDto> CreateCategory(CategoryDto category)
+        public Result<CategoryEntity> CreateCategory(CreateCategoryCommand newCategoryCommand)
         {
-            return Result<CategoryDto>.SafeExecute<CategoryService>(result =>
+            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var newEntity = category.ToCategoryEntity();
+                    var newCategoryEntity = new CategoryEntity()
+                    {
+                        Balance = 0,
+                        Color = newCategoryCommand.Color,
+                        CreatedDate = DateTime.Now,
+                        Name = newCategoryCommand.Name
+                    };
+                        
 
-                    datacontext.Category.InsertOnSubmit(newEntity);
+
+                    datacontext.Category.InsertOnSubmit(newCategoryEntity);
 
                     datacontext.SubmitChanges();
 
-                    var AddedCategory = datacontext.Category.Where(a => a.CreatedDate == newEntity.CreatedDate).First();
+                    var AddedCategory = datacontext.Category.Where(a => a.CreatedDate == newCategoryEntity.CreatedDate).First();
 
-                    result.Value = AddedCategory.ToCategoryDto();
+                    result.Value = AddedCategory;
 
                 }
 
             }, () => "error");
         }
 
-        public Result<CategoryDto> UpdateCategory(CategoryDto categoryToUpdate)
+        public Result<CategoryEntity> UpdateCategory(EditCategoryCommand editCategoryCommand)
         {
-            return Result<CategoryDto>.SafeExecute<CategoryService>(result =>
+            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
             {
 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
 
-                    //MAPPING
-                    var UpdatedEntity = categoryToUpdate.ToCategoryEntity();
+                    var entityToUpdate = datacontext.Category.Where(t => t.ID == editCategoryCommand.id).First();
 
-
-
-                    var entityToUpdate = datacontext.Category.Where(t => t.id == UpdatedEntity.id).First();
-
-                    entityToUpdate.id = UpdatedEntity.id;
-                    entityToUpdate.Name = UpdatedEntity.Name;
-                    entityToUpdate.Color = UpdatedEntity.Color;
-                    entityToUpdate.Balance = UpdatedEntity.Balance;
+                    entityToUpdate.ID = editCategoryCommand.id;
+                    entityToUpdate.Name = editCategoryCommand.Name;
+                    entityToUpdate.Color = editCategoryCommand.Color;
                     entityToUpdate.CreatedDate = DateTime.Now;
 
 
                     datacontext.SubmitChanges();
 
-                    result.Value = entityToUpdate.ToCategoryDto();
+                    result.Value = entityToUpdate;
                 }
 
             }, () => "error");
         }
 
-
-        public Result<List<CategoryDto>> GetAllCategories()
+        public Result<List<CategoryEntity>> GetAllCategories(bool OnMinimal)
         {
-            return Result<List<CategoryDto>>.SafeExecute<CategoryService>(result =>
+            return Result<List<CategoryEntity>>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var categories = (from t in datacontext.Category
-                                      select t).ToList();
+                    if (!OnMinimal)
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<CategoryEntity>(cat => cat.TransactionList);
 
-                    var listeDto = new List<CategoryDto>();
+                    var categories = datacontext.Category.ToList();
 
-                    categories.ForEach(category => listeDto.Add(category.ToCategoryDto()));
 
-                    result.Value = listeDto;
+                    result.Value = categories;
                 }
             }, () => "error");
         }

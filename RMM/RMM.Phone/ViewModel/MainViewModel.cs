@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight;
 using RMM.Business.CategoryService;
 using System.Collections.ObjectModel;
 using RMM.Phone.ViewData.Account;
@@ -127,6 +127,7 @@ namespace RMM.Phone.ViewModel
 
         public MainViewModel(IAccountService accountService, ICategoryService categoryService, ITransactionService transactionService, IOptionService optionService, IDatabaseService databaseService)
         {
+
             AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
             CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
 
@@ -145,23 +146,21 @@ namespace RMM.Phone.ViewModel
             CategoryService = categoryService;
             OptionService = optionService;
 
-            //A VIRER
-            //var isAlreadyCreated = DatabaseService.Initialize();
 
-            //if (isAlreadyCreated)
-            //DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
+            var isAlreadyCreated = DatabaseService.Initialize();
+
+            if (isAlreadyCreated)
+            DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
+
+           this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
 
 
-            //this.ListeAccount = new ObservableCollection<AccountViewData>();
-            //this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            SetListAccount();
+            SetListCategory();
+            SetOption();
+            SetFavori();
 
-            //SetListAccount();
-            //SetListCategory();
-            //SetOption();
-            //SetFavori();
-
-            ProcessDatasOnDB();
-            ListeAccount.Add(new AccountViewData() { Balance=253.32, BankName="feouihfje", Name="dfezfazef" });
         }
 
         public void RefreshAccountAfterUpdate()
@@ -183,29 +182,29 @@ namespace RMM.Phone.ViewModel
         {
 
             FavoriteAccount = this.ListeAccount.First();
-            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id);
+            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id, true);
 
 
-            var listFavorie = new List<TransactionViewData>();
+            //var listFavorie = new List<TransactionViewData>();
 
-            if (resultatFavoriteTransaction.IsValid)
-                foreach (var dto in resultatFavoriteTransaction.Value)
-                {
-                    var viewData = dto.ToTransactionViewData();
+            //if (resultatFavoriteTransaction.IsValid)
+            //    foreach (var dto in resultatFavoriteTransaction.Value)
+            //    {
+            //        var viewData = dto.ToTransactionViewData();
 
-                    var category = CategoryService.GetCategoryById(dto.CategoryId);
+            //        var category = CategoryService.GetCategoryById(dto.Account.Id);
 
-                    if (category.IsValid)
-                        viewData.Category = category.Value.ToCategoryViewData();
+            //        if (category.IsValid)
+            //            viewData.Category = category.Value.ToCategoryViewData();
 
-                    listFavorie.Add(viewData);
-                }
-            FavoriteAccount.ListTransaction = listFavorie;
+            //        listFavorie.Add(viewData);
+            //    }
+            //FavoriteAccount.ListTransaction = listFavorie;
         }
 
         private void SetListAccount()
         {
-            var resultatAccountService = AccountService.GetAllAccounts();
+            var resultatAccountService = AccountService.GetAllAccounts(true);
             if (resultatAccountService.IsValid)
             {
                 resultatAccountService.Value.ForEach(dto => this.ListeAccount.Add(dto.ToAccountViewData()));
@@ -214,7 +213,7 @@ namespace RMM.Phone.ViewModel
 
         private void SetListCategory()
         {
-            var resultatCategoryService = CategoryService.GetAllCategories();
+            var resultatCategoryService = CategoryService.GetAllCategories(true);
             if (resultatCategoryService.IsValid)
             {
                 resultatCategoryService.Value.ForEach(dto => this.ListeCategory.Add(dto.ToCategoryViewData()));
@@ -308,44 +307,5 @@ namespace RMM.Phone.ViewModel
         }
 
         #endregion
-
-
-         void ProcessDatasOnDB()
-        {
-            var c1 = new CategoryViewData();
-            c1.Balance = 7.0;
-            c1.Color = "FFA640";
-            c1.Name = "Vacances";
-            
-
-            var c2 = new CategoryViewData();
-            c2.Balance = 7.0;
-            c2.Color = "FFA640";
-            c2.Name = "Profesionnel";
-
-            var na1 = new AccountViewData();
-            na1.Balance = 7.0;
-            na1.BankName = "Credit Agricole";
-            na1.Name = "Mon compte courant";
-
-            var na2 = new AccountViewData();
-            na2.Balance = 7.0;
-            na2.BankName = "HSBC";
-            na2.Name = "Mon compte courant";
-            na2.Favorite = "Visible";
-
-            var na3 = new AccountViewData();
-            na3.Balance = 7.0;
-            na3.BankName = "HSBC";
-            na3.Name = "Mon compte epargne HSBC";
-
-            this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeAccount.Add(na1);
-            this.ListeAccount.Add(na2);
-            this.ListeAccount.Add(na3);
-
-            RaisePropertyChanged("ListeAccount");
-
-        }
     }
 }

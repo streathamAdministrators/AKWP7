@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using RMM.Data;
 using RMM.Data.Model;
-using RMM.Business.ExtensionMethods;
 using System.Data.Linq;
+using RMM.Business.Helpers;
+using System.Linq.Expressions;
 
 
 namespace RMM.Business.TransactionService
@@ -14,15 +15,15 @@ namespace RMM.Business.TransactionService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<TransactionDto> DeleteTransactionById(int transactionDtoId)
+        public Result<Transaction> DeleteTransactionById(int transactionDtoId)
         {
-          return Result<TransactionDto>.SafeExecute<TransactionService>(result =>
+            return Result<Transaction>.SafeExecute<TransactionService>(result =>
                 {
 
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
                         var transaction = (from t in datacontext.Transaction
-                                           where t.transactionid == transactionDtoId
+                                           where t.ID == transactionDtoId
                                            select t).First();
                        
                         if (transaction != null)
@@ -30,125 +31,102 @@ namespace RMM.Business.TransactionService
                             datacontext.Transaction.DeleteOnSubmit(transaction);
                             datacontext.SubmitChanges();
                         }
-                      
-                      
-                        //MAPPING de transaction a transactionDto
-                        var dto = transaction.ToTransactionDto();
-                            result.Value = dto;
+
+
+                        result.Value = transaction;
                     }
 
                 }, () => "erreur");
         }
 
-
-
-        public Result<TransactionDto> GetTransactionById(int transactionId)
+        public Result<Transaction> GetTransactionById(int transactionId, bool OnMinimal)
         {
-            return Result<TransactionDto>.SafeExecute<TransactionService>(result =>
+            return Result<Transaction>.SafeExecute<TransactionService>(result =>
                 {
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
-                        var transaction = datacontext.Transaction.Where(t => t.transactionid == transactionId).First();
+                        if(!OnMinimal)
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
 
-                        var dto = transaction.ToTransactionDto();
-                            result.Value = dto;
+                        var transaction = datacontext.Transaction.Where(t => t.ID == transactionId).First();
+
+
+                        result.Value = transaction;
                     }
                 }, () => "erreur");
         }
 
-        public Result<List<TransactionDto>> GetTransactionsByCategoryId(int categoryId)
+        public Result<List<Transaction>> GetTransactionsByCategoryId(int categoryId, bool OnMinimal)
         {
-            return Result<List<TransactionDto>>.SafeExecute<TransactionService>(result =>
+            return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    DataLoadOptions options = new DataLoadOptions();
-                    options.LoadWith<Transaction>(c => c.Category);
 
-                    datacontext.LoadOptions = options;
+                    if(!OnMinimal)
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Account, t => t.Category);
+
 
                     var transactions = (from t in datacontext.Transaction
-                                       where t.Category.id == categoryId
+                                       where t.Category.ID == categoryId
                                        select t).ToList();
 
-                    
-                    var listeDeTransactionVerifiee = new List<TransactionDto>();
 
-
-                    transactions.ForEach(transItem =>
-                        {
-                            var dto = transItem.ToTransactionDto();
-                                listeDeTransactionVerifiee.Add(dto);
-                        });
-
-                    result.Value = listeDeTransactionVerifiee;
+                    result.Value = transactions;
                 }
             }, () => "erreur");
         }
 
-        public Result<List<TransactionDto>> GetTransactionsByAccountId(int accountId)
+        public Result<List<Transaction>> GetTransactionsByAccountId(int accountId, bool OnMinimal)
         {
-          return Result<List<TransactionDto>>.SafeExecute<TransactionService>(result =>
+          return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    DataLoadOptions options = new DataLoadOptions();
-                    options.LoadWith<Transaction>(c => c.Account);
+                    if(!OnMinimal)
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
 
-                    datacontext.LoadOptions = options;
+                    var transactions = datacontext.Transaction.Where(t => t.Account.ID == accountId).ToList();
 
-                    var transactions = datacontext.Transaction.Where(t => t.Account.id == accountId).ToList();
-
-                    
-                    var listeDeTransactionVerifiee = new List<TransactionDto>();
-
-
-                    transactions.ForEach(transItem =>
-                        {
-                            var dto = transItem.ToTransactionDto();
-                                listeDeTransactionVerifiee.Add(dto);
-                        });
-
-                    result.Value = listeDeTransactionVerifiee;
+                    result.Value = transactions;
                 }
             }, () => "erreur");
         }
 
-
-        public Result<TransactionDto> CreateTransaction(TransactionDto transaction)
+        public Result<Transaction> CreateTransaction(CreateTransactionCommand newTransactionCommand)
         {
-            return Result<TransactionDto>.SafeExecute<TransactionService>(result =>
+            return Result<Transaction>.SafeExecute<TransactionService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
+                    var transaction = new Transaction();
+
                     CategoryEntity attachedCategoryEntity;
                     AccountEntity attachedAccountEntity;
-                    
-                    //MAPPING
-                    var entity = transaction.ToTransactionEntity();
 
-                    if (transaction.CategoryId != 0)
+                    if (newTransactionCommand.categoryId.HasValue)
                     {
-                        attachedCategoryEntity = datacontext.Category.Where(c => c.id == transaction.CategoryId).First();
-                        entity.Category = attachedCategoryEntity;
+                        attachedCategoryEntity = datacontext.Category.Where(c => c.ID == newTransactionCommand.categoryId).First();
+                        transaction.Category = attachedCategoryEntity;
                     }
 
-                    if (transaction.AccountId != 0)
+                    if (newTransactionCommand.accountId != 0)
                     {
-                        attachedAccountEntity = datacontext.Account.Where(c => c.id == transaction.AccountId).First();
-                        entity.Account = attachedAccountEntity;
+                        attachedAccountEntity = datacontext.Account.Where(c => c.ID == newTransactionCommand.accountId).First();
+                        transaction.Account = attachedAccountEntity;
                     }
 
-                
+                    transaction.Amount = newTransactionCommand.Amount;
+                    transaction.Description = newTransactionCommand.Description;
+                    transaction.Name = newTransactionCommand.Name;
+                    transaction.CreatedDate = DateTime.Now;
 
-
-                //Convertion du DTO en entity, puis :
-                datacontext.Transaction.InsertOnSubmit(entity);
+                datacontext.Transaction.InsertOnSubmit(transaction);
                 datacontext.SubmitChanges();
 
-                var AddedTransac = datacontext.Transaction.Where(a => a.CreatedDate == entity.CreatedDate).First();
+                var AddedTransac = datacontext.Transaction.Where(a => a.CreatedDate == transaction.CreatedDate).First();
 
-                result.Value = AddedTransac.ToTransactionDto();
+                result.Value = AddedTransac;
             
                 }
             }, () => "erreur");
@@ -156,9 +134,9 @@ namespace RMM.Business.TransactionService
 
         }
 
-        public Result<TransactionDto> UpdateTransaction(TransactionDto transactionToUpdate)
+        public Result<Transaction> UpdateTransaction(EditTransactionCommand EditTransactionCommand)
         {
-            return Result<TransactionDto>.SafeExecute<TransactionService>(result =>
+            return Result<Transaction>.SafeExecute<TransactionService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
@@ -170,38 +148,34 @@ namespace RMM.Business.TransactionService
                     datacontext.LoadOptions = options;
 
 
-                    var entityToUpdate = datacontext.Transaction.Where(t => t.transactionid == transactionToUpdate.Id).First();
+                    var entityToUpdate = datacontext.Transaction.Where(t => t.ID == EditTransactionCommand.id).First();
 
                   
-                    entityToUpdate.Name = transactionToUpdate.Name;
+                    entityToUpdate.Name = EditTransactionCommand.Name;
 
-                    if (entityToUpdate.Category != null && transactionToUpdate.CategoryId != 0)
+                    if (entityToUpdate.Category.ID != EditTransactionCommand.categoryId)
                     {
-                        if (entityToUpdate.Category.id != transactionToUpdate.CategoryId)
-                        {
-                            var categoryAttachedByUpdate = datacontext.Category.Where(c => c.id == transactionToUpdate.CategoryId).First();
+                            var categoryAttachedByUpdate = datacontext.Category.Where(c => c.ID == EditTransactionCommand.categoryId).First();
                             entityToUpdate.Category = categoryAttachedByUpdate;
-                        }
                     }
 
-                    if (entityToUpdate.Account != null && transactionToUpdate.AccountId != 0)
+
+                    if (entityToUpdate.Account.ID != EditTransactionCommand.accountId)
                     {
-                        if (entityToUpdate.Account.id != transactionToUpdate.AccountId)
-                        {
-                            var accountAttachedByUpdate = datacontext.Account.Where(c => c.id == transactionToUpdate.AccountId).First();
+                            var accountAttachedByUpdate = datacontext.Account.Where(c => c.ID == EditTransactionCommand.accountId).First();
                             entityToUpdate.Account = accountAttachedByUpdate;
-                        }
                     }
 
-                    entityToUpdate.Description = transactionToUpdate.Description;
+                    if(string.IsNullOrEmpty(EditTransactionCommand.Description))
+                    entityToUpdate.Description = EditTransactionCommand.Description;
 
-                    entityToUpdate.Balance = transactionToUpdate.Balance;
+                    entityToUpdate.Amount = EditTransactionCommand.Amount;
 
                     entityToUpdate.CreatedDate = DateTime.Now;
 
                     datacontext.SubmitChanges();
 
-                    result.Value = entityToUpdate.ToTransactionDto();
+                    result.Value = entityToUpdate;
 
                 }
             }, () => "erreur");
@@ -209,20 +183,18 @@ namespace RMM.Business.TransactionService
 
         }
 
-
-        public Result<List<TransactionDto>> GetAllTransactions()
+        public Result<List<Transaction>> GetAllTransactions(bool OnMinimal)
         {
-            return Result<List<TransactionDto>>.SafeExecute<TransactionService>(result =>
+            return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
+                    if (!OnMinimal)
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Account, t => t.Category);
+
                     var query = datacontext.Transaction.ToList();
 
-                    var listedto = new List<TransactionDto>();
-
-                    query.ForEach(transac => listedto.Add(transac.ToTransactionDto()));
-
-                    result.Value = listedto;
+                    result.Value = query;
                 }
             }, () => "erreur");
         }
