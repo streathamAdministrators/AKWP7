@@ -9,6 +9,8 @@ namespace RMM.Phone
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private const string ACCOUNT = "account";
+        private const string CATEGORY = "category";
 
         private MainViewModel ViewModel
         {
@@ -24,11 +26,11 @@ namespace RMM.Phone
             {
                 if( NavigationContext.QueryString.Values.Count != 0 )
                 {
-                    if (NavigationContext.QueryString.Values.First() == "account")
+                    if (NavigationContext.QueryString.Values.First() == ACCOUNT)
                     {
                         ViewModel.RefreshAccountAfterUpdate();
                     }
-                    else if (NavigationContext.QueryString.Values.First() == "category")
+                    else if (NavigationContext.QueryString.Values.First() == CATEGORY)
                     {
                         ViewModel.RefreshCategoryAfterUpdate();
                     }

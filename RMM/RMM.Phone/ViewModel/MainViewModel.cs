@@ -15,11 +15,12 @@ using RMM.Business;
 using System.Linq;
 using RMM.Phone.ExtensionMethods;
 using System.Collections.Generic;
+using RMM.Phone.Execution;
 
 
 namespace RMM.Phone.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : BugnionReverseViewModelBase
     {
         #region HEADER PANORAMA
 
@@ -142,7 +143,7 @@ namespace RMM.Phone.ViewModel
             set
             {
                 favoriteAccountViewData = value;
-                RaisePropertyChanged("FavoriteAccount");
+                RaisePropertyChanged("FavoriteAccountViewData");
             }
         }
 
@@ -193,12 +194,12 @@ namespace RMM.Phone.ViewModel
             CategoryService = categoryService;
             OptionService = optionService;
 
+
+
             this.ListeAccount = new ObservableCollection<AccountViewData>();
             this.ListeCategory = new ObservableCollection<CategoryViewData>();
 
             #endregion
-
-
 
 
             #region FAKE DATA
@@ -214,13 +215,12 @@ namespace RMM.Phone.ViewModel
 
             #endregion
 
+            ExecuteSafeDispatcher(() => SetListAccount(), () => SetListCategory(), () => SetOption(), () => SetFavori());
 
-
-
-            SetListAccount();
-            SetListCategory();
-            SetOption();
-            SetFavori();
+            //SetListAccount();
+            //SetListCategory();
+            //SetOption();
+            //SetFavori();
 
         }
 
@@ -234,7 +234,6 @@ namespace RMM.Phone.ViewModel
         {
             this.ListeCategory = new ObservableCollection<CategoryViewData>();
             SetListCategory();
-
         }
 
 
@@ -245,7 +244,7 @@ namespace RMM.Phone.ViewModel
             var resultatAccountService = AccountService.GetAllAccounts(true);
             if (resultatAccountService.IsValid)
             {
-                resultatAccountService.Value.ForEach(dto => this.ListeAccount.Add(dto.ToAccountViewData()));
+                resultatAccountService.Value.ForEach(vd => this.ListeAccount.Add(vd.ToAccountViewData()));
             }
         }
 
@@ -255,7 +254,7 @@ namespace RMM.Phone.ViewModel
             var resultatCategoryService = CategoryService.GetAllCategories(true);
             if (resultatCategoryService.IsValid)
             {
-                resultatCategoryService.Value.ForEach(dto => this.ListeCategory.Add(dto.ToCategoryViewData()));
+                resultatCategoryService.Value.ForEach(vd => this.ListeCategory.Add(vd.ToCategoryViewData()));
             }
         }
 
@@ -294,10 +293,11 @@ namespace RMM.Phone.ViewModel
                 if (donneMoiFavoriEnEagger.IsValid)
                     FavoriteAccountViewData = donneMoiFavoriEnEagger.Value.ToAccountViewData();
             }
-
-
-
         }
+
+
+
+
 
         #region Handle on Task Selected
 
@@ -305,8 +305,7 @@ namespace RMM.Phone.ViewModel
         {
             if (args != null)
             {
-                var rootFrame = (App.Current as App).RootFrame;
-                rootFrame.Navigate(new System.Uri("/View/EditAccount.xaml?accountId=" + args.Id.ToString(), System.UriKind.Relative));
+                NavigateTo("/View/EditAccount.xaml?accountId={0}", args.Id);
             }
 
         }
@@ -318,15 +317,28 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?", "Delete an account", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    var resultat = AccountService.DeleteAccountById(args.Id);
-                    RaisePropertyChanged("ListeAccount");
+                    TransactionService.DeleteTransactionsByAccountId(args.Id);
+                    AccountService.DeleteAccountById(args.Id);
                 }
             }
         }
 
         private void HandleFavoriteAccountTaskSelected(AccountViewData args)
         {
-            //AJOUTER L'ACCOUNT AUX FAVORIS
+            if (args == null) { return; }
+
+            OptionService.SetFavoriteIdAccount(args.Id);
+
+            FavoriteAccountViewData = args;
+
+            // si le compte favori a été setté, alors on eagger sur sa liste de prop
+            if (FavoriteAccountViewData != null)
+            {
+                var donneMoiFavoriEnEagger = AccountService.GetAccountById(FavoriteAccountViewData.Id, false);
+                if (donneMoiFavoriEnEagger.IsValid)
+                    FavoriteAccountViewData = donneMoiFavoriEnEagger.Value.ToAccountViewData();
+            }
+
         }
 
 
@@ -334,8 +346,7 @@ namespace RMM.Phone.ViewModel
         {
             if (args != null)
             {
-                var rootFrame = (App.Current as App).RootFrame;
-                rootFrame.Navigate(new System.Uri("/View/EditCategory.xaml?categoryId=" + args.Id.ToString(), System.UriKind.Relative));
+                NavigateTo("/View/EditCategory.xaml?categoryId={0}", args.Id);
             }
         }
 
@@ -346,14 +357,14 @@ namespace RMM.Phone.ViewModel
                 MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?", "Delete a category", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    AccountService.DeleteAccountById(args.Id);
+                    CategoryService.DeleteCategorieById(args.Id);
                 }
             }
         }
 
         private void HandleFavoriteCategoryTaskSelected(CategoryViewData args)
         {
-            //AJOUTER L'ACCOUNT AUX FAVORIS
+            //A ENLEVER
         }
 
 
@@ -362,8 +373,8 @@ namespace RMM.Phone.ViewModel
             if (args == null) { return; }
             var account = args.AddedItems[0] as AccountViewData;
 
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/View/AccountPivot.xaml?accountId=" + account.Id.ToString(), System.UriKind.Relative));
+            NavigateTo("/View/AccountPivot.xaml?accountId={0}", account.Id);
+
         }
 
         private void HandleCategoryTaskSelected(SelectionChangedEventArgs args)
@@ -371,8 +382,7 @@ namespace RMM.Phone.ViewModel
             if (args == null) { return; }
             var category = args.AddedItems[0] as CategoryViewData;
 
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/View/CategoryPivot.xaml?categoryId=" + category.Id.ToString(), System.UriKind.Relative));
+            NavigateTo("/View/CategoryPivot.xaml?categoryId={0}", category.Id);
         }
 
         #endregion

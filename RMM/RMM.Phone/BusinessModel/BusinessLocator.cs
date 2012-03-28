@@ -17,6 +17,7 @@ using RMM.Business.CategoryService;
 using RMM.Business.TransactionService;
 using RMM.Business.OptionService;
 using RMM.Business.DatabaseService;
+using RMM.Phone.Execution;
 
 namespace RMM.Phone.BusinessModel
 {
@@ -34,6 +35,8 @@ namespace RMM.Phone.BusinessModel
             SimpleIoc.Default.Register<IOptionService, OptionService>();
             SimpleIoc.Default.Register<ITransactionService, TransactionService>();
             SimpleIoc.Default.Register<IDatabaseService, DatabaseService>();
+
+            SimpleIoc.Default.Register<IThreadSafeGeneral, ThreadSafeGeneral>();
             #endregion
 
             //Register mappings

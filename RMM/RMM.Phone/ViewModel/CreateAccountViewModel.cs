@@ -3,11 +3,12 @@ using RMM.Phone.ViewData.Account;
 using GalaSoft.MvvmLight.Command;
 using RMM.Phone.ExtensionMethods;
 using RMM.Business.AccountService;
+using RMM.Phone.Execution;
 
 namespace RMM.Phone.ViewModel
 {
 
-    public class CreateAccountViewModel : ViewModelBase
+    public class CreateAccountViewModel : BugnionReverseViewModelBase
     {
         public AccountViewData Account { get; set; }
         public RelayCommand SaveCommand { get; set; }
