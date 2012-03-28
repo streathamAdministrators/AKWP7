@@ -89,7 +89,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="automapper\ObjectsExtensionsToDo.cs" />
+    <Compile Include="automapper\ObjectsExtensionsGeneral.cs" />
     <Compile Include="automapper\ObjectsExtensionsToViewData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
