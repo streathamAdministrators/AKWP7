@@ -47,7 +47,7 @@
 							<controlsPrimitives:PanningBackgroundLayer x:Name="BackgroundLayer" HorizontalAlignment="Left" Grid.RowSpan="2">
 								<Border x:Name="background" Background="{TemplateBinding Background}" CacheMode="BitmapCache"/>
 							</controlsPrimitives:PanningBackgroundLayer>
-							<controlsPrimitives:PanningTitleLayer x:Name="TitleLayer" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding TitleTemplate}"  Content="{TemplateBinding Title}" FontSize="100" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" Margin="0,-30,0,-10" Grid.Row="0"/>
+							<controlsPrimitives:PanningTitleLayer x:Name="TitleLayer" CacheMode="BitmapCache" ContentTemplate="{TemplateBinding TitleTemplate}"  Content="{TemplateBinding Title}" FontSize="100" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" Margin="0,-20,0,-10" Grid.Row="0"/>
 							<controlsPrimitives:PanningLayer x:Name="ItemsLayer" HorizontalAlignment="Left" Grid.Row="1">
 								<ItemsPresenter x:Name="items"/>
 							</controlsPrimitives:PanningLayer>
@@ -57,9 +57,9 @@
 			</Setter>
 		</Style>
 		<DataTemplate x:Key="DataTemplate1">
-			<Grid Margin="0,20,0,20">
-				<ContentPresenter HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="auto" Margin="0">
-					<TextBlock HorizontalAlignment="Left" Height="60" TextWrapping="Wrap" Text="{Binding}" VerticalAlignment="Top" Width="auto" FontSize="48"/>
+			<Grid Margin="0,10,0,20">
+				<ContentPresenter HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto" Margin="0">
+					<TextBlock HorizontalAlignment="Left" Height="auto" TextWrapping="Wrap" Text="{Binding}" VerticalAlignment="Top" Width="auto" FontSize="48" />
 				</ContentPresenter>
 			</Grid>
 		</DataTemplate>
@@ -90,9 +90,9 @@
 
 
 	<!--LayoutRoot contains the root grid where all other page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="Black" >
+	<Grid x:Name="LayoutRoot" Background="#FF292929" >
 		
-		<Rectangle Fill="#FFBEBEBE" Height="600" Stroke="Black" Width="500" Canvas.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,150,0,0"/>
+		<Rectangle Height="600" Stroke="Black" Width="500" Canvas.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,150,0,0" Fill="White" Opacity="0.945"/>
 		<controls:Panorama Title="Run my money" Style="{StaticResource PanoramaStyle1}" HeaderTemplate="{StaticResource DataTemplate1}" Canvas.ZIndex="200"  >
 			<controls:Panorama.TitleTemplate>
 				<DataTemplate>
@@ -106,18 +106,18 @@
 				
 			<!--Panorama item 1 ACCOUNT-->
 			<controls:PanoramaItem Header="{Binding AccountHeader}" Foreground="White" >
-				<Canvas>
-					
-					<ListBox x:Name="AccountListBox" SelectionMode="Single" ItemsSource="{Binding ListeAccount}" Foreground="Black" Background="#00000000" FontSize="32" Canvas.ZIndex="2">
+				<Canvas Margin="0,-45,0,0">
+					<ListBox x:Name="AccountListBox" SelectionMode="Single" ItemsSource="{Binding ListeAccount}" Foreground="Black" Background="#00000000" FontSize="32" Canvas.ZIndex="2" Height="549" Canvas.Top="6" BorderBrush="Transparent" >
 					<Interactivity:Interaction.Triggers>
 						<Interactivity:EventTrigger EventName="SelectionChanged" x:Name="AccountListBoxSelectionChanged">
 							<Command:EventToCommand Command="{Binding AccountSelectedCommand}" PassEventArgsToCommand="True"  />
 						</Interactivity:EventTrigger>
 					</Interactivity:Interaction.Triggers>
+					
 					<ListBox.ItemTemplate>
+						
 						<DataTemplate>
-							
-							<StackPanel Margin="10,10,0,30" Width="400" Height="100" Background="{StaticResource PhoneAccentBrush}" >
+							<StackPanel Margin="10,35,0,0" Width="400" Height="100" Background="{StaticResource PhoneAccentBrush}" >
 								<toolkit:ContextMenuService.ContextMenu>
 									<toolkit:ContextMenu x:Name="AccountContextMenu">
 										<toolkit:MenuItem Header="edit this account" Tag="{Binding}">
@@ -148,23 +148,40 @@
 										<Image Height="101" Source="icons/favorite.png" Visibility="{Binding Favorite}" Stretch="Fill" Canvas.Left="315" Canvas.Top="-24" Width="101"/>
 										<StackPanel>
 											<StackPanel Orientation="Horizontal" Margin="15,10,0,0">
-												<Image HorizontalAlignment="Left" Height="50" Source="icons/account3.png" Stretch="Fill" Width="50" />
+												<Image HorizontalAlignment="Left" Height="50" Source="icons/account.png" Stretch="Fill" Width="50" />
 												<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Foreground="White" Margin="10,00,0,0" Width="268" FontSize="26.667" VerticalAlignment="Center" />
 											</StackPanel>
-											
 											<StackPanel Orientation="Horizontal" Margin="0,0,6,0">
 												<TextBlock Text="{Binding BankName}" TextWrapping="NoWrap" Margin="40,0,12,0" Style="{StaticResource PhoneTextSubtleStyle}" VerticalAlignment="Center" Width="172"/>
 												<TextBlock  Margin="-10,0,-50,0" Text="{Binding Balance}"  FontSize="22" Width="150" HorizontalAlignment="Right" TextAlignment="Right"/>
 											</StackPanel>
 										</StackPanel>
 									</Canvas>
-										
-										
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-				<Image Height="550" Margin="0,0,0,0" Source="icons/account2.png" Canvas.ZIndex="0" Width="550" Canvas.Left="98" Canvas.Top="140"/>
+				
+				
+
+<Path Data="F1M51.6146,23.2019L51.556,23.1798C51.2006,23.0561 50.7996,23.2773 50.6626,23.6708 50.5298,24.0626 50.7122,24.4819 
+51.073,24.6069L51.0741,24.6096C52.3124,24.9662 53.0834,26.2253 52.8152,27.5052 52.5339,28.8464 51.2122,29.7136 49.8684,29.4285 
+49.6785,29.3907 49.5012,29.323 49.3345,29.2449 49.3881,28.7787 49.4167,28.3074 49.4167,27.8295 49.4167,19.6929 41.6875,13.0991 
+32.1509,13.0991 26.8984,13.0991 21.6433,15.1498 17.979,18.3517 16.6433,17.8972 15.1731,18.4506 14.573,19.6954 14.1719,20.5236 
+14.2512,21.4689 14.7006,22.2319 13.9324,23.5417 13.4075,24.9429 13.1824,26.4064L13.1771,26.4402C13.1615,26.5339 13.1522,26.6276 
+13.1433,26.7228 12.9843,27.797 12.5951,28.198 12.3828,28.3386L11.0052,29.0522 10.5339,29.3282C10.25,29.5705 10,29.9923 10.3007,30.6525 
+10.3958,30.8621 10.4896,31.0717 10.5793,31.2736L11.3958,33.4167C11.4506,33.5366,11.8281,34.2552,12.7891,34.1719L14.884,33.9858C16.3777,
+36.3412,18.6836,38.3517,21.4285,39.8334L20.5688,44.2383C20.5688,44.7787,20.9922,45.2189,21.5117,45.2189L26.6589,45.2189C27.1771,45.2189,
+27.599,44.7787,27.599,44.2383L28.0012,42.1616C29.3672,42.4219 30.7563,42.5601 32.1509,42.5601 34.8345,42.5601 37.3777,42.038 39.6433,41.1044L40.2512,
+44.2383C40.2512,44.7787,40.6731,45.2189,41.1927,45.2189L46.3397,45.2189C46.8594,45.2189,47.2798,44.7787,47.2798,44.2383L45.8334,36.8074C47.4126,
+35.0612 48.5443,33.0041 49.073,30.7604 49.2318,30.8153 49.3933,30.8634 49.5624,30.8986 51.7122,31.3503 53.8334,29.9662 54.2839,27.8139 54.7069,
+25.8049 53.5261,23.823 51.6146,23.2019z M33.6118,37.2046L33.6118,40.3647 31.0652,40.3647 31.0652,37.3882C29.1301,37.3282,27.1965,36.7762,26.0938,
+36.0678L26.9219,33.1538C28.1484,33.8907 29.8358,34.5052 31.7069,34.5052 33.6731,34.5052 34.9922,33.5549 34.9922,32.1107 34.9922,30.7006 33.9167,
+29.8412 31.6172,29.0131 28.4271,27.8464 26.3071,26.3438 26.3071,23.5183 26.3071,20.8803 28.1484,18.8243 31.25,18.2736L31.25,15.297 33.7656,15.297 
+33.7656,18.1199C35.6965,18.1798,37.017,18.6719,38,19.1628L37.1731,21.9845C36.4324,21.6173 35.0845,20.9116 32.996,20.9116 30.849,20.9116 30.0808,
+22.0158 30.0808,23.0601 30.0808,24.3164 31.1875,25.0535 33.8281,26.0653 37.2617,27.3555 38.767,29.0131 38.767,31.7748 38.767,34.3817 36.9558,36.6525 
+33.6118,37.2046z" Width="286.101" Height="200.5" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Fill" Canvas.Top="355" 
+UseLayoutRounding="False" Canvas.Left="237.899" Fill="#FFBCBCBC" />
 				</Canvas>
 				
 			</controls:PanoramaItem>
@@ -229,7 +246,7 @@
 
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Margin="0,0,0,17" Width="432" Height="101">
+							<StackPanel Margin="20,0,0,17" Width="400" Height="101">
 								<toolkit:ContextMenuService.ContextMenu>
 									<toolkit:ContextMenu x:Name="AccountContextMenu">
 										<toolkit:MenuItem Header="edit this category" Tag="{Binding}">
@@ -255,9 +272,14 @@
 										</toolkit:MenuItem>
 									</toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
-								<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
-								<TextBlock Text="{Binding Balance}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextAccentStyle}" HorizontalAlignment="Right"/>
-								<Rectangle Fill="#FFF4F4F5" Height="3" Stroke="Black" Margin="0,5,0,0"/>
+								<StackPanel Orientation="Horizontal">
+									<Rectangle Fill="{StaticResource PhoneAccentBrush}" Height="50" Width="50"></Rectangle>
+									<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Foreground="{StaticResource PhoneAccentBrush}" FontSize="32" Margin="10,0,0,0"/>
+								</StackPanel>
+								
+								
+								<TextBlock Text="{Binding Balance}" TextWrapping="NoWrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextAccentStyle}" HorizontalAlignment="Right" Foreground="Black"/>
+								<Rectangle Height="3" Stroke="{StaticResource PhoneAccentBrush}" Margin="0,5,0,0" Fill="{StaticResource PhoneAccentBrush}"/>
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>

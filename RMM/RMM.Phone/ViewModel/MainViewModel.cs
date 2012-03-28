@@ -147,19 +147,21 @@ namespace RMM.Phone.ViewModel
             OptionService = optionService;
 
 
-            var isAlreadyCreated = DatabaseService.Initialize();
+           // var isAlreadyCreated = DatabaseService.Initialize();
 
-            if (isAlreadyCreated)
-            DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
+           // if (isAlreadyCreated)
+           // DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
-           this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
+           //this.ListeAccount = new ObservableCollection<AccountViewData>();
+           // this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
 
 
-            SetListAccount();
-            SetListCategory();
-            SetOption();
-            SetFavori();
+           // SetListAccount();
+           // SetListCategory();
+           // SetOption();
+           // SetFavori();
+
+            ProcessDatasOnDB();
 
         }
 
@@ -307,5 +309,49 @@ namespace RMM.Phone.ViewModel
         }
 
         #endregion
+
+        void ProcessDatasOnDB()
+        {
+            var c1 = new CategoryViewData();
+            c1.Balance = 7.0;
+            c1.Color = "FFA640";
+            c1.Name = "Vacances";
+
+
+            var c2 = new CategoryViewData();
+            c2.Balance = 7.0;
+            c2.Color = "FFA640";
+            c2.Name = "Profesionnel";
+
+            var na1 = new AccountViewData();
+            na1.Balance = 7.0;
+            na1.BankName = "Credit Agricole";
+            na1.Name = "Mon compte courant";
+            na1.Favorite = "Collapsed";
+
+            var na2 = new AccountViewData();
+            na2.Balance = 7.0;
+            na2.BankName = "HSBC";
+            na2.Name = "Mon compte courant";
+            na2.Favorite = "Visible";
+
+            var na3 = new AccountViewData();
+            na3.Balance = 7.0;
+            na3.BankName = "HSBC";
+            na3.Name = "Mon compte epargne HSBC";
+            na3.Favorite = "Collapsed";
+
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeAccount.Add(na1);
+            this.ListeAccount.Add(na2);
+            this.ListeAccount.Add(na3);
+
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            this.ListeCategory.Add(c1);
+            this.ListeCategory.Add(c2);
+
+            RaisePropertyChanged("ListeAccount");
+
+        }
     }
 }
