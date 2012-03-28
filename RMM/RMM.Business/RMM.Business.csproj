@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService\AccountService.cs" />
-    <Compile Include="AccountService\CreateAccountCommand.cs" />
     <Compile Include="AccountService\EditAccountCommand.cs" />
     <Compile Include="AccountService\IAccountService.cs" />
     <Compile Include="automapper\DBHelpers.cs" />
