@@ -8,11 +8,12 @@ using RMM.Business.CategoryService;
 using RMM.Phone.ExtensionMethods;
 using System.Linq;
 using System.Windows;
+using RMM.Phone.Execution;
 
 namespace RMM.Phone.ViewModel
 {
 
-    public class AccountViewModel : ViewModelBase
+    public class AccountViewModel : BugnionReverseViewModelBase
     {
         public ObservableCollection<AccountViewData> ListeAccount { get; set; }
 
@@ -39,7 +40,8 @@ namespace RMM.Phone.ViewModel
 
             ListeAccount = new ObservableCollection<AccountViewData>();
 
-            Deployment.Current.Dispatcher.BeginInvoke(() => SetAccounts());
+            
+            ExecuteSafeDispatcher(() => SetAccounts());
         }
 
         public void SelectIndex(string accountId)

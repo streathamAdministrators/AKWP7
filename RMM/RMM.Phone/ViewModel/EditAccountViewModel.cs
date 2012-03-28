@@ -5,23 +5,37 @@ using System.Windows;
 using RMM.Business.AccountService;
 using RMM.Phone.ExtensionMethods;
 using RMM.Business.CategoryService;
+using RMM.Phone.Execution;
+using RMM.Business.TransactionService;
 
 namespace RMM.Phone.ViewModel
 {
 
-    public class EditAccountViewModel : ViewModelBase
+    public class EditAccountViewModel : BugnionReverseViewModelBase
     {
-        public AccountViewData Account { get; set; }
+        private AccountViewData account;
+        public AccountViewData Account
+        {
+            get { return account; }
+            set
+            {
+                account = value;
+                RaisePropertyChanged("Account");
+            }
+        }
+
 
         public RelayCommand DeleteAllTransactionCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
         public IAccountService Accountservice { get; set; }
+        public ITransactionService TransactionService { get; set; }
 
-        public EditAccountViewModel(IAccountService accountService)
+        public EditAccountViewModel(IAccountService accountService, ITransactionService transactionService)
         {
             Accountservice = accountService;
+            TransactionService = transactionService;
 
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
@@ -37,35 +51,32 @@ namespace RMM.Phone.ViewModel
             if (selectedAccount.IsValid)
                 Account = selectedAccount.Value.ToAccountViewData();
 
-            RaisePropertyChanged("Account");
-            
+
         }
 
         void HandleDeleteAllTransactionTaskSelected()
         {
-            MessageBoxResult result = MessageBox.Show("Do you really want to delete this account ?", "delete " + Account.Name, MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete all the transactions ?", "delete " + Account.Name, MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
-                //DELETE ALL
+                TransactionService.DeleteTransactionsByAccountId(Account.Id);
             }
         }
 
         void HandleUpdateTaskSelected()
         {
-            var editAccountCommand = new EditAccountCommand(){ BankName = Account.BankName, id= Account.Id, Name= Account.Name};
-            var result =  Accountservice.UpdateAccount(editAccountCommand);
+            var editAccountCommand = new EditAccountCommand() { BankName = Account.BankName, id = Account.Id, Name = Account.Name };
+            var result = Accountservice.UpdateAccount(editAccountCommand);
 
             if (result.IsValid)
             {
-                var rootFrame = (App.Current as App).RootFrame;
-                rootFrame.Navigate(new System.Uri("/MainPage.xaml?update=account", System.UriKind.Relative));
+                NavigateTo("/MainPage.xaml?update=account", null);
             }
         }
 
         void HandleCancelTaskSelected()
         {
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/MainPage.xaml", System.UriKind.Relative));
+            NavigateTo("/MainPage.xaml", null);
         }
     }
 }

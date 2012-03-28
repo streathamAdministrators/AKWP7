@@ -11,6 +11,10 @@ namespace RMM.Business.TransactionService
 
         Result<Transaction> DeleteTransactionById(int transactionId);
 
+        Result<List<Transaction>> DeleteTransactionsByAccountId(int accountId);
+
+        Result<List<Transaction>> DeleteTransactionsByCategoryId(int categoryId); 
+
 
         Result<Transaction> GetTransactionById(int transactionId, bool OnMinimal);
 

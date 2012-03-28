@@ -25,7 +25,7 @@ namespace RMM.Business.TransactionService
                         var transaction = (from t in datacontext.Transaction
                                            where t.ID == transactionDtoId
                                            select t).First();
-                       
+
                         if (transaction != null)
                         {
                             datacontext.Transaction.DeleteOnSubmit(transaction);
@@ -45,8 +45,8 @@ namespace RMM.Business.TransactionService
                 {
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
-                        if(!OnMinimal)
-                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
+                        if (!OnMinimal)
+                            datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
 
                         var transaction = datacontext.Transaction.Where(t => t.ID == transactionId).First();
 
@@ -63,13 +63,13 @@ namespace RMM.Business.TransactionService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
 
-                    if(!OnMinimal)
-                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Account, t => t.Category);
+                    if (!OnMinimal)
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Account, t => t.Category);
 
 
                     var transactions = (from t in datacontext.Transaction
-                                       where t.Category.ID == categoryId
-                                       select t).ToList();
+                                        where t.Category.ID == categoryId
+                                        select t).ToList();
 
 
                     result.Value = transactions;
@@ -79,18 +79,18 @@ namespace RMM.Business.TransactionService
 
         public Result<List<Transaction>> GetTransactionsByAccountId(int accountId, bool OnMinimal)
         {
-          return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
-            {
-                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
-                {
-                    if(!OnMinimal)
-                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
+            return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
+              {
+                  using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                  {
+                      if (!OnMinimal)
+                          datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Category, t => t.Account);
 
-                    var transactions = datacontext.Transaction.Where(t => t.Account.ID == accountId).ToList();
+                      var transactions = datacontext.Transaction.Where(t => t.Account.ID == accountId).ToList();
 
-                    result.Value = transactions;
-                }
-            }, () => "erreur");
+                      result.Value = transactions;
+                  }
+              }, () => "erreur");
         }
 
         public Result<Transaction> CreateTransaction(CreateTransactionCommand newTransactionCommand)
@@ -121,13 +121,13 @@ namespace RMM.Business.TransactionService
                     transaction.Name = newTransactionCommand.Name;
                     transaction.CreatedDate = DateTime.Now;
 
-                datacontext.Transaction.InsertOnSubmit(transaction);
-                datacontext.SubmitChanges();
+                    datacontext.Transaction.InsertOnSubmit(transaction);
+                    datacontext.SubmitChanges();
 
-                var AddedTransac = datacontext.Transaction.Where(a => a.CreatedDate == transaction.CreatedDate).First();
+                    var AddedTransac = datacontext.Transaction.Where(a => a.CreatedDate == transaction.CreatedDate).First();
 
-                result.Value = AddedTransac;
-            
+                    result.Value = AddedTransac;
+
                 }
             }, () => "erreur");
 
@@ -150,24 +150,24 @@ namespace RMM.Business.TransactionService
 
                     var entityToUpdate = datacontext.Transaction.Where(t => t.ID == EditTransactionCommand.id).First();
 
-                  
+
                     entityToUpdate.Name = EditTransactionCommand.Name;
 
                     if (entityToUpdate.Category.ID != EditTransactionCommand.categoryId)
                     {
-                            var categoryAttachedByUpdate = datacontext.Category.Where(c => c.ID == EditTransactionCommand.categoryId).First();
-                            entityToUpdate.Category = categoryAttachedByUpdate;
+                        var categoryAttachedByUpdate = datacontext.Category.Where(c => c.ID == EditTransactionCommand.categoryId).First();
+                        entityToUpdate.Category = categoryAttachedByUpdate;
                     }
 
 
                     if (entityToUpdate.Account.ID != EditTransactionCommand.accountId)
                     {
-                            var accountAttachedByUpdate = datacontext.Account.Where(c => c.ID == EditTransactionCommand.accountId).First();
-                            entityToUpdate.Account = accountAttachedByUpdate;
+                        var accountAttachedByUpdate = datacontext.Account.Where(c => c.ID == EditTransactionCommand.accountId).First();
+                        entityToUpdate.Account = accountAttachedByUpdate;
                     }
 
-                    if(string.IsNullOrEmpty(EditTransactionCommand.Description))
-                    entityToUpdate.Description = EditTransactionCommand.Description;
+                    if (string.IsNullOrEmpty(EditTransactionCommand.Description))
+                        entityToUpdate.Description = EditTransactionCommand.Description;
 
                     entityToUpdate.Amount = EditTransactionCommand.Amount;
 
@@ -198,5 +198,47 @@ namespace RMM.Business.TransactionService
                 }
             }, () => "erreur");
         }
+
+        public Result<List<Transaction>> DeleteTransactionsByAccountId(int accountId)
+        {
+            return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
+            {
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var transaction = datacontext.Transaction.Where(t => t.AccountID == accountId).ToList();
+
+                    if (transaction != null)
+                    {
+                        datacontext.Transaction.DeleteAllOnSubmit(transaction);
+                        datacontext.SubmitChanges();
+                    }
+
+
+                    result.Value = transaction;
+                }
+            }, () => "erreur");
+        }
+
+
+        public Result<List<Transaction>> DeleteTransactionsByCategoryId(int categoryId)
+        {
+            return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
+            {
+             using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var transaction = datacontext.Transaction.Where(t => t.CategoryID == categoryId).ToList();
+
+                    if (transaction != null)
+                    {
+                        datacontext.Transaction.DeleteAllOnSubmit(transaction);
+                        datacontext.SubmitChanges();
+                    }
+
+
+                    result.Value = transaction;
+                }
+            }, () => "erreur");
+        }
     }
 }
+

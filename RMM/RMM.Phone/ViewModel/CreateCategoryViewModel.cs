@@ -5,10 +5,11 @@ using RMM.Business.AccountService;
 using RMM.Business.CategoryService;
 using RMM.Business.TransactionService;
 using RMM.Phone.ExtensionMethods;
+using RMM.Phone.Execution;
 
 namespace RMM.Phone.ViewModel
 {
-    public class CreateCategoryViewModel : ViewModelBase
+    public class CreateCategoryViewModel : BugnionReverseViewModelBase
     {
         public CategoryViewData Category { get; set; }
         public RelayCommand SaveCommand { get; set; }
@@ -38,8 +39,7 @@ namespace RMM.Phone.ViewModel
 
         void HandleCancelTaskSelected()
         {
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/MainPage.xaml", System.UriKind.Relative));
+            NavigateTo("/MainPage.xaml", null);
         }
     }
 }

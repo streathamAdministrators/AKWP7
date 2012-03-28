@@ -89,7 +89,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="automapper\ObjectsExtensionsGeneral.cs" />
+    <Compile Include="Execution\BugnionReverseViewModelBase.cs" />
+    <Compile Include="Execution\IThreadSafeGeneral.cs" />
+    <Compile Include="Execution\ThreadSafeGeneral.cs" />
     <Compile Include="automapper\ObjectsExtensionsToViewData.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

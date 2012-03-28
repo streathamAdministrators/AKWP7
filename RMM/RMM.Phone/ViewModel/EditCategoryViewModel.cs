@@ -4,11 +4,13 @@ using GalaSoft.MvvmLight.Command;
 using System.Windows;
 using RMM.Business.CategoryService;
 using RMM.Phone.ExtensionMethods;
+using RMM.Business.TransactionService;
+using RMM.Phone.Execution;
 
 namespace RMM.Phone.ViewModel
 {
 
-    public class EditCategoryViewModel : ViewModelBase
+    public class EditCategoryViewModel : BugnionReverseViewModelBase
     {
         public CategoryViewData Category { get; set; }
 
@@ -46,7 +48,7 @@ namespace RMM.Phone.ViewModel
             MessageBoxResult result = MessageBox.Show("Do you really want to delete this category ?", "delete " + Category.Name, MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
-                //DELETEALL
+                CategoryService.DeleteCategorieById(Category.Id);
             }
         }
 
@@ -60,15 +62,13 @@ namespace RMM.Phone.ViewModel
 
             if (result.IsValid)
             {
-                var rootFrame = (App.Current as App).RootFrame;
-                rootFrame.Navigate(new System.Uri("/MainPage.xaml?update=category", System.UriKind.Relative));
+                NavigateTo("/MainPage.xaml?update=category", null);
             }
         }
 
         void HandleCancelTaskSelected()
         {
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/MainPage.xaml", System.UriKind.Relative));
+            NavigateTo("/MainPage.xaml", null);
         }
     }
 }
