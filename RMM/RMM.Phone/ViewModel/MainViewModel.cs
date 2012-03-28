@@ -45,7 +45,7 @@ namespace RMM.Phone.ViewModel
         }
 
         private string optionHeader = "Option";
-        public string OptionHeader 
+        public string OptionHeader
         {
             get { return optionHeader; }
             set { optionHeader = value; }
@@ -55,7 +55,7 @@ namespace RMM.Phone.ViewModel
 
         #region TEXTOPTION
 
-        private string isPasswordTxt  = "Password :";
+        private string isPasswordTxt = "Password :";
         public string IsPasswordTxt
         {
             get { return isPasswordTxt; }
@@ -107,13 +107,58 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
-        public ObservableCollection<AccountViewData> ListeAccount { get; set; }
-        public ObservableCollection<CategoryViewData> ListeCategory { get; set; }
+        #region PROPFULL SUR OC<ViewData>, FAVORI ViewData, Option ViewData 
 
-        public AccountViewData FavoriteAccount { get; set; }
-        public OptionViewData OptionViewDataObj { get; set; }
+        private ObservableCollection<AccountViewData> listeAccount;
 
-        //public int SelectIndex { get; set; }
+        public ObservableCollection<AccountViewData> ListeAccount
+        {
+            get { return listeAccount; }
+            set
+            {
+                listeAccount = value;
+                RaisePropertyChanged("ListeAccount");
+            }
+        }
+
+        private ObservableCollection<CategoryViewData> listeCategory;
+
+        public ObservableCollection<CategoryViewData> ListeCategory
+        {
+            get { return listeCategory; }
+            set
+            {
+                listeCategory = value;
+                RaisePropertyChanged("ListeCategory");
+            }
+        }
+
+
+        private AccountViewData favoriteAccountViewData;
+
+        public AccountViewData FavoriteAccountViewData
+        {
+            get { return favoriteAccountViewData; }
+            set
+            {
+                favoriteAccountViewData = value;
+                RaisePropertyChanged("FavoriteAccount");
+            }
+        }
+
+        private OptionViewData optionViewData;
+
+        public OptionViewData OptionViewData
+        {
+            get { return optionViewData; }
+            set
+            {
+                optionViewData = value;
+            }
+        }
+
+        #endregion
+
 
         #region Services
 
@@ -128,16 +173,18 @@ namespace RMM.Phone.ViewModel
         public MainViewModel(IAccountService accountService, ICategoryService categoryService, ITransactionService transactionService, IOptionService optionService, IDatabaseService databaseService)
         {
 
-            AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
-            CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
+            #region Set des objects obligatoire à la vue et ViewModel
 
-            EditAccountCommand = new RelayCommand<AccountViewData>((args) => HandleEditAccountTaskSelected(args));
-            DeleteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleDeleteAccountTaskSelected(args));
-            FavoriteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleFavoriteAccountTaskSelected(args));
+            this.AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
+            this.CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
 
-            EditCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleEditCategoryTaskSelected(args));
-            DeleteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleDeleteCategoryTaskSelected(args));
-            FavoriteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleFavoriteCategoryTaskSelected(args));
+            this.EditAccountCommand = new RelayCommand<AccountViewData>((args) => HandleEditAccountTaskSelected(args));
+            this.DeleteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleDeleteAccountTaskSelected(args));
+            this.FavoriteAccountCommand = new RelayCommand<AccountViewData>((args) => HandleFavoriteAccountTaskSelected(args));
+
+            this.EditCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleEditCategoryTaskSelected(args));
+            this.DeleteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleDeleteCategoryTaskSelected(args));
+            this.FavoriteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleFavoriteCategoryTaskSelected(args));
 
 
             DatabaseService = databaseService;
@@ -146,14 +193,28 @@ namespace RMM.Phone.ViewModel
             CategoryService = categoryService;
             OptionService = optionService;
 
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+
+            #endregion
+
+
+
+
+            #region FAKE DATA
 
             var isAlreadyCreated = DatabaseService.Initialize();
 
             if (isAlreadyCreated)
-            DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
+                DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
-           this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeCategory = new ObservableCollection<CategoryViewData>() ;
+
+            //FAVORI COMPTE 1
+            OptionService.SetFavoriteIdAccount(1);
+
+            #endregion
+
+
 
 
             SetListAccount();
@@ -167,43 +228,20 @@ namespace RMM.Phone.ViewModel
         {
             this.ListeAccount = new ObservableCollection<AccountViewData>();
             SetListAccount();
-            RaisePropertyChanged("ListeAccount");
         }
 
         public void RefreshCategoryAfterUpdate()
         {
             this.ListeCategory = new ObservableCollection<CategoryViewData>();
             SetListCategory();
-            RaisePropertyChanged("ListeCategory");
-            //SelectIndex = 2;
+
         }
 
-        private void SetFavori()
-        {
 
-            FavoriteAccount = this.ListeAccount.First();
-            var resultatFavoriteTransaction = TransactionService.GetTransactionsByAccountId(FavoriteAccount.Id, true);
-
-
-            //var listFavorie = new List<TransactionViewData>();
-
-            //if (resultatFavoriteTransaction.IsValid)
-            //    foreach (var dto in resultatFavoriteTransaction.Value)
-            //    {
-            //        var viewData = dto.ToTransactionViewData();
-
-            //        var category = CategoryService.GetCategoryById(dto.Account.Id);
-
-            //        if (category.IsValid)
-            //            viewData.Category = category.Value.ToCategoryViewData();
-
-            //        listFavorie.Add(viewData);
-            //    }
-            //FavoriteAccount.ListTransaction = listFavorie;
-        }
 
         private void SetListAccount()
         {
+            //Get des options en Minimal ( Lazy loading sur les listes de transaction ) avec le true
             var resultatAccountService = AccountService.GetAllAccounts(true);
             if (resultatAccountService.IsValid)
             {
@@ -213,6 +251,7 @@ namespace RMM.Phone.ViewModel
 
         private void SetListCategory()
         {
+            //Get des categories en Minimal ( Lazy loading sur les listes de transaction ) avec le true
             var resultatCategoryService = CategoryService.GetAllCategories(true);
             if (resultatCategoryService.IsValid)
             {
@@ -222,13 +261,43 @@ namespace RMM.Phone.ViewModel
 
         private void SetOption()
         {
-          var resultOption =  OptionService.GetOption();
+            // Get des options à binder
+            var resultOption = OptionService.GetOption();
 
-          if (resultOption.IsValid)
-              OptionViewDataObj = resultOption.Value.ToOptionViewData();
+            if (resultOption.IsValid)
+                OptionViewData = resultOption.Value.ToOptionViewData();
 
         }
 
+        private void SetFavori()
+        {
+            //Set de la visibilite pour les favori : on check si le Favori Id dans l'object option contient un des id des comptes
+            this.ListeAccount.ToList().ForEach(account =>
+                {
+                    if (account.Id == OptionViewData.Favorite)
+                    {
+                        account.Favorite = Visibility.Visible;
+                        FavoriteAccountViewData = new AccountViewData();
+                        FavoriteAccountViewData = account;
+                    }
+                    else
+                    {
+                        account.Favorite = Visibility.Collapsed;
+                    }
+
+                });
+
+            // si le compte favori a été setté, alors on eagger sur sa liste de prop
+            if (FavoriteAccountViewData != null)
+            {
+                var donneMoiFavoriEnEagger = AccountService.GetAccountById(FavoriteAccountViewData.Id, false);
+                if (donneMoiFavoriEnEagger.IsValid)
+                    FavoriteAccountViewData = donneMoiFavoriEnEagger.Value.ToAccountViewData();
+            }
+
+
+
+        }
 
         #region Handle on Task Selected
 
@@ -239,14 +308,14 @@ namespace RMM.Phone.ViewModel
                 var rootFrame = (App.Current as App).RootFrame;
                 rootFrame.Navigate(new System.Uri("/View/EditAccount.xaml?accountId=" + args.Id.ToString(), System.UriKind.Relative));
             }
-            
+
         }
 
         private void HandleDeleteAccountTaskSelected(AccountViewData args)
         {
-            if(args != null)
+            if (args != null)
             {
-                MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?"  , "Delete an account", MessageBoxButton.OKCancel);
+                MessageBoxResult result = MessageBox.Show("Do you really want to delete " + args.Name + "?", "Delete an account", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     var resultat = AccountService.DeleteAccountById(args.Id);

@@ -32,17 +32,20 @@ namespace RMM.Business.OptionService
             return Result<Option>.SafeExecute<IOptionService>(result =>
             {
 
-                var entityToUpdate = datacontext.Option.First();
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var entityToUpdate = datacontext.Option.First();
 
-                entityToUpdate.IsComparator = optionToUpdate.IsComparator;
-                entityToUpdate.IsPassword = optionToUpdate.IsPassword;
-                entityToUpdate.IsPrimaryTile = optionToUpdate.IsPrimaryTile;
-                entityToUpdate.IsReport = optionToUpdate.IsReport;
-                entityToUpdate.IsSynchro = optionToUpdate.IsSynchro;
+                    entityToUpdate.IsPassword = optionToUpdate.IsPassword;
+                    entityToUpdate.IsPrimaryTile = optionToUpdate.IsPrimaryTile;
+                    entityToUpdate.IsSynchro = optionToUpdate.IsSynchro;
+                    entityToUpdate.Favorite = optionToUpdate.Favorite;
+                    entityToUpdate.ModifiedDate = DateTime.Now;
 
-                datacontext.SubmitChanges();
+                    datacontext.SubmitChanges();
 
-                result.Value = entityToUpdate;
+                    result.Value = entityToUpdate;
+                }
 
             }, () => "erreur");
 
@@ -54,24 +57,67 @@ namespace RMM.Business.OptionService
         {
             return Result<Option>.SafeExecute<IOptionService>(result =>
             {
-                var newFirstTimeOption = new Option()
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    IsComparator = false,
-                    IsPrimaryTile = false,
-                    IsPassword = false,
-                    IsReport = false,
-                    IsSynchro = false,
-                    ModifiedDate = DateTime.Now
-                };
+                    var newFirstTimeOption = new Option()
+                    {
+                        id = 1,
+                        IsPrimaryTile = false,
+                        IsPassword = false,
+                        IsSynchro = false,
+                        Favorite = 0,
+                        ModifiedDate = DateTime.Now
+                    };
 
-                datacontext.Option.InsertOnSubmit(newFirstTimeOption);
+                    datacontext.Option.InsertOnSubmit(newFirstTimeOption);
 
-                datacontext.SubmitChanges();
+                    datacontext.SubmitChanges();
 
-                result.Value = datacontext.Option.First();
+                    result.Value = newFirstTimeOption;
+                }
             }, () => "erreur");
 
 
+        }
+
+
+        public Result<int> GetFavoriteIdAccount()
+        {
+
+            return Result<int>.SafeExecute<IOptionService>(result =>
+            {
+
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+                    var idFavorite = (from t in datacontext.Option
+                                      select t.Favorite).First();
+
+                    result.Value = idFavorite;
+                }
+
+            }, () => "erreur");
+
+        }
+
+
+        public Result<int> SetFavoriteIdAccount(int AccountId)
+        {
+            return Result<int>.SafeExecute<IOptionService>(result =>
+            {
+
+                using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                {
+
+                    var entityToUpdate = datacontext.Option.First();
+
+                    entityToUpdate.Favorite = AccountId;
+
+                    datacontext.SubmitChanges();
+
+                    result.Value = AccountId;
+                }
+
+            }, () => "erreur");
         }
     }
 }

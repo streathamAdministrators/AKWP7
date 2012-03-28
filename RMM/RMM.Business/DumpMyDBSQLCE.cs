@@ -25,12 +25,12 @@ namespace RMM.Business
         {
             #region Categories
 
-            var c1 = new CategoryEntity();
+            var c1 = new Category();
             c1.Balance = 7.0;
             c1.Color = "FFA640";
             c1.Name = "Vacances";
 
-            var c2 = new CategoryEntity();
+            var c2 = new Category();
             c2.Balance = 7.0;
             c2.Color = "FFA640";
             c2.Name = "Profesionnel";
@@ -39,17 +39,17 @@ namespace RMM.Business
 
             #region Accounts
 
-            var na1 = new AccountEntity();
+            var na1 = new Account();
             na1.Balance = 7.0;
             na1.BankName = "Credit Agricole";
             na1.Name = "Mon compte courant";
 
-            var na2 = new AccountEntity();
+            var na2 = new Account();
             na2.Balance = 7.0;
             na2.BankName = "HSBC";
             na2.Name = "Mon compte courant";
 
-            var na3 = new AccountEntity();
+            var na3 = new Account();
             na3.Balance = 7.0;
             na3.BankName = "HSBC";
             na3.Name = "Mon compte epargne HSBC";
@@ -87,9 +87,9 @@ namespace RMM.Business
 
             #region Ajout Données
 
-            na1 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na1.BankName, Name = na1.Name, PhotoUrl = na1.PhotoUrl }).Value;
-            na2 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na2.BankName, Name = na2.Name, PhotoUrl = na2.PhotoUrl }).Value;
-            na3 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na3.BankName, Name = na3.Name, PhotoUrl = na3.PhotoUrl }).Value;
+            na1 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na1.BankName, Name = na1.Name}).Value;
+            na2 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na2.BankName, Name = na2.Name}).Value;
+            na3 = AccountService.CreateAccount(new CreateAccountCommand() { BankName = na3.BankName, Name = na3.Name}).Value;
 
             c1 = CategoryService.CreateCategory(new CreateCategoryCommand() { Name = c1.Name, Color = c1.Color }).Value;
             c2 = CategoryService.CreateCategory(new CreateCategoryCommand() { Name = c2.Name, Color = c2.Color }).Value;

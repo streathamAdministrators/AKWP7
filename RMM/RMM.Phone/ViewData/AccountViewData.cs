@@ -22,9 +22,8 @@ namespace RMM.Phone.ViewData.Account
 
         public double Balance { get; set; }
 
-        public string PhotoUrl { get; set; }
-
-        public string Favorite { get; set; }
+        public Visibility Favorite { get; set; }
+       
 
         public List<TransactionViewData> ListTransaction { get; set; }
     }

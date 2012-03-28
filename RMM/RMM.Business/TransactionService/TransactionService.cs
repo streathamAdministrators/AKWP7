@@ -101,8 +101,8 @@ namespace RMM.Business.TransactionService
                 {
                     var transaction = new Transaction();
 
-                    CategoryEntity attachedCategoryEntity;
-                    AccountEntity attachedAccountEntity;
+                    Category attachedCategoryEntity;
+                    Account attachedAccountEntity;
 
                     if (newTransactionCommand.categoryId.HasValue)
                     {

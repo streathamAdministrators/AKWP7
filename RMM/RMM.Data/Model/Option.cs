@@ -9,7 +9,8 @@ namespace RMM.Data.Model
     [Table(Name="Option")]
     public class Option
     {
-        [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+         //IsDbGenerated = true   1 SEUL FICHIER D'OPTION
+        [Column(IsPrimaryKey = true)]
         public int id { get; set; }
 
         [Column]
@@ -21,11 +22,9 @@ namespace RMM.Data.Model
         [Column]
         public bool IsPrimaryTile { get; set; }
 
-        [Column]
-        public bool IsReport { get; set; }
 
         [Column]
-        public bool IsComparator { get; set; }
+        public int Favorite { get; set; }
 
         [Column]
         public DateTime ModifiedDate { get; set; }

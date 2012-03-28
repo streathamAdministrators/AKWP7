@@ -7,17 +7,17 @@ using System.Data.Linq;
 
 namespace RMM.Data.Model
 {
-    [Table(Name="Account")]
-    public class AccountEntity
+    [Table(Name="Category")]
+    public class Category
     {
 
         private EntitySet<Transaction> transactionRef;
 
-        public AccountEntity()
+        public Category()
         {
             this.transactionRef = new EntitySet<Transaction>(this.OnTransactionAdded, this.OnTransactionRemoved);
-        }
 
+        }
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int ID { get; set; }
@@ -27,36 +27,30 @@ namespace RMM.Data.Model
 
         [Column]
         public double Balance { get; set; }
-       
-        [Column]
-        public string BankName { get; set; }
 
         [Column]
-        public string PhotoUrl { get; set; }
+        public string Color { get; set; }
 
 
-        [Association(Name = "FK_Account_Transactions", Storage = "transactionRef", ThisKey = "ID", OtherKey = "AccountID")]
-        public EntitySet<Transaction> TransactionList 
+        [Association(Name = "FK_Category_Transaction", Storage = "transactionRef", ThisKey = "ID", OtherKey = "CategoryID")]
+        public EntitySet<Transaction> TransactionList
         {
             get { return this.transactionRef; }
         }
 
 
-
         private void OnTransactionAdded(Transaction transaction)
         {
-            transaction.Account = this;
+            transaction.Category = this;
         }
 
         private void OnTransactionRemoved(Transaction transaction)
         {
-            transaction.Account = this;
+            transaction.Category = this;
         } 
         
+
         [Column]
         public DateTime CreatedDate { get; set; }
-
-
-
     }
 }

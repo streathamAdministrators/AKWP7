@@ -13,9 +13,9 @@ namespace RMM.Business.AccountService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<AccountEntity> DeleteAccountById(int accountId)
+        public Result<Account> DeleteAccountById(int accountId)
         {
-            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
+            return Result<Account>.SafeExecute<AccountService>(result =>
             {
                  
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
@@ -36,15 +36,15 @@ namespace RMM.Business.AccountService
             }, () => "error");
         }
 
-        public Result<AccountEntity> GetAccountById(int accountId, bool OnMinimal)
+        public Result<Account> GetAccountById(int accountId, bool OnMinimal)
         {
             
-            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
+            return Result<Account>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     if (!OnMinimal)
-                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<AccountEntity>(acc => acc.TransactionList);
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Account>(acc => acc.TransactionList);
 
                     var account = datacontext.Account.Where(a => a.ID == accountId).First();
 
@@ -55,15 +55,14 @@ namespace RMM.Business.AccountService
             }, () => "error");
         }
 
-        public Result<AccountEntity> CreateAccount(CreateAccountCommand newAccountCommand)
+        public Result<Account> CreateAccount(CreateAccountCommand newAccountCommand)
         {
-            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
+            return Result<Account>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var newAccountEntity = new AccountEntity();
+                    var newAccountEntity = new Account();
                     newAccountEntity.Name = newAccountCommand.Name;
-                    newAccountEntity.PhotoUrl = newAccountCommand.PhotoUrl;
                     newAccountEntity.BankName = newAccountCommand.BankName;
                     newAccountEntity.CreatedDate = DateTime.Now;
                     newAccountEntity.Balance = 0;
@@ -82,9 +81,9 @@ namespace RMM.Business.AccountService
             }, () => "error");
         }
 
-        public Result<AccountEntity> UpdateAccount(EditAccountCommand editAccountCommand)
+        public Result<Account> UpdateAccount(EditAccountCommand editAccountCommand)
         {
-            return Result<AccountEntity>.SafeExecute<AccountService>(result =>
+            return Result<Account>.SafeExecute<AccountService>(result =>
             {
 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
@@ -107,14 +106,14 @@ namespace RMM.Business.AccountService
         }
 
 
-        public Result<List<AccountEntity>> GetAllAccounts(bool OnMinimal)
+        public Result<List<Account>> GetAllAccounts(bool OnMinimal)
         {
-            return Result<List<AccountEntity>>.SafeExecute<AccountService>(result =>
+            return Result<List<Account>>.SafeExecute<AccountService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     if(!OnMinimal)
-                     datacontext.LoadOptions =   DBHelpers.GetConfigurationLoader<AccountEntity>(Acc => Acc.TransactionList);
+                     datacontext.LoadOptions =   DBHelpers.GetConfigurationLoader<Account>(Acc => Acc.TransactionList);
 
                     var accounts = datacontext.Account.ToList();
 
