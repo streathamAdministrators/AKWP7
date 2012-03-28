@@ -107,7 +107,7 @@
 			<!--Panorama item 1 ACCOUNT-->
 			<controls:PanoramaItem Header="{Binding AccountHeader}" Foreground="White" >
 				<Canvas Margin="0,-45,0,0">
-					<ListBox x:Name="AccountListBox" SelectionMode="Single" ItemsSource="{Binding ListeAccount}" Foreground="Black" Background="#00000000" FontSize="32" Canvas.ZIndex="2" Height="549" Canvas.Top="6" BorderBrush="Transparent" >
+					<ListBox x:Name="AccountListBox" SelectionMode="Single" ItemsSource="{Binding ListeAccount}" Foreground="Black" Background="#00000000" FontSize="32" Canvas.ZIndex="2" Height="545" Canvas.Top="6" BorderBrush="Transparent" >
 					<Interactivity:Interaction.Triggers>
 						<Interactivity:EventTrigger EventName="SelectionChanged" x:Name="AccountListBoxSelectionChanged">
 							<Command:EventToCommand Command="{Binding AccountSelectedCommand}" PassEventArgsToCommand="True"  />
@@ -145,7 +145,7 @@
 								</toolkit:ContextMenuService.ContextMenu>
 								
 									<Canvas>
-										<Image Height="101" Source="icons/favorite.png" Visibility="{Binding Favorite}" Stretch="Fill" Canvas.Left="315" Canvas.Top="-24" Width="101"/>
+										<Image Height="101" Source="icons/fav.png" Visibility="{Binding Favorite}" Stretch="Fill" Canvas.Left="320" Canvas.Top="-30" Width="101"/>
 										<StackPanel>
 											<StackPanel Orientation="Horizontal" Margin="15,10,0,0">
 												<Image HorizontalAlignment="Left" Height="50" Source="icons/account.png" Stretch="Fill" Width="50" />
@@ -181,49 +181,52 @@
 33.7656,18.1199C35.6965,18.1798,37.017,18.6719,38,19.1628L37.1731,21.9845C36.4324,21.6173 35.0845,20.9116 32.996,20.9116 30.849,20.9116 30.0808,
 22.0158 30.0808,23.0601 30.0808,24.3164 31.1875,25.0535 33.8281,26.0653 37.2617,27.3555 38.767,29.0131 38.767,31.7748 38.767,34.3817 36.9558,36.6525 
 33.6118,37.2046z" Width="286.101" Height="200.5" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Fill" Canvas.Top="355" 
-UseLayoutRounding="False" Canvas.Left="237.899" Fill="#FFBCBCBC" />
+UseLayoutRounding="False" Canvas.Left="210" Fill="#FFBCBCBC" />
 				</Canvas>
 				
 			</controls:PanoramaItem>
 
 			<!--Panorama item 2 FAVORITE-->
 			<controls:PanoramaItem Header="{Binding FavTransactionHeader}">
-				<StackPanel>
+				<StackPanel Margin="5,-16,0,0">
 					<StackPanel Orientation="Horizontal" Height="61">
-						 <TextBlock Text="{Binding FavoriteAccount.Name}" TextWrapping="Wrap" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" Height="53" Width="320" />
-						 <Button Content="+" Template="{StaticResource PlusControlTemplate}" Width="60" Height="60" FontSize="48" Margin="0,0,0,0" d:LayoutOverrides="Height"/>
+						 <TextBlock Text="{Binding FavoriteAccountViewData.Name}" TextWrapping="Wrap" FontSize="32" Height="53" Width="320" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="{StaticResource PhoneAccentBrush}" />
+						 <Button Content="+" Template="{StaticResource PlusControlTemplate}" Width="60" Height="60" FontSize="48" Margin="0,0,0,0" d:LayoutOverrides="Height" Foreground="Black"/>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Height="31" Margin="0,15,0,0">
-						 <TextBlock Text="TOTAL" FontWeight="Bold"/>
-						 <Rectangle Fill="Black" Stroke="#FFFFF7F7" Width="64" HorizontalAlignment="Right"  RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="1" Margin="218,15,0,15">
+					<StackPanel Orientation="Horizontal" Height="31" Margin="210,25,0,-5">
+						 <TextBlock Text="TOTAL :" FontWeight="Bold" Foreground="{StaticResource PhoneAccentBrush}" VerticalAlignment="Center" Margin="20,0,0,0"/>
+						 <Rectangle Fill="#FFD2D2D2" Stroke="#FFD2D2D2" Width="64" HorizontalAlignment="Right"  RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="1" Margin="218,15,0,15" Visibility="Collapsed">
 												<Rectangle.RenderTransform>
 													<CompositeTransform Rotation="-90"/>
 												</Rectangle.RenderTransform>
 											</Rectangle>
-						 <TextBlock Text="6525" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="-23,0,40,0" FontWeight="Bold" Width="86"  />
+						 <TextBlock Text="{Binding FavoriteAccountViewData.Balance}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="0" FontWeight="Bold" Width="107" VerticalAlignment="Center"  />
 					</StackPanel>
-
-                    <ListBox x:Name="FavoriteListBox" SelectionMode="Single" ItemsSource="{Binding FavoriteAccountViewData.ListTransaction}" FontSize="20">
-						<ListBox.ItemTemplate>
+					<StackPanel Orientation="Horizontal" Margin="0,15,0,5" Background="#FFD2D2D2">
+						<TextBlock Text="DATE" Foreground="Black"/>
+						<TextBlock Text="TRANSACTION" Foreground="Black" Margin="50,0,0,0"/>
+						<TextBlock Text="AMOUNT" Foreground="Black" Margin="98,0,0,0"/>
+					</StackPanel>
+					<Canvas Margin="0,-10,0,0">
+                    <ListBox x:Name="FavoriteListBox" SelectionMode="Single" ItemsSource="{Binding FavoriteAccountViewData.ListTransaction}" FontSize="20" Height="373" Canvas.ZIndex="2">
+						
+							<ListBox.ItemTemplate>
 							<DataTemplate>
 								<StackPanel>
-									<Rectangle Fill="Black" Stroke="Black" Width="440" HorizontalAlignment="Right" Height="3" d:LayoutOverrides="VerticalAlignment"/>
-									<StackPanel Orientation="Horizontal">
-										<Grid Background="Black">
+									<Rectangle Fill="#FFD2D2D2" Stroke="#FFD2D2D2" Width="410" HorizontalAlignment="Left" Height="1" d:LayoutOverrides="VerticalAlignment"/>
+									<StackPanel Orientation="Horizontal" Margin="0">
+										<Grid Margin="0,00,0,0">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="45"/>
+											</Grid.RowDefinitions>
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="100"/>
-												<ColumnDefinition Width="194"/>
-												<ColumnDefinition Width="12"/>
+												<ColumnDefinition Width="206"/>
 												<ColumnDefinition Width="140"/>
 											</Grid.ColumnDefinitions>
-											<TextBlock Grid.Column="0" Text="{Binding Path=Category.Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-											<TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" />
-											<Rectangle Grid.Column="3" Fill="Black" Stroke="#FFFFF7F7" Width="126" HorizontalAlignment="Right" Margin="0,48.062,72.998,1.943" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Height="2">
-												<Rectangle.RenderTransform>
-													<CompositeTransform Rotation="-90"/>
-												</Rectangle.RenderTransform>
-											</Rectangle>
-											<TextBlock Grid.Column="3" Text="{Binding Amount}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
+											<TextBlock Grid.Column="0" Text="{Binding Path=CreatedDate}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" />
+											<TextBlock Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" />
+											<TextBlock Grid.Column="2" Text="{Binding Amount}" Style="{StaticResource PhoneTextAccentStyle}" TextWrapping="Wrap" TextAlignment="Right" Margin="8,0,40,0" VerticalAlignment="Center"  />
 										</Grid>
 									</StackPanel>
 								</StackPanel>
@@ -231,7 +234,13 @@ UseLayoutRounding="False" Canvas.Left="237.899" Fill="#FFBCBCBC" />
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
+					
 
+<Path Data="M4.260985,21.327995C4.260985,21.327995,5.5869843,22.314995,6.4709836,22.583996L6.4709836,27.872997C6.4709836,27.872997,3.6439854,24.559995,0.99198733,26.624996z M18.267003,20.409996L20.056007,35.562002 14.197992,32.661001 9.8719817,35.228002 8.4349786,23.055998C8.4349786,23.055998,14.148993,25.116998,18.267003,20.409996z M10.609015,0C16.463998,0 21.214,4.7720025 21.214,10.664 21.214,16.553999 16.463998,21.328001 10.609015,21.328001 4.7490259,21.328001 3.37865E-07,16.553999 0,10.664 3.37865E-07,4.7720025 4.7490259,0 10.609015,0z" Fill="#FFBCBCBC" Width="160.5" Height="268.549" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Fill" UseLayoutRounding="False" Canvas.Left="306" Canvas.Top="130" />
+					
+					</Canvas>
+						
+						
 				</StackPanel>
 			</controls:PanoramaItem>
 
@@ -272,9 +281,9 @@ UseLayoutRounding="False" Canvas.Left="237.899" Fill="#FFBCBCBC" />
 										</toolkit:MenuItem>
 									</toolkit:ContextMenu>
 								</toolkit:ContextMenuService.ContextMenu>
-								<StackPanel Orientation="Horizontal">
-									<Rectangle Fill="{StaticResource PhoneAccentBrush}" Height="50" Width="50"></Rectangle>
-									<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Foreground="{StaticResource PhoneAccentBrush}" FontSize="32" Margin="10,0,0,0"/>
+								<StackPanel Orientation="Horizontal" Height="60">
+									<Rectangle Fill="{StaticResource PhoneAccentBrush}" Height="60" Width="60"></Rectangle>
+									<TextBlock Text="{Binding Name}" TextWrapping="NoWrap" Foreground="{StaticResource PhoneAccentBrush}" FontSize="34.667" Margin="15,0,0,0" VerticalAlignment="Center"/>
 								</StackPanel>
 								
 								

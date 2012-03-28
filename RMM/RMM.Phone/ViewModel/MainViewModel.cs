@@ -222,6 +222,8 @@ namespace RMM.Phone.ViewModel
             SetOption();
             SetFavori();
 
+            ProcessDatasOnDB();
+
         }
 
         public void RefreshAccountAfterUpdate()
@@ -376,5 +378,79 @@ namespace RMM.Phone.ViewModel
         }
 
         #endregion
+
+        void ProcessDatasOnDB()
+        {
+
+            var c1 = new CategoryViewData();
+            c1.Balance = 7.0;
+            c1.Color = "FFA640";
+            c1.Name = "Vacances";
+
+            TransactionViewData t1 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t2 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t3 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t4 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t5 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t6 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t7 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t8 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            TransactionViewData t9 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
+            
+            
+            
+
+            var c2 = new CategoryViewData();
+            c2.Balance = 7.0;
+            c2.Color = "FFA640";
+            c2.Name = "Profesionnel";
+
+            var na1 = new AccountViewData();
+            na1.Balance = 7.0;
+            na1.BankName = "Credit Agricole";
+            na1.Name = "Mon compte courant";
+            na1.Favorite = Visibility.Collapsed;
+
+
+            var na2 = new AccountViewData();
+            na2.Balance = 7.0;
+            na2.BankName = "HSBC";
+            na2.Name = "Mon compte courant";
+            na2.Favorite = Visibility.Visible;
+            na2.ListTransaction = new List<TransactionViewData>();
+
+            na2.ListTransaction.Add(t1);
+            na2.ListTransaction.Add(t2);
+            na2.ListTransaction.Add(t3);
+            na2.ListTransaction.Add(t4);
+            na2.ListTransaction.Add(t5);
+            na2.ListTransaction.Add(t6);
+            na2.ListTransaction.Add(t7);
+            na2.ListTransaction.Add(t8);
+            na2.ListTransaction.Add(t9);
+
+            FavoriteAccountViewData = new AccountViewData();
+            FavoriteAccountViewData = na2;
+            
+
+            var na3 = new AccountViewData();
+            na3.Balance = 7.0;
+            na3.BankName = "HSBC";
+            na3.Name = "Mon compte epargne HSBC";
+            na2.Favorite = Visibility.Collapsed;
+
+
+            this.ListeAccount = new ObservableCollection<AccountViewData>();
+            this.ListeAccount.Add(na1);
+            this.ListeAccount.Add(na2);
+            this.ListeAccount.Add(na3);
+
+            RaisePropertyChanged("ListeAccount");
+
+            this.ListeCategory = new ObservableCollection<CategoryViewData>();
+            this.ListeCategory.Add(c1);
+            this.ListeCategory.Add(c2);
+
+        }
     }
 }
