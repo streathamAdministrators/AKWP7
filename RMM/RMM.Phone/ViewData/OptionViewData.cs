@@ -22,5 +22,7 @@ namespace RMM.Phone.ViewData.Account
         public bool IsReport { get; set; }
 
         public bool IsComparator { get; set; }
+
+        public int Favorite { get; set; }
     }
 }

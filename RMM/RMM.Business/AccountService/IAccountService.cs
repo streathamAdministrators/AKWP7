@@ -10,16 +10,16 @@ namespace RMM.Business.AccountService
     public interface IAccountService
     {
 
-        Result<AccountEntity> DeleteAccountById(int accountId);
+        Result<Account> DeleteAccountById(int accountId);
 
 
-        Result<AccountEntity> GetAccountById(int accountId, bool OnMinimal);
+        Result<Account> GetAccountById(int accountId, bool OnMinimal);
 
-        Result<List<AccountEntity>> GetAllAccounts(bool OnMinimal);
+        Result<List<Account>> GetAllAccounts(bool OnMinimal);
 
 
-        Result<AccountEntity> CreateAccount(CreateAccountCommand newAccountCommand);
+        Result<Account> CreateAccount(CreateAccountCommand newAccountCommand);
 
-        Result<AccountEntity> UpdateAccount(EditAccountCommand editAccountCommand);
+        Result<Account> UpdateAccount(EditAccountCommand editAccountCommand);
     }
 }

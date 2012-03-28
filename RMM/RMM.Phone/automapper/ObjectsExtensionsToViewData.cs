@@ -57,15 +57,17 @@ namespace RMM.Phone.ExtensionMethods
 
         }
 
-        public static AccountViewData ToAccountViewData(this AccountEntity Objectsource)
+        public static AccountViewData ToAccountViewData(this Account Objectsource)
         {
+
+
             var newAccountViewData = new AccountViewData();
 
             newAccountViewData.Id = Objectsource.ID;
             newAccountViewData.Name = Objectsource.Name;
             newAccountViewData.BankName = Objectsource.BankName;
             newAccountViewData.Balance = Objectsource.Balance;
-            newAccountViewData.PhotoUrl = Objectsource.PhotoUrl;
+
 
             if (Objectsource.TransactionList.HasLoadedOrAssignedValues)
             {
@@ -73,22 +75,23 @@ namespace RMM.Phone.ExtensionMethods
             }
 
 
+            //ATTENTION, LE SET DU FAVORITE SE FAIT DANS LA PAGE APPROPRIE, VIA LE OptionService
+
             return newAccountViewData;
         }
 
         public static OptionViewData ToOptionViewData(this Option Objectsource)
         {
             var newOptionViewData = new OptionViewData();
-            newOptionViewData.IsComparator = Objectsource.IsComparator;
             newOptionViewData.IsPassword = Objectsource.IsPassword;
             newOptionViewData.IsPrimaryTile = Objectsource.IsPrimaryTile;
-            newOptionViewData.IsReport = Objectsource.IsReport;
             newOptionViewData.IsSynchro = Objectsource.IsSynchro;
+            newOptionViewData.Favorite = Objectsource.Favorite;
 
             return newOptionViewData;
         }
 
-        public static CategoryViewData ToCategoryViewData(this CategoryEntity Objectsource)
+        public static CategoryViewData ToCategoryViewData(this Category Objectsource)
         {
             var newCategoryViewData = new CategoryViewData();
 

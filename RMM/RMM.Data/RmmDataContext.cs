@@ -14,15 +14,16 @@ namespace RMM.Data
         public RmmDataContext(string connectionString)
             :base(connectionString)
         {
-            this.Account = this.GetTable<AccountEntity>();
-            this.Category = this.GetTable<CategoryEntity>();
-            this.Transaction = this.GetTable<Transaction>();
             this.Option = this.GetTable<Option>();
+            this.Account = this.GetTable<Account>();
+            this.Category = this.GetTable<Category>();
+            this.Transaction = this.GetTable<Transaction>();
+            
         }
 
-        public Table<AccountEntity> Account { get; set; }
+        public Table<Account> Account { get; set; }
 
-        public Table<CategoryEntity> Category { get; set; }
+        public Table<Category> Category { get; set; }
 
         public Table<Transaction> Transaction { get; set; }
 

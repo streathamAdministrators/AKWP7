@@ -11,6 +11,9 @@ namespace RMM.Business.OptionService
         //Retournera une liste de Dto
         Result<Option> GetOption();
 
+        Result<int> GetFavoriteIdAccount();
+        Result<int> SetFavoriteIdAccount(int AccountId);
+
         //Passage d'un dto en param apres
         Result<Option> UpdateOption(Option optionToUpdate);
 

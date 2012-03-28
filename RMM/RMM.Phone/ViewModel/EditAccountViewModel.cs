@@ -52,7 +52,7 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            var editAccountCommand = new EditAccountCommand(){ BankName = Account.BankName, id= Account.Id, Name= Account.Name, PhotoUrl= Account.PhotoUrl};
+            var editAccountCommand = new EditAccountCommand(){ BankName = Account.BankName, id= Account.Id, Name= Account.Name};
             var result =  Accountservice.UpdateAccount(editAccountCommand);
 
             if (result.IsValid)

@@ -9,14 +9,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace RMM.Business.AccountService
+namespace RMM.Phone.automapper
 {
-    public class CreateAccountCommand
+    public class ObjectsExtensionsGeneral
     {
-        public string Name { get; set; }
-
-        public string BankName { get; set; }
-
-        public string PhotoUrl { get; set; }
+        public ObjectsExtensionsGeneral()
+        {
+        }
     }
 }

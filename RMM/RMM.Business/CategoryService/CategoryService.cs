@@ -14,9 +14,9 @@ namespace RMM.Business.CategoryService
     {
         private RmmDataContext datacontext = null;
 
-        public Result<CategoryEntity> DeleteCategorieById(int categoryId)
+        public Result<Category> DeleteCategorieById(int categoryId)
         {
-            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
+            return Result<Category>.SafeExecute<CategoryService>(result =>
                 {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
@@ -37,14 +37,14 @@ namespace RMM.Business.CategoryService
                 },() => "error");
         }
 
-        public Result<CategoryEntity> GetCategoryById(int categoryId, bool OnMinimal)
+        public Result<Category> GetCategoryById(int categoryId, bool OnMinimal)
         {
-            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
+            return Result<Category>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     if(!OnMinimal)
-                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<CategoryEntity>(c => c.TransactionList);
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Category>(c => c.TransactionList);
 
                     var category = datacontext.Category.Where(a => a.ID == categoryId).First();
 
@@ -55,13 +55,13 @@ namespace RMM.Business.CategoryService
             }, () => "error");
         }
 
-        public Result<CategoryEntity> CreateCategory(CreateCategoryCommand newCategoryCommand)
+        public Result<Category> CreateCategory(CreateCategoryCommand newCategoryCommand)
         {
-            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
+            return Result<Category>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
-                    var newCategoryEntity = new CategoryEntity()
+                    var newCategoryEntity = new Category()
                     {
                         Balance = 0,
                         Color = newCategoryCommand.Color,
@@ -84,9 +84,9 @@ namespace RMM.Business.CategoryService
             }, () => "error");
         }
 
-        public Result<CategoryEntity> UpdateCategory(EditCategoryCommand editCategoryCommand)
+        public Result<Category> UpdateCategory(EditCategoryCommand editCategoryCommand)
         {
-            return Result<CategoryEntity>.SafeExecute<CategoryService>(result =>
+            return Result<Category>.SafeExecute<CategoryService>(result =>
             {
 
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
@@ -108,14 +108,14 @@ namespace RMM.Business.CategoryService
             }, () => "error");
         }
 
-        public Result<List<CategoryEntity>> GetAllCategories(bool OnMinimal)
+        public Result<List<Category>> GetAllCategories(bool OnMinimal)
         {
-            return Result<List<CategoryEntity>>.SafeExecute<CategoryService>(result =>
+            return Result<List<Category>>.SafeExecute<CategoryService>(result =>
             {
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     if (!OnMinimal)
-                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<CategoryEntity>(cat => cat.TransactionList);
+                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Category>(cat => cat.TransactionList);
 
                     var categories = datacontext.Category.ToList();
 

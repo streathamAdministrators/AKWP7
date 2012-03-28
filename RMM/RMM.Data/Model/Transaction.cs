@@ -15,8 +15,8 @@ namespace RMM.Data.Model
         private Nullable<int> accountID;
         private Nullable<int> categoryID;
 
-        private EntityRef<AccountEntity> AccountRef = new EntityRef<AccountEntity>();
-        private EntityRef<CategoryEntity> CategoryRef = new EntityRef<CategoryEntity>();
+        private EntityRef<Account> AccountRef = new EntityRef<Account>();
+        private EntityRef<Category> CategoryRef = new EntityRef<Category>();
 
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
@@ -49,12 +49,12 @@ namespace RMM.Data.Model
 
 
         [Association(Name="FK_Account_Transactions", Storage = "AccountRef", ThisKey = "AccountID", OtherKey = "ID", IsForeignKey = true)]
-        public AccountEntity Account 
+        public Account Account 
         {
             get { return this.AccountRef.Entity; }
             set 
             {
-                AccountEntity previousValue = this.AccountRef.Entity; 
+                Account previousValue = this.AccountRef.Entity; 
                  
                  if (previousValue != value || this.AccountRef.HasLoadedOrAssignedValue == false)
                  {
@@ -81,12 +81,12 @@ namespace RMM.Data.Model
 
         
         [Association(Name = "FK_Category_Transactions", Storage = "CategoryRef", ThisKey = "CategoryID", OtherKey = "ID", IsForeignKey = true)]
-        public CategoryEntity Category 
+        public Category Category 
         {
             get { return this.CategoryRef.Entity; }
             set
             {
-                CategoryEntity previousValue = this.CategoryRef.Entity;
+                Category previousValue = this.CategoryRef.Entity;
 
                 if (previousValue != value || this.CategoryRef.HasLoadedOrAssignedValue == false)
                 {

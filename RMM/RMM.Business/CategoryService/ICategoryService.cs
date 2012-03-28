@@ -9,15 +9,15 @@ namespace RMM.Business.CategoryService
     public interface ICategoryService
     {
 
-        Result<CategoryEntity> DeleteCategorieById(int categoryId);
+        Result<Category> DeleteCategorieById(int categoryId);
 
-        Result<CategoryEntity> GetCategoryById(int categoryId, bool OnMinimal);
+        Result<Category> GetCategoryById(int categoryId, bool OnMinimal);
 
-        Result<List<CategoryEntity>> GetAllCategories(bool OnMinimal);
+        Result<List<Category>> GetAllCategories(bool OnMinimal);
 
 
-        Result<CategoryEntity> CreateCategory(CreateCategoryCommand newCategoryCommand);
+        Result<Category> CreateCategory(CreateCategoryCommand newCategoryCommand);
 
-        Result<CategoryEntity> UpdateCategory(EditCategoryCommand editCategoryCommand);
+        Result<Category> UpdateCategory(EditCategoryCommand editCategoryCommand);
     }
 }
