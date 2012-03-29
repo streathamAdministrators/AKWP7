@@ -28,11 +28,11 @@ namespace RMM.Phone
                 {
                     if (NavigationContext.QueryString.Values.First() == ACCOUNT)
                     {
-                        ViewModel.RefreshAccountAfterUpdate();
+                        ViewModel.RefreshAccountAndFavori();
                     }
                     else if (NavigationContext.QueryString.Values.First() == CATEGORY)
                     {
-                        ViewModel.RefreshCategoryAfterUpdate();
+                        ViewModel.RefreshCategory();
                     }
                 }
             });

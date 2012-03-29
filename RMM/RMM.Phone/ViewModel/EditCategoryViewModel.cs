@@ -19,10 +19,12 @@ namespace RMM.Phone.ViewModel
         public RelayCommand CancelCommand { get; set; }
 
         public ICategoryService CategoryService { get; set; }
+        public ITransactionService TransactionService { get; set; }
 
-        public EditCategoryViewModel(ICategoryService categoryService)
+        public EditCategoryViewModel(ICategoryService categoryService, ITransactionService transactionService)
         {
             CategoryService = categoryService;
+            TransactionService = transactionService;
 
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
@@ -48,7 +50,7 @@ namespace RMM.Phone.ViewModel
             MessageBoxResult result = MessageBox.Show("Do you really want to delete this category ?", "delete " + Category.Name, MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
-                CategoryService.DeleteCategorieById(Category.Id);
+                TransactionService.DeleteTransactionsByCategoryId(Category.Id);
             }
         }
 

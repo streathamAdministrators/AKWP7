@@ -7,6 +7,7 @@ using RMM.Phone.ExtensionMethods;
 using RMM.Business.CategoryService;
 using RMM.Phone.Execution;
 using RMM.Business.TransactionService;
+using RMM.Business.OptionService;
 
 namespace RMM.Phone.ViewModel
 {
@@ -24,6 +25,7 @@ namespace RMM.Phone.ViewModel
             }
         }
 
+        public bool IsFavorite { get; set; }
 
         public RelayCommand DeleteAllTransactionCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
@@ -31,11 +33,13 @@ namespace RMM.Phone.ViewModel
 
         public IAccountService Accountservice { get; set; }
         public ITransactionService TransactionService { get; set; }
+        public IOptionService OptionService { get; set; }
 
-        public EditAccountViewModel(IAccountService accountService, ITransactionService transactionService)
+        public EditAccountViewModel(IAccountService accountService, ITransactionService transactionService, IOptionService optionService)
         {
             Accountservice = accountService;
             TransactionService = transactionService;
+            OptionService = optionService;
 
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
@@ -65,8 +69,12 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            var editAccountCommand = new EditAccountCommand() { BankName = Account.BankName, id = Account.Id, Name = Account.Name };
+            var editAccountCommand = new EditAccountCommand() { BankName = Account.BankName, id = Account.Id, Name = Account.Name};
             var result = Accountservice.UpdateAccount(editAccountCommand);
+
+            if (IsFavorite)
+                OptionService.SetFavoriteIdAccount(Account.Id);
+
 
             if (result.IsValid)
             {

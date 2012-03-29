@@ -58,19 +58,10 @@ namespace RMM.Phone.ViewModel
         {
             var resultCategories = CategoryService.GetAllCategories(false);
 
-            var listCategoriesViewData = new List<CategoryViewData>();
-
             if (resultCategories.IsValid)
             {
-                resultCategories.Value.ForEach(dto => listCategoriesViewData.Add(dto.ToCategoryViewData()));
+                resultCategories.Value.ForEach(dto => this.ListeCategory.Add(dto.ToCategoryViewData()));
             }
-
-            listCategoriesViewData
-                .ForEach(categoryViewData =>
-                {
-                    categoryViewData.Balance = categoryViewData.ListTransaction.Sum(tvd => tvd.Amount);
-                    ListeCategory.Add(categoryViewData);
-                });
         }
     }
 }

@@ -112,6 +112,8 @@ namespace RMM.Business.OptionService
 
                     entityToUpdate.Favorite = AccountId;
 
+                    
+
                     datacontext.SubmitChanges();
 
                     result.Value = AccountId;
