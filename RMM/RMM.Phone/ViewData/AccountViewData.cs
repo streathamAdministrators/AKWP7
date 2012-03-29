@@ -24,7 +24,6 @@ namespace RMM.Phone.ViewData.Account
 
         public Visibility Favorite { get; set; }
        
-
         public List<TransactionViewData> ListTransaction { get; set; }
     }
 }

@@ -174,7 +174,7 @@ namespace RMM.Phone.ViewModel
         public MainViewModel(IAccountService accountService, ICategoryService categoryService, ITransactionService transactionService, IOptionService optionService, IDatabaseService databaseService)
         {
 
-            #region Set des objects obligatoire à la vue et ViewModel
+            #region Set des objects obligatoire ï¿½ la vue et ViewModel
 
             this.AccountSelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleAccountTaskSelected(args));
             this.CategorySelectedCommand = new RelayCommand<SelectionChangedEventArgs>((args) => HandleCategoryTaskSelected(args));
@@ -235,7 +235,7 @@ namespace RMM.Phone.ViewModel
 
         private void SetOption()
         {
-            // Get des options à binder
+            // Get des options ï¿½ binder
             var resultOption = OptionService.GetOption();
 
             if (resultOption.IsValid)
@@ -286,7 +286,7 @@ namespace RMM.Phone.ViewModel
 
                 });
 
-            // si le compte favori a été setté, alors on eagger sur sa liste de prop
+            // si le compte favori a ï¿½tï¿½ settï¿½, alors on eagger sur sa liste de prop
             if (FavoriteAccountViewData != null)
             {
                 var donneMoiFavoriEnEagger = AccountService.GetAccountById(FavoriteAccountViewData.Id, false);
