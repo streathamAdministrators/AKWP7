@@ -28,8 +28,10 @@ namespace RMM.Phone.ViewModel
 
         void HandleCreateTaskSelected()
         {
-            
-            AccountService.CreateAccount(new CreateAccountCommand());
+
+            AccountService.CreateAccount(new CreateAccountCommand() { Name = Account.Name, BankName = Account.BankName });
+
+            NavigateTo("/MainPage.xaml?update=account", null);
         }
 
         void HandleCancelTaskSelected()

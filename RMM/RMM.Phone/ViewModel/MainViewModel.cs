@@ -108,7 +108,7 @@ namespace RMM.Phone.ViewModel
 
         #endregion
 
-        #region PROPFULL SUR OC<ViewData>, FAVORI ViewData, Option ViewData 
+        #region PROPFULL SUR OC<ViewData>, FAVORI ViewData, Option ViewData
 
         private ObservableCollection<AccountViewData> listeAccount;
 
@@ -215,51 +215,23 @@ namespace RMM.Phone.ViewModel
 
             #endregion
 
-            
-            ExecuteSafeDispatcher(() => SetListAccount(), () => SetListCategory(), () => SetOption(), () => SetFavori());
-
-            //SetListAccount();
-            //SetListCategory();
-            //SetOption();
-            //SetFavori();
-
-            //ProcessDatasOnDB();
+            ExecuteSafeDispatcher(() => SetOption(), () => RefreshAccountAndFavori(), () => RefreshCategory());
 
         }
 
-        public void RefreshAccountAfterUpdate()
+        public void RefreshAccountAndFavori()
         {
             this.ListeAccount = new ObservableCollection<AccountViewData>();
             SetListAccount();
+            SetFavori();
         }
 
-        public void RefreshCategoryAfterUpdate()
+        public void RefreshCategory()
         {
             this.ListeCategory = new ObservableCollection<CategoryViewData>();
             SetListCategory();
         }
 
-
-
-        private void SetListAccount()
-        {
-            //Get des options en Minimal ( Lazy loading sur les listes de transaction ) avec le true
-            var resultatAccountService = AccountService.GetAllAccounts(true);
-            if (resultatAccountService.IsValid)
-            {
-                resultatAccountService.Value.ForEach(vd => this.ListeAccount.Add(vd.ToAccountViewData()));
-            }
-        }
-
-        private void SetListCategory()
-        {
-            //Get des categories en Minimal ( Lazy loading sur les listes de transaction ) avec le true
-            var resultatCategoryService = CategoryService.GetAllCategories(true);
-            if (resultatCategoryService.IsValid)
-            {
-                resultatCategoryService.Value.ForEach(vd => this.ListeCategory.Add(vd.ToCategoryViewData()));
-            }
-        }
 
         private void SetOption()
         {
@@ -270,7 +242,32 @@ namespace RMM.Phone.ViewModel
                 OptionViewData = resultOption.Value.ToOptionViewData();
 
         }
-
+        private void SetListAccount()
+        {
+            //Get des options en Minimal ( Lazy loading sur les listes de transaction ) avec le true
+            var resultatAccountService = AccountService.GetAllAccounts(true);
+            if (resultatAccountService.IsValid)
+            {
+                resultatAccountService.Value.ForEach(
+                    vd =>
+                    {
+                        this.ListeAccount.Add(vd.ToAccountViewData());
+                    });
+            }
+        }
+        private void SetListCategory()
+        {
+            //Get des categories en Minimal ( Lazy loading sur les listes de transaction ) avec le true
+            var resultatCategoryService = CategoryService.GetAllCategories(true);
+            if (resultatCategoryService.IsValid)
+            {
+                resultatCategoryService.Value.ForEach(
+                    vd =>
+                    {
+                        this.ListeCategory.Add(vd.ToCategoryViewData());
+                    });
+            }
+        }
         private void SetFavori()
         {
             //Set de la visibilite pour les favori : on check si le Favori Id dans l'object option contient un des id des comptes
@@ -295,6 +292,9 @@ namespace RMM.Phone.ViewModel
                 var donneMoiFavoriEnEagger = AccountService.GetAccountById(FavoriteAccountViewData.Id, false);
                 if (donneMoiFavoriEnEagger.IsValid)
                     FavoriteAccountViewData = donneMoiFavoriEnEagger.Value.ToAccountViewData();
+
+                if (FavoriteAccountViewData.ListTransaction.Count > 0)
+                    FavoriteAccountViewData.Balance = FavoriteAccountViewData.ListTransaction.Sum(t => t.Amount);
             }
         }
 
@@ -322,6 +322,7 @@ namespace RMM.Phone.ViewModel
                 {
                     TransactionService.DeleteTransactionsByAccountId(args.Id);
                     AccountService.DeleteAccountById(args.Id);
+                    this.ListeAccount.Remove(args);
                 }
             }
         }
@@ -332,15 +333,13 @@ namespace RMM.Phone.ViewModel
 
             OptionService.SetFavoriteIdAccount(args.Id);
 
-            FavoriteAccountViewData = args;
-
-            // si le compte favori a été setté, alors on eagger sur sa liste de prop
-            if (FavoriteAccountViewData != null)
+            if (optionViewData.Favorite != args.Id)
             {
-                var donneMoiFavoriEnEagger = AccountService.GetAccountById(FavoriteAccountViewData.Id, false);
-                if (donneMoiFavoriEnEagger.IsValid)
-                    FavoriteAccountViewData = donneMoiFavoriEnEagger.Value.ToAccountViewData();
+                OptionViewData.Favorite = args.Id;
+                ExecuteSafeDispatcher(() => RefreshAccountAndFavori(), () => SetFavori());
             }
+
+
 
         }
 
@@ -361,6 +360,7 @@ namespace RMM.Phone.ViewModel
                 if (result == MessageBoxResult.OK)
                 {
                     CategoryService.DeleteCategorieById(args.Id);
+                    this.ListeCategory.Remove(args);
                 }
             }
         }
@@ -373,95 +373,22 @@ namespace RMM.Phone.ViewModel
 
         private void HandleAccountTaskSelected(SelectionChangedEventArgs args)
         {
-            if (args == null) { return; }
-            var account = args.AddedItems[0] as AccountViewData;
-
-            NavigateTo("/View/AccountPivot.xaml?accountId={0}", account.Id);
-
+            if (args.AddedItems[0] != null)
+            {
+                var account = args.AddedItems[0] as AccountViewData;
+                NavigateTo("/View/AccountPivot.xaml?accountId={0}", account.Id);
+            }
         }
 
         private void HandleCategoryTaskSelected(SelectionChangedEventArgs args)
         {
-            if (args == null) { return; }
-            var category = args.AddedItems[0] as CategoryViewData;
-
-            NavigateTo("/View/CategoryPivot.xaml?categoryId={0}", category.Id);
+            if (args.AddedItems[0] != null)
+            {
+                var category = args.AddedItems[0] as CategoryViewData;
+                NavigateTo("/View/CategoryPivot.xaml?categoryId={0}", category.Id);
+            }
         }
 
         #endregion
-
-        void ProcessDatasOnDB()
-        {
-
-            var c1 = new CategoryViewData();
-            c1.Balance = 7.0;
-            c1.Color = "FFA640";
-            c1.Name = "Vacances";
-
-            TransactionViewData t1 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t2 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t3 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t4 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t5 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t6 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t7 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t8 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            TransactionViewData t9 = new TransactionViewData(){ Name="ddsqdfqsf", Category=c1, CreatedDate="13/11/12", Amount=1925.36, Description="dezdsqd"};
-            
-            
-            
-
-            var c2 = new CategoryViewData();
-            c2.Balance = 7.0;
-            c2.Color = "FFA640";
-            c2.Name = "Profesionnel";
-
-            var na1 = new AccountViewData();
-            na1.Balance = 7.0;
-            na1.BankName = "Credit Agricole";
-            na1.Name = "Mon compte courant";
-            na1.Favorite = Visibility.Collapsed;
-
-
-            var na2 = new AccountViewData();
-            na2.Balance = 7.0;
-            na2.BankName = "HSBC";
-            na2.Name = "Mon compte courant";
-            na2.Favorite = Visibility.Visible;
-            na2.ListTransaction = new List<TransactionViewData>();
-
-            na2.ListTransaction.Add(t1);
-            na2.ListTransaction.Add(t2);
-            na2.ListTransaction.Add(t3);
-            na2.ListTransaction.Add(t4);
-            na2.ListTransaction.Add(t5);
-            na2.ListTransaction.Add(t6);
-            na2.ListTransaction.Add(t7);
-            na2.ListTransaction.Add(t8);
-            na2.ListTransaction.Add(t9);
-
-            FavoriteAccountViewData = new AccountViewData();
-            FavoriteAccountViewData = na2;
-            
-
-            var na3 = new AccountViewData();
-            na3.Balance = 7.0;
-            na3.BankName = "HSBC";
-            na3.Name = "Mon compte epargne HSBC";
-            na2.Favorite = Visibility.Collapsed;
-
-
-            this.ListeAccount = new ObservableCollection<AccountViewData>();
-            this.ListeAccount.Add(na1);
-            this.ListeAccount.Add(na2);
-            this.ListeAccount.Add(na3);
-
-            RaisePropertyChanged("ListeAccount");
-
-            this.ListeCategory = new ObservableCollection<CategoryViewData>();
-            this.ListeCategory.Add(c1);
-            this.ListeCategory.Add(c2);
-
-        }
     }
 }

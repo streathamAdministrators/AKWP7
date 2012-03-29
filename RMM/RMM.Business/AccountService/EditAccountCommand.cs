@@ -18,7 +18,5 @@ namespace RMM.Business.AccountService
         public string Name { get; set; }
 
         public string BankName { get; set; }
-
-        public string PhotoUrl { get; set; }
     }
 }

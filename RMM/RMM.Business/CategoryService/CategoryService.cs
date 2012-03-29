@@ -115,7 +115,9 @@ namespace RMM.Business.CategoryService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     if (!OnMinimal)
-                    datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Category>(cat => cat.TransactionList);
+                    {
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Category>(cat => cat.TransactionList);
+                    }
 
                     var categories = datacontext.Category.ToList();
 
