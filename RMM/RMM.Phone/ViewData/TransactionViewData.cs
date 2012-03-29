@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace RMM.Phone.ViewData.Account
 {
-    public class TransactionViewData
+    public class TransactionViewData : ViewDataBase
     {
         public int Id { get; set; }
 

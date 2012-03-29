@@ -12,18 +12,39 @@ using System.Collections.Generic;
 
 namespace RMM.Phone.ViewData.Account
 {
-    public class AccountViewData
+    public class AccountViewData : ViewDataBase
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                IsEntityDataChanged = true;
+            }
+        }
 
-        public string BankName { get; set; }
+        private string bankName;
+        public string BankName
+        {
+            get { return bankName; }
+            set
+            {
+                bankName = value;
+                IsEntityDataChanged = true;
+            }
+        }
+
+
+
 
         public double Balance { get; set; }
 
         public Visibility Favorite { get; set; }
-       
+
         public List<TransactionViewData> ListTransaction { get; set; }
     }
 }

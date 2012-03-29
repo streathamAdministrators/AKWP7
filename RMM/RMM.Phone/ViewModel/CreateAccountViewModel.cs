@@ -23,8 +23,16 @@ namespace RMM.Phone.ViewModel
 
             AccountService = accountService;
 
-            Account = new AccountViewData();
+            Dispose();
         }
+
+
+        public override void Dispose()
+        {
+            Account = new AccountViewData();
+            base.Dispose();
+        }
+
 
         void HandleCreateTaskSelected()
         {
@@ -32,12 +40,16 @@ namespace RMM.Phone.ViewModel
             AccountService.CreateAccount(new CreateAccountCommand() { Name = Account.Name, BankName = Account.BankName });
 
             NavigateTo("/MainPage.xaml?update=account", null);
+
+            Dispose();
         }
 
         void HandleCancelTaskSelected()
         {
-            var rootFrame = (App.Current as App).RootFrame;
-            rootFrame.Navigate(new System.Uri("/MainPage.xaml", System.UriKind.Relative));
+
+            NavigateTo("/MainPage.xaml", null);
+
+            Dispose();
         }
 
     }

@@ -44,6 +44,16 @@ namespace RMM.Phone.ViewModel
             DeleteAllTransactionCommand = new RelayCommand(() => HandleDeleteAllTransactionTaskSelected());
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
+
+            Dispose();
+        }
+
+
+
+        public override void Dispose()
+        {
+            Account = new AccountViewData();
+            base.Dispose();
         }
 
         public void SelectIndex(string accountId)
@@ -54,6 +64,9 @@ namespace RMM.Phone.ViewModel
 
             if (selectedAccount.IsValid)
                 Account = selectedAccount.Value.ToAccountViewData();
+
+            RaisePropertyChanged("Account");
+            Account.IsEntityDataChanged = false;
 
 
         }
@@ -69,22 +82,25 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-            var editAccountCommand = new EditAccountCommand() { BankName = Account.BankName, id = Account.Id, Name = Account.Name};
-            var result = Accountservice.UpdateAccount(editAccountCommand);
-
-            if (IsFavorite)
-                OptionService.SetFavoriteIdAccount(Account.Id);
-
-
-            if (result.IsValid)
+            if (Account.IsEntityDataChanged)
             {
-                NavigateTo("/MainPage.xaml?update=account", null);
+                var editAccountCommand = new EditAccountCommand() { BankName = Account.BankName, id = Account.Id, Name = Account.Name };
+                var result = Accountservice.UpdateAccount(editAccountCommand);
+
+                if (IsFavorite)
+                    OptionService.SetFavoriteIdAccount(Account.Id);
             }
+
+            NavigateTo("/MainPage.xaml?update=account", null);
+
+            Dispose();
         }
 
         void HandleCancelTaskSelected()
         {
             NavigateTo("/MainPage.xaml", null);
+
+            Dispose();
         }
     }
 }

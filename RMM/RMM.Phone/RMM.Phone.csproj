@@ -102,6 +102,7 @@
     <Compile Include="ViewData\CategoryViewData.cs" />
     <Compile Include="ViewData\OptionViewData.cs" />
     <Compile Include="ViewData\TransactionViewData.cs" />
+    <Compile Include="ViewData\ViewDataBase.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\CreateAccountViewModel.cs" />

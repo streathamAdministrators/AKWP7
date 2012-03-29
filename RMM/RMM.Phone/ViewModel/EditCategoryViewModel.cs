@@ -12,7 +12,18 @@ namespace RMM.Phone.ViewModel
 
     public class EditCategoryViewModel : BugnionReverseViewModelBase
     {
-        public CategoryViewData Category { get; set; }
+
+        private CategoryViewData category;
+        public CategoryViewData Category
+        {
+            get { return category; }
+            set
+            {
+                category = value;
+            }
+        }
+
+
 
         public RelayCommand DeleteAllTransactionCommand { get; set; }
         public RelayCommand UpdateCommand { get; set; }
@@ -30,8 +41,15 @@ namespace RMM.Phone.ViewModel
             UpdateCommand = new RelayCommand(() => HandleUpdateTaskSelected());
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
 
-
+            Dispose();
         }
+
+        public override void Dispose()
+        {
+            Category = new CategoryViewData();
+            base.Dispose();
+        }
+
 
         public void SelectIndex(string categoryId)
         {
@@ -43,6 +61,7 @@ namespace RMM.Phone.ViewModel
                 Category = selectedCategory.Value.ToCategoryViewData();
 
             RaisePropertyChanged("Category");
+            Category.IsEntityDataChanged = false;
         }
 
         void HandleDeleteAllTransactionTaskSelected()
@@ -56,21 +75,27 @@ namespace RMM.Phone.ViewModel
 
         void HandleUpdateTaskSelected()
         {
-
-            var commande = new EditCategoryCommand() { Name = Category.Name, Color = Category.Color, id = Category.Id };
-            CategoryService.UpdateCategory(commande);
-
-            var result = CategoryService.UpdateCategory(commande);
-
-            if (result.IsValid)
+            if (Category.IsEntityDataChanged)
             {
-                NavigateTo("/MainPage.xaml?update=category", null);
+                var commande = new EditCategoryCommand() { Name = Category.Name, Color = Category.Color, id = Category.Id };
+                CategoryService.UpdateCategory(commande);
+
+                var result = CategoryService.UpdateCategory(commande);
+
             }
+            NavigateTo("/MainPage.xaml?update=category", null);
+
+            Dispose();
         }
 
         void HandleCancelTaskSelected()
         {
             NavigateTo("/MainPage.xaml", null);
+
+            Dispose();
         }
+
+
+
     }
 }

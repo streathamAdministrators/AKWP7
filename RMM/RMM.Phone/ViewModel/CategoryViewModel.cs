@@ -40,10 +40,18 @@ namespace RMM.Phone.ViewModel
             TransactionService = transactionService;
             CategoryService = categoryService;
 
-            ListeCategory = new ObservableCollection<CategoryViewData>();
+            Dispose();
 
             ExecuteSafeDispatcher(() => SetCategories());
         }
+
+        public override void Dispose()
+        {
+            ListeCategory = new ObservableCollection<CategoryViewData>();
+            base.Dispose();
+        }
+
+        
 
         public void SelectIndex(string accountId)
         {

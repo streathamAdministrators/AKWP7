@@ -12,11 +12,21 @@ using System.Collections.Generic;
 
 namespace RMM.Phone.ViewData.Account
 {
-    public class CategoryViewData
+    public class CategoryViewData : ViewDataBase
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                IsEntityDataChanged = true;
+            }
+        }
+
 
         public double Balance { get; set; }
 

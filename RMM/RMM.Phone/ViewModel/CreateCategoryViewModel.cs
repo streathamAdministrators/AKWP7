@@ -24,9 +24,15 @@ namespace RMM.Phone.ViewModel
             SaveCommand = new RelayCommand(() => HandleCreateTaskSelected());
             CancelCommand = new RelayCommand(() => HandleCancelTaskSelected());
 
-            Category = new CategoryViewData();
+            Dispose();
 
             CategoryService = categoryService;
+        }
+
+        public override void Dispose()
+        {
+            Category = new CategoryViewData();
+            base.Dispose();
         }
 
         void HandleCreateTaskSelected()
@@ -34,11 +40,15 @@ namespace RMM.Phone.ViewModel
             var newCategoryCommand = new CreateCategoryCommand() { Name = Category.Name, Color = Category.Color };
             CategoryService.CreateCategory(newCategoryCommand);
             NavigateTo("/MainPage.xaml?update=category", null);
+
+            Dispose();
         }
 
         void HandleCancelTaskSelected()
         {
             NavigateTo("/MainPage.xaml", null);
+
+            Dispose();
         }
     }
 }

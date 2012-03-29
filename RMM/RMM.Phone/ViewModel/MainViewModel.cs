@@ -207,11 +207,12 @@ namespace RMM.Phone.ViewModel
             var isAlreadyCreated = DatabaseService.Initialize();
 
             if (isAlreadyCreated)
+            {
                 DumpMyDBSQLCE.ProcessDatasOnDB(AccountService, CategoryService, TransactionService, OptionService);
 
-
-            //FAVORI COMPTE 1
-            OptionService.SetFavoriteIdAccount(1);
+                //FAVORI COMPTE 1
+                OptionService.SetFavoriteIdAccount(1);
+            }
 
             #endregion
 

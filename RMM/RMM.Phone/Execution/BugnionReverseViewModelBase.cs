@@ -12,11 +12,11 @@ using GalaSoft.MvvmLight;
 
 namespace RMM.Phone.Execution
 {
-    public class BugnionReverseViewModelBase:ViewModelBase
-    {
+    public abstract class BugnionReverseViewModelBase:ViewModelBase
+    {                                                                                          
+
         public BugnionReverseViewModelBase()
         {
-
         }
 
         public void NavigateTo(string urlPattern, int? id)
@@ -40,5 +40,12 @@ namespace RMM.Phone.Execution
                 Deployment.Current.Dispatcher.BeginInvoke(action);
             }
         }
+
+        public virtual void Dispose()
+        {
+            //LOG INIT
+        }
+
+
     }
 }
