@@ -215,6 +215,7 @@ namespace RMM.Phone.ViewModel
 
             #endregion
 
+            
             ExecuteSafeDispatcher(() => SetListAccount(), () => SetListCategory(), () => SetOption(), () => SetFavori());
 
             //SetListAccount();
@@ -222,7 +223,7 @@ namespace RMM.Phone.ViewModel
             //SetOption();
             //SetFavori();
 
-            ProcessDatasOnDB();
+            //ProcessDatasOnDB();
 
         }
 
