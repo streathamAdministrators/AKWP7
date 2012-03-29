@@ -22,12 +22,17 @@ namespace RMM.Business.TransactionService
 
                     using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                     {
+                        datacontext.LoadOptions = DBHelpers.GetConfigurationLoader<Transaction>(t => t.Account);
+
                         var transaction = (from t in datacontext.Transaction
                                            where t.ID == transactionDtoId
                                            select t).First();
 
+                        
+
                         if (transaction != null)
                         {
+                            transaction.Account.Balance -= transaction.Amount;
                             datacontext.Transaction.DeleteOnSubmit(transaction);
                             datacontext.SubmitChanges();
                         }
@@ -113,6 +118,7 @@ namespace RMM.Business.TransactionService
                     if (newTransactionCommand.accountId != 0)
                     {
                         attachedAccountEntity = datacontext.Account.Where(c => c.ID == newTransactionCommand.accountId).First();
+                        attachedAccountEntity.Balance += newTransactionCommand.Amount;
                         transaction.Account = attachedAccountEntity;
                     }
 
@@ -206,9 +212,11 @@ namespace RMM.Business.TransactionService
                 using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var transaction = datacontext.Transaction.Where(t => t.AccountID == accountId).ToList();
+                    var account = datacontext.Account.Where(a => a.Balance == accountId).First();
 
                     if (transaction != null)
                     {
+                        account.Balance = 0;
                         datacontext.Transaction.DeleteAllOnSubmit(transaction);
                         datacontext.SubmitChanges();
                     }
@@ -219,7 +227,6 @@ namespace RMM.Business.TransactionService
             }, () => "erreur");
         }
 
-
         public Result<List<Transaction>> DeleteTransactionsByCategoryId(int categoryId)
         {
             return Result<List<Transaction>>.SafeExecute<TransactionService>(result =>
@@ -227,9 +234,12 @@ namespace RMM.Business.TransactionService
              using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
                 {
                     var transaction = datacontext.Transaction.Where(t => t.CategoryID == categoryId).ToList();
+                    var category = datacontext.Category.Where(t => t.ID == categoryId).First();
+                
 
                     if (transaction != null)
                     {
+                        category.Balance = 0;
                         datacontext.Transaction.DeleteAllOnSubmit(transaction);
                         datacontext.SubmitChanges();
                     }

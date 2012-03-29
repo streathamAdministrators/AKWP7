@@ -49,6 +49,8 @@ namespace RMM.Business.CategoryService
                     var category = datacontext.Category.Where(a => a.ID == categoryId).First();
 
 
+
+
                     result.Value = category;
                 }
 
