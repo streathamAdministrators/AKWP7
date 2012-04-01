@@ -9,19 +9,15 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace RMM.Phone.ViewData.Account
+namespace RMM.Business.OptionService
 {
-    public class OptionViewData: ViewDataBase
+    public class EditOptionCommand
     {
         public bool? IsPassword { get; set; }
 
         public bool? IsSynchro { get; set; }
 
         public bool? IsPrimaryTile { get; set; }
-
-        public bool IsReport { get; set; }
-
-        public bool IsComparator { get; set; }
 
         public int Favorite { get; set; }
     }

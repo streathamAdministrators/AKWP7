@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace RMM.Business
 {
@@ -37,6 +38,7 @@ namespace RMM.Business
             }
             catch (Exception except)
             {
+                MessageBox.Show(except.Message);
                 resultat.Errors.Add(new Erreur() { InvocationService = typeof(Tinvocation).ToString(), Message = except.Message });
                 resultat.IsValid = false;
             }

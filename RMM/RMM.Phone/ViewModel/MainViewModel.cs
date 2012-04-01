@@ -106,6 +106,8 @@ namespace RMM.Phone.ViewModel
         public RelayCommand<CategoryViewData> DeleteCategoryCommand { get; set; }
         public RelayCommand<CategoryViewData> FavoriteCategoryCommand { get; set; }
 
+        public RelayCommand TileOptionChanged { get; set; }
+
         #endregion
 
         #region PROPFULL SUR OC<ViewData>, FAVORI ViewData, Option ViewData
@@ -147,6 +149,9 @@ namespace RMM.Phone.ViewModel
             }
         }
 
+
+
+        //TEMP OU PAS ? A REVOIR
         private OptionViewData optionViewData;
 
         public OptionViewData OptionViewData
@@ -158,8 +163,10 @@ namespace RMM.Phone.ViewModel
             }
         }
 
-        #endregion
+        //Les bool doivent être nullable pour le ToggleSwitch
+        //public bool? IsPrimaryTile { get; set; }
 
+        #endregion
 
         #region Services
 
@@ -186,6 +193,8 @@ namespace RMM.Phone.ViewModel
             this.EditCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleEditCategoryTaskSelected(args));
             this.DeleteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleDeleteCategoryTaskSelected(args));
             this.FavoriteCategoryCommand = new RelayCommand<CategoryViewData>((args) => HandleFavoriteCategoryTaskSelected(args));
+
+            this.TileOptionChanged = new RelayCommand(HandleTileOptionChanged);
 
 
             DatabaseService = databaseService;
@@ -304,6 +313,24 @@ namespace RMM.Phone.ViewModel
 
 
         #region Handle on Task Selected
+
+        private void HandleTileOptionChanged()
+        {
+            if(OptionViewData.IsPrimaryTile.HasValue)
+            {
+                if (OptionViewData.IsPrimaryTile.Value)
+                {
+                    OptionService.SetPrimaryTileInfo(FavoriteAccountViewData.Name, FavoriteAccountViewData.BankName, FavoriteAccountViewData.Balance);
+                }
+                else
+                {
+                    OptionService.DisablePrimaryTile();
+                }
+                    var editOptionCommand = new EditOptionCommand(){ IsPrimaryTile = OptionViewData.IsPrimaryTile, Favorite = OptionViewData.Favorite, IsPassword = OptionViewData.IsPassword, IsSynchro = OptionViewData.IsSynchro };
+                    var result = OptionService.UpdateOption(editOptionCommand);
+            }
+
+        }
 
         private void HandleEditAccountTaskSelected(AccountViewData args)
         {

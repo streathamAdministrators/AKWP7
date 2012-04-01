@@ -298,7 +298,7 @@ UseLayoutRounding="False" Canvas.Left="210" Fill="#FFBCBCBC" />
 			<!--Panorama item OPTION-->
 			<controls:PanoramaItem Header="{Binding OptionHeader}">
 				<ListBox x:Name="OptionListBox">
-					<StackPanel>
+					<StackPanel >
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding IsPasswordTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsPassword, Mode=TwoWay}" Background="Black" Foreground="Black" />
@@ -308,17 +308,24 @@ UseLayoutRounding="False" Canvas.Left="210" Fill="#FFBCBCBC" />
 							<toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsSynchro, Mode=TwoWay}" Foreground="Black" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
-							<TextBlock Text="{Binding IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
-							<toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsTile, Mode=TwoWay}" Foreground="Black" />
-						</StackPanel>
+                            <TextBlock Text="{Binding IsTileTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" >
+                            </TextBlock>
+                            <toolkit:ToggleSwitch IsChecked="{Binding Mode=TwoWay, Path=OptionViewData.IsPrimaryTile}" Foreground="Black">
+                                <Interactivity:Interaction.Triggers>
+                                    <Interactivity:EventTrigger EventName="Click">
+                                        <Command:EventToCommand Command="{Binding TileOptionChanged, Mode=TwoWay}"/>
+                                    </Interactivity:EventTrigger>
+                                </Interactivity:Interaction.Triggers>
+                            </toolkit:ToggleSwitch>
+                        </StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding IsReportTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
 							<toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsReport, Mode=TwoWay}" Foreground="Black" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Width="416">
 							<TextBlock Text="{Binding IsComparatorTxt}" Width="214" Height="59" Style="{StaticResource PhoneTextAccentStyle}" FontSize="28" />
-							<toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsComparator, Mode=TwoWay}" Foreground="Black" />
-						</StackPanel>
+                            <toolkit:ToggleSwitch IsChecked="{Binding OptionViewData.IsComparator, Mode=TwoWay}" Foreground="Black" />
+                        </StackPanel>
 					</StackPanel>
 					
 				</ListBox>

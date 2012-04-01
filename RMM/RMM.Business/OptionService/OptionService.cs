@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using RMM.Data;
 using RMM.Data.Model;
+using Microsoft.Phone.Shell;
 
 namespace RMM.Business.OptionService
 {
@@ -27,7 +28,7 @@ namespace RMM.Business.OptionService
             }, () => "erreur");
         }
 
-        public Result<Option> UpdateOption(Option optionToUpdate)
+        public Result<Option> UpdateOption(EditOptionCommand optionToUpdate)
         {
             return Result<Option>.SafeExecute<IOptionService>(result =>
             {
@@ -48,8 +49,6 @@ namespace RMM.Business.OptionService
                 }
 
             }, () => "erreur");
-
-
         }
 
 
@@ -121,5 +120,57 @@ namespace RMM.Business.OptionService
 
             }, () => "erreur");
         }
+
+
+        #region PrimaryTile
+
+        public Result<bool?> IsPrimaryTileOptionEnable()
+        {
+            return Result<bool?>.SafeExecute<IOptionService>(result =>
+                {
+                    using (datacontext = new RmmDataContext(RmmDataContext.CONNECTIONSTRING))
+                    {
+                        var isPrimaryTile = (from t in datacontext.Option
+                                             select t.IsPrimaryTile).First();
+
+                        result.Value = isPrimaryTile;
+                    }
+                }, () => "erreur");
+        }
+
+        public Result<bool> SetPrimaryTileInfo(string favoriteAccountName, string favoriteBankName, double favoriteAmount)
+        {
+            return Result<bool>.SafeExecute<IOptionService>(result =>
+                {
+                    ShellTile primaryTile = ShellTile.ActiveTiles.First();
+                    if (primaryTile != null)
+                    {
+                        StandardTileData tileData = new StandardTileData();
+                        tileData.BackTitle = favoriteBankName;
+                        string stringFavoriteAmount = favoriteAmount.ToString();
+                        tileData.BackContent = favoriteAccountName + "\n" + stringFavoriteAmount;
+                        primaryTile.Update(tileData);
+                    }
+                }, () => "erreur");
+        }
+
+        public Result<bool> DisablePrimaryTile()
+        {
+            return Result<bool>.SafeExecute<IOptionService>(result =>
+                {
+                    ShellTile primaryTile = ShellTile.ActiveTiles.First();
+                    if (primaryTile != null)
+                    {
+                        StandardTileData tileData = new StandardTileData();
+                        tileData.BackTitle = string.Empty;
+                        tileData.BackContent = string.Empty;
+                        primaryTile.Update(tileData);
+                        //primaryTile.Delete();
+                    }
+                }, () => "erreur");
+        }
+
+
+        #endregion
     }
 }

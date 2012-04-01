@@ -15,8 +15,17 @@ namespace RMM.Business.OptionService
         Result<int> SetFavoriteIdAccount(int AccountId);
 
         //Passage d'un dto en param apres
-        Result<Option> UpdateOption(Option optionToUpdate);
+        Result<Option> UpdateOption(EditOptionCommand optionToUpdate);
 
         Result<Option> SetFirstTimeOption();
+
+//Primary Tile
+
+        Result<bool?> IsPrimaryTileOptionEnable();
+
+        Result<bool> SetPrimaryTileInfo(string favoriteAccountName, string favoriteBankName, double favoriteAmount);
+
+        Result<bool> DisablePrimaryTile();
+
     }
 }

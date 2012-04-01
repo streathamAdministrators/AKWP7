@@ -14,14 +14,13 @@ namespace RMM.Data.Model
         public int id { get; set; }
 
         [Column]
-        public bool IsPassword { get; set; }
+        public bool? IsPassword { get; set; }
 
         [Column]
-        public bool IsSynchro { get; set; }
+        public bool? IsSynchro { get; set; }
 
         [Column]
-        public bool IsPrimaryTile { get; set; }
-
+        public bool? IsPrimaryTile { get; set; }
 
         [Column]
         public int Favorite { get; set; }
