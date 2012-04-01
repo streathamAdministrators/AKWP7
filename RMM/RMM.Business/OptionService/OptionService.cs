@@ -170,7 +170,6 @@ namespace RMM.Business.OptionService
                 }, () => "erreur");
         }
 
-
         #endregion
     }
 }
